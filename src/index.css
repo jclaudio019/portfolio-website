@@ -1,0 +1,121 @@
+@import url("https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,800,700&f[]=satoshi@400,500,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --bg: #0a0a0f;
+    --fg: #ececf1;
+    --accent: #a855f7;
+    --accent-hover: #9333ea;
+    --muted-text: #a1a1aa;
+    --border: rgba(236, 236, 241, 0.12);
+}
+
+@layer base {
+    :root {
+        --background: 240 20% 5%;
+        --foreground: 260 15% 92%;
+        --card: 240 16% 10%;
+        --card-foreground: 260 15% 92%;
+        --popover: 240 16% 10%;
+        --popover-foreground: 260 15% 92%;
+        --primary: 260 15% 92%;
+        --primary-foreground: 240 20% 5%;
+        --secondary: 240 12% 16%;
+        --secondary-foreground: 260 15% 92%;
+        --muted: 240 12% 16%;
+        --muted-foreground: 240 5% 65%;
+        --accent: 271 91% 65%;
+        --accent-foreground: 0 0% 100%;
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 12% 20%;
+        --input: 240 12% 20%;
+        --ring: 271 91% 65%;
+        --radius: 0.25rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        margin: 0;
+        background-color: var(--bg);
+        color: var(--fg);
+        font-family: "Satoshi", "Inter", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    ::selection {
+        background: var(--accent);
+        color: #fff;
+    }
+}
+
+.font-display {
+    font-family: "Cabinet Grotesk", sans-serif;
+}
+.font-mono-data {
+    font-family: "JetBrains Mono", monospace;
+}
+
+/* Editorial grain overlay */
+.grain::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Marquee */
+@keyframes marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+.animate-marquee {
+    animation: marquee 32s linear infinite;
+    will-change: transform;
+}
+
+/* Link underline animation */
+.nav-underline {
+    position: relative;
+}
+.nav-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-underline:hover::after,
+.nav-underline.is-active::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}

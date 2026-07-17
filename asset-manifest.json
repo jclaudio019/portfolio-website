@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/pod-backups/analytics-portfolio-105/build/static/css/main.22e6b96b.css",
+    "main.js": "/pod-backups/analytics-portfolio-105/build/static/js/main.3c1bcf08.js",
+    "index.html": "/pod-backups/analytics-portfolio-105/build/index.html",
+    "main.22e6b96b.css.map": "/pod-backups/analytics-portfolio-105/build/static/css/main.22e6b96b.css.map",
+    "main.3c1bcf08.js.map": "/pod-backups/analytics-portfolio-105/build/static/js/main.3c1bcf08.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.22e6b96b.css",
+    "static/js/main.3c1bcf08.js"
+  ]
+}
