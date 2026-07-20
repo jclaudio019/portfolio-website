@@ -25,7 +25,7 @@ function ScrollToTop() {
 function App() {
     return (
         <div className="App grain">
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <SmoothScroll>
                     <ScrollToTop />
                     <Navbar />
