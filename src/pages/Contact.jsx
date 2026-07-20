@@ -21,8 +21,12 @@ export default function Contact() {
         }
         setSubmitting(true);
         try {
-            await sendContactMessage(form);
-            toast.success("Message sent — thank you! I'll get back to you soon.");
+            const result = await sendContactMessage(form);
+            if (result?.via === "mailto") {
+                toast.success("Opening your email client…");
+            } else {
+                toast.success("Message sent — thank you! I'll get back to you soon.");
+            }
             setForm(initial);
         } catch (err) {
             toast.error("Something went wrong. Please try again or email directly.");

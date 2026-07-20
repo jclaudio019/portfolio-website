@@ -2,6 +2,7 @@
   "name": "website-replica",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://jclaudio019.github.io/portfolio-website",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@tanstack/react-query": "^5.0.0",
