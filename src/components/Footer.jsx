@@ -12,10 +12,10 @@ export default function Footer() {
                 <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
                     <div>
                         <p className="font-mono text-xs uppercase tracking-widest text-teal">
-                            Let’s build something
+                            Work with me
                         </p>
                         <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter text-navy md:text-5xl">
-                            Finding the signal in the noise.
+                            Let&apos;s find the signal in the noise.
                         </h2>
                     </div>
                     <div className="flex gap-4">
