@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { profile } from "../data/content";
 
 const links = [
     { to: "/about", label: "About" },
@@ -56,14 +55,13 @@ export default function Navbar() {
                             {l.label}
                         </NavLink>
                     ))}
-                    <a
-                        href={profile.resumeUrl}
-                        download
+                    <Link
+                        to="/resume"
                         data-testid="nav-resume-download"
                         className="border border-navy bg-navy px-4 py-2 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal hover:border-teal"
                     >
-                        Resume ↓
-                    </a>
+                        Resume
+                    </Link>
                 </div>
 
                 <button
@@ -93,13 +91,13 @@ export default function Navbar() {
                                 {l.label}
                             </NavLink>
                         ))}
-                        <a
-                            href={profile.resumeUrl}
-                            download
+                        <Link
+                            to="/resume"
+                            onClick={() => setOpen(false)}
                             className="mt-4 bg-navy px-4 py-3 text-center font-mono text-xs uppercase tracking-widest text-cream"
                         >
-                            Download Resume ↓
-                        </a>
+                            Resume
+                        </Link>
                     </div>
                 </div>
             )}
