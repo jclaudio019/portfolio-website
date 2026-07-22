@@ -10,8 +10,10 @@
     "framer-motion": "^11.0.0",
     "lenis": "^1.1.0",
     "lucide-react": "^0.454.0",
+    "plotly.js-basic-dist-min": "^3.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-plotly.js": "^4.0.0",
     "react-router-dom": "^6.26.0",
     "react-scripts": "5.0.1",
     "sonner": "^1.5.0"
@@ -26,7 +28,15 @@
     "build": "craco build"
   },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
