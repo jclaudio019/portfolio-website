@@ -7,7 +7,12 @@ export const profile = {
     role: "Analytics Professional | Finance, Supply Chain & Applied Statistics",
     roleShort: "Analytics, Modeling, Forecasting & Decision Support",
     location: "Orange City, Florida",
-    openToRemote: "Open to remote opportunities",
+    availability: [
+        "Open to remote opportunities",
+        "Open to on-site opportunities",
+        "Open to hybrid opportunities",
+        "Open to in-person opportunities",
+    ],
     email: "jose.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
     linkedin: "https://www.linkedin.com/in/jclaudio019",
