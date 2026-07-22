@@ -24,6 +24,15 @@ export default function About() {
                                 </p>
                             </div>
 
+                            <div className="border border-navy/10 bg-surface p-5">
+                                <p className="font-mono text-[11px] uppercase tracking-widest text-navy/60">
+                                    Availability
+                                </p>
+                                <p className="mt-2 font-display text-lg font-bold text-navy">
+                                    {profile.openToRemote}
+                                </p>
+                            </div>
+
                             {educationEntries.map((entry) => (
                                 <div
                                     key={entry.school + entry.degree}

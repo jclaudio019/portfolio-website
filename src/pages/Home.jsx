@@ -21,7 +21,7 @@ export default function Home() {
                         className="mb-8 font-mono text-xs uppercase tracking-widest text-teal"
                         data-testid="hero-eyebrow"
                     >
-                        {profile.roleShort} — {profile.locationLine}
+                        {profile.roleShort}
                     </motion.p>
 
                     <h1
@@ -89,12 +89,6 @@ export default function Home() {
                             </a>
                         </Reveal>
                     </div>
-
-                    <Reveal delay={0.7} className="mt-16">
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">
-                            {profile.education}
-                        </p>
-                    </Reveal>
                 </div>
             </section>
 

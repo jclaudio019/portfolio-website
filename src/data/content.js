@@ -7,7 +7,7 @@ export const profile = {
     role: "Analytics Professional | Finance, Supply Chain & Applied Statistics",
     roleShort: "Analytics, Modeling, Forecasting & Decision Support",
     location: "Orange City, Florida",
-    locationLine: "Orange City · Open to remote opportunities",
+    openToRemote: "Open to remote opportunities",
     email: "jose.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
     linkedin: "https://www.linkedin.com/in/jclaudio019",
@@ -98,17 +98,6 @@ export const educationEntries = [
         degree: "B.S.B.A. in Business Administration",
         details: "Concentration in Finance · Minor in Chemistry",
         date: "Graduated May 2020",
-    },
-    {
-        school: "Additional graduate study",
-        degree: "Financial Mathematics Coursework",
-        note: "Coursework — not a completed degree",
-        topics: [
-            "Financial modeling",
-            "Options modeling",
-            "Brownian motion and stochastic processes",
-            "Quantitative risk concepts",
-        ],
     },
 ];
 
