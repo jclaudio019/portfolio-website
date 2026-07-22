@@ -15,7 +15,7 @@ export default function Footer() {
                             Let’s build something
                         </p>
                         <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter text-navy md:text-5xl">
-                            Turning data into decisions.
+                            Finding the signal in the noise.
                         </h2>
                     </div>
                     <div className="flex gap-4">

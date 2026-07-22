@@ -21,14 +21,14 @@ export default function Home() {
                         className="mb-8 font-mono text-xs uppercase tracking-widest text-teal"
                         data-testid="hero-eyebrow"
                     >
-                        {profile.roleShort} — {profile.location}
+                        {profile.roleShort} — {profile.locationLine}
                     </motion.p>
 
                     <h1
                         className="font-display text-4xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-5xl md:text-6xl lg:text-7xl"
                         data-testid="hero-headline"
                     >
-                        <MaskedLines lines={["Analytics Professional", "Finance, Supply Chain &"]} />
+                        <MaskedLines lines={["In a world full of answers."]} />
                         <span className="block overflow-hidden">
                             <motion.span
                                 className="block text-teal"
@@ -36,7 +36,7 @@ export default function Home() {
                                 animate={{ y: "0%" }}
                                 transition={{ duration: 0.9, delay: 0.39, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                Applied Statistics
+                                Clarity begins with the right question
                             </motion.span>
                         </span>
                     </h1>
@@ -136,7 +136,7 @@ export default function Home() {
                 <Reveal className="mx-auto max-w-[1400px] border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
                     <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                         <h2 className="max-w-2xl font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                            Looking for an analytics professional who connects methods to business decisions?
+                            Looking to bring order to chaotic data? Let&apos;s turn complexity into opportunity.
                         </h2>
                         <Link
                             to="/contact"
