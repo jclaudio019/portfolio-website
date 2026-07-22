@@ -14,8 +14,9 @@ export default function Experience() {
                         Organized by the problems I solve, not job titles.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My work clusters into three capabilities that compound: forecasting and
-                        decision support, reporting automation, and inventory & financial analysis.
+                        My work spans supply chain, inventory and allocation analysis, finance and
+                        accounting, forecasting, KPI reporting, process automation, and data
+                        validation — organized here by the kinds of problems I help solve.
                     </p>
                 </Reveal>
 

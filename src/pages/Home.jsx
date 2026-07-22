@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Github, Linkedin, Download } from "lucide-react";
+import { ArrowRight, Github, Linkedin, FileText } from "lucide-react";
 import { profile, projects } from "../data/content";
 import { MaskedLines, Reveal } from "../components/Reveal";
 import Marquee from "../components/Marquee";
@@ -21,19 +21,14 @@ export default function Home() {
                         className="mb-8 font-mono text-xs uppercase tracking-widest text-teal"
                         data-testid="hero-eyebrow"
                     >
-                        {profile.role} — {profile.location}
+                        {profile.roleShort} — {profile.location}
                     </motion.p>
 
                     <h1
-                        className="font-display text-5xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-6xl md:text-7xl lg:text-8xl"
+                        className="font-display text-4xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-5xl md:text-6xl lg:text-7xl"
                         data-testid="hero-headline"
                     >
-                        <MaskedLines
-                            lines={[
-                                "Turning Business",
-                                "Problems into",
-                            ]}
-                        />
+                        <MaskedLines lines={["Analytics Professional", "Finance, Supply Chain &"]} />
                         <span className="block overflow-hidden">
                             <motion.span
                                 className="block text-teal"
@@ -41,7 +36,7 @@ export default function Home() {
                                 animate={{ y: "0%" }}
                                 transition={{ duration: 0.9, delay: 0.39, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                Data-Driven Solutions
+                                Applied Statistics
                             </motion.span>
                         </span>
                     </h1>
@@ -49,6 +44,9 @@ export default function Home() {
                     <div className="mt-12 grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-end">
                         <Reveal delay={0.5}>
                             <p className="max-w-xl text-base leading-relaxed text-navy/70 md:text-lg">
+                                {profile.heroIntro}
+                            </p>
+                            <p className="mt-4 max-w-xl text-base leading-relaxed text-navy/70 md:text-lg">
                                 {profile.heroSupport}
                             </p>
                         </Reveal>
@@ -62,14 +60,13 @@ export default function Home() {
                                 View Projects
                                 <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                             </Link>
-                            <a
-                                href={profile.resumeUrl}
-                                download
+                            <Link
+                                to="/resume"
                                 data-testid="hero-download-resume"
                                 className="flex items-center gap-2 border border-navy px-6 py-3 font-mono text-xs uppercase tracking-widest text-navy transition-colors hover:bg-navy hover:text-cream"
                             >
-                                <Download size={16} /> Resume
-                            </a>
+                                <FileText size={16} /> Resume
+                            </Link>
                             <a
                                 href={profile.github}
                                 target="_blank"
@@ -139,7 +136,7 @@ export default function Home() {
                 <Reveal className="mx-auto max-w-[1400px] border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
                     <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                         <h2 className="max-w-2xl font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                            Looking for an analyst who ships decisions, not just dashboards?
+                            Looking for an analytics professional who connects methods to business decisions?
                         </h2>
                         <Link
                             to="/contact"

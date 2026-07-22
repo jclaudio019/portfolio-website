@@ -1,16 +1,22 @@
-import { Download, FileText } from "lucide-react";
+import { Mail, FileText } from "lucide-react";
 import { profile, resumeHighlights } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 export default function Resume() {
+    const resumeRequestMailto = `mailto:${profile.email}?subject=${encodeURIComponent("Resume request")}&body=${encodeURIComponent("Hi Jose,\n\nI would like to request a copy of your resume.\n\nThank you.")}`;
+
     return (
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="resume-page">
             <div className="mx-auto max-w-[1100px]">
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Resume</p>
                     <h1 className="mt-4 font-display text-4xl font-extrabold leading-[0.95] tracking-tighter text-navy sm:text-5xl md:text-6xl">
-                        The one-page version.
+                        Available upon request.
                     </h1>
+                    <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
+                        I am happy to share my resume directly. Send a request by email and I will
+                        follow up with the most current version.
+                    </p>
                 </Reveal>
 
                 <div className="mt-14 grid gap-px border border-navy/10 bg-navy/10 sm:grid-cols-2">
@@ -32,40 +38,29 @@ export default function Resume() {
                         <div>
                             <p className="font-display text-xl font-bold">{profile.name} — Resume</p>
                             <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
-                                PDF · Updated for analytics & data science roles
+                                Available upon request
                             </p>
                         </div>
                     </div>
                     <a
-                        href={profile.resumeUrl}
-                        download
+                        href={resumeRequestMailto}
                         data-testid="resume-download-btn"
                         className="flex items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-teal-hover hover:border-teal-hover"
                     >
-                        <Download size={16} /> Download PDF
+                        <Mail size={16} /> Request Resume
                     </a>
                 </Reveal>
 
-                <Reveal className="mt-8">
-                    <div className="overflow-hidden border border-navy/10 bg-surface">
-                        <object
-                            data={profile.resumeUrl}
-                            type="application/pdf"
-                            className="h-[720px] w-full"
-                            aria-label="Resume preview"
-                            data-testid="resume-preview"
-                        >
-                            <div className="flex h-[300px] items-center justify-center p-8 text-center">
-                                <p className="text-navy/60">
-                                    Preview unavailable in this browser.{" "}
-                                    <a href={profile.resumeUrl} download className="text-teal underline">
-                                        Download the PDF
-                                    </a>{" "}
-                                    instead.
-                                </p>
-                            </div>
-                        </object>
-                    </div>
+                <Reveal className="mt-8 border border-navy/10 bg-surface p-8 text-navy/70">
+                    <p className="leading-relaxed">
+                        When a PDF resume is added to this site, it will be available as{" "}
+                        <span className="font-mono text-sm text-navy">Jose_Claudio_Analytics_Resume.pdf</span>.
+                        Until then, please use the request button above or contact me directly at{" "}
+                        <a href={`mailto:${profile.email}`} className="text-teal underline">
+                            {profile.email}
+                        </a>
+                        .
+                    </p>
                 </Reveal>
             </div>
         </div>
