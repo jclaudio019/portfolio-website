@@ -28,9 +28,14 @@ export default function About() {
                                 <p className="font-mono text-[11px] uppercase tracking-widest text-navy/60">
                                     Availability
                                 </p>
-                                <p className="mt-2 font-display text-lg font-bold text-navy">
-                                    {profile.openToRemote}
-                                </p>
+                                <ul className="mt-3 space-y-2 text-sm leading-relaxed text-navy/80">
+                                    {profile.availability.map((item) => (
+                                        <li key={item} className="flex gap-2">
+                                            <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
+                                            <span>{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
 
                             {educationEntries.map((entry) => (
