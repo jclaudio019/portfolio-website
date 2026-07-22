@@ -55,7 +55,6 @@ export default function Footer() {
                     <div className="flex flex-wrap gap-6">
                         <Link to="/projects" className="hover:text-navy">Projects</Link>
                         <Link to="/contact" className="hover:text-navy">Contact</Link>
-                        <span>{profile.education}</span>
                     </div>
                 </div>
             </div>
