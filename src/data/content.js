@@ -5,8 +5,9 @@
 export const profile = {
     name: "Jose Claudio",
     role: "Analytics Professional | Finance, Supply Chain & Applied Statistics",
-    roleShort: "Finance, Supply Chain & Data Analytics",
+    roleShort: "Analytics, Modeling, Forecasting & Decision Support",
     location: "Orange City, Florida",
+    locationLine: "Orange City · Open to remote opportunities",
     email: "jose.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
     linkedin: "https://www.linkedin.com/in/jclaudio019",
