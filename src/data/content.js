@@ -60,30 +60,30 @@ export const projects = [
         title: "Retail Demand Forecasting",
         category: "Forecasting",
         summary:
-            "SKU-level demand forecasts that cut stockouts and over-ordering by pairing classical time-series with gradient boosting.",
+            "Forecasted daily retail POS demand across three product categories, comparing baseline, statistical, and machine-learning models with leakage-safe expanding-window validation and an untouched 365-day test year.",
         image:
             "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhdGElMjB2aXN1YWxpemF0aW9ufGVufDB8fHx8MTc4NDIxMjA2OHww&ixlib=rb-4.1.0&q=85",
-        tech: ["Python", "statsmodels", "XGBoost", "pandas", "Power BI"],
-        github: "https://github.com/jos.claudio/retail-demand-forecasting",
+        tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
+        github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
-            { label: "MAPE improvement", value: "-23%" },
-            { label: "SKUs modeled", value: "1,200+" },
-            { label: "Forecast horizon", value: "13 wk" },
+            { label: "Best test WAPE", value: "7.05%" },
+            { label: "Categories forecast", value: "3" },
+            { label: "Untouched test period", value: "365 days" },
         ],
         problem:
-            "A multi-store retailer relied on manual, spreadsheet-based demand planning. Forecasts were biased high on slow movers and low on seasonal peaks, driving simultaneous overstock and stockouts.",
+            "Retail teams need a dependable view of expected daily demand before they can plan labor, replenishment inputs, or inventory reviews. Recent averages alone miss recurring weekly patterns, longer-term demand shifts, and calendar disruptions like Christmas closures. This project builds the forecasting layer: estimating future daily category-level demand from historical POS sales, producing a defensible demand signal a downstream planning process could use.",
         dataset:
-            "Three years of weekly point-of-sale data across ~1,200 SKUs and multiple stores, enriched with promotion calendars, price changes, and holiday flags.",
+            "The M5 retail dataset (Walmart daily unit sales), aggregated to daily category-level POS demand for FOODS, HOBBIES, and HOUSEHOLD. Training spanned 2011–2014, with a 365-day validation year split into 13 expanding monthly windows and a final untouched 365-day test year (2015–2016).",
         methodology: [
-            "Built a reproducible feature pipeline (lags, rolling means, promo/holiday encodings, seasonality terms).",
-            "Benchmarked SARIMA and exponential smoothing baselines against a gradient-boosted (XGBoost) model with a global feature set.",
-            "Used time-series cross-validation (expanding window) to avoid leakage and to select horizon-aware models.",
-            "Reconciled bottom-up SKU forecasts to category totals for planning consistency.",
+            "Established transparent benchmarks — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful baselines.",
+            "Engineered leakage-safe lag, rolling, trend, calendar, and Christmas features; multi-day forecasts were recursive since future actuals are unknown.",
+            "Compared Linear Regression, Prophet, and XGBoost against baselines across 13 expanding monthly validation windows with identical dates, horizons, and metrics (MAE, RMSE, WAPE).",
+            "Froze validation-selected models per category, then evaluated them once on the untouched 365-day test year.",
         ],
         findings:
-            "The hybrid approach reduced weighted MAPE by ~23% versus the incumbent process, with the largest gains on promotional and seasonal SKUs where the boosted model captured interaction effects the baselines missed.",
+            "Every advanced model beat the Naive benchmark on the test year, but no single model won everywhere: XGBoost was strongest for FOODS (10.22% WAPE vs 16.10% Naive), while interpretable Linear Regression won HOUSEHOLD (7.05% vs 19.88%) and ETS/Prophet were nearly tied with XGBoost on HOBBIES. Added model complexity earned its place only category by category.",
         implications:
-            "Planners received horizon-aware forecasts with confidence bands, enabling safer safety-stock settings. Reduced expedited shipping and markdown exposure while improving on-shelf availability.",
+            "The results support category-specific forecasting rather than one model for all demand patterns. When a simpler model is nearly as accurate, it is often preferable — easier to explain, maintain, and monitor. Holiday disruptions should be represented explicitly, and validation rankings shifting on unseen data shows why an untouched test period matters before deploying a forecast.",
     },
     {
         slug: "inventory-allocation-replenishment",

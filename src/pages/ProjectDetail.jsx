@@ -1,8 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import { ArrowLeft, Github, ArrowUpRight } from "lucide-react";
 import { projects } from "../data/content";
 import { Reveal } from "../components/Reveal";
+
+const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
 
 const Section = ({ label, children }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
@@ -109,11 +111,23 @@ export default function ProjectDetail() {
                     </Section>
                     <Section label="Findings">
                         <p className="leading-relaxed">{project.findings}</p>
-                        <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                            <span className="font-mono text-xs uppercase tracking-widest text-navy/40">
-                                Chart placeholder — add a results visualization here
-                            </span>
-                        </div>
+                        {project.slug === "retail-demand-forecasting" ? (
+                            <Suspense
+                                fallback={
+                                    <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading charts…</span>
+                                    </div>
+                                }
+                            >
+                                <RetailForecastCharts />
+                            </Suspense>
+                        ) : (
+                            <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                <span className="font-mono text-xs uppercase tracking-widest text-navy/40">
+                                    Chart placeholder — add a results visualization here
+                                </span>
+                            </div>
+                        )}
                     </Section>
                     <Section label="Business Implications">
                         <p className="leading-relaxed">{project.implications}</p>
