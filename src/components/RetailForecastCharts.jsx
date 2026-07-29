@@ -1,58 +1,75 @@
-import { useState } from "react";
-import Plotly from "plotly.js-basic-dist-min";
-import createPlotlyComponent from "react-plotly.js/factory";
+import { useMemo, useState } from "react";
+import {
+    Area,
+    Bar,
+    BarChart,
+    CartesianGrid,
+    Cell,
+    ComposedChart,
+    Legend,
+    Line,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
+import { Calendar, DollarSign, Target, TrendingUp } from "lucide-react";
 import data from "../data/retailForecastCharts.json";
+import { CAT_COLOR, CATS, CHART, DAYS, fmtDate, fmtUnits } from "./chartTheme";
 
-const Plot = createPlotlyComponent(Plotly);
+const KPI = [
+    { icon: Target, value: "7.05%", label: "Best test WAPE", note: "HOUSEHOLD" },
+    { icon: DollarSign, value: "$3.01M", label: "Naive excess exposure", note: "FOODS · retail-value" },
+    { icon: Calendar, value: "365", label: "Untouched test days", note: "No post-test tuning" },
+];
 
-const CATS = ["FOODS", "HOBBIES", "HOUSEHOLD"];
-// ponytail: fixed per-category colors (validated CVD-safe on #15151c) — never reassigned by filters
-const CAT_COLOR = { FOODS: "#3987e5", HOBBIES: "#d95926", HOUSEHOLD: "#199e70" };
-const INK = "#ececf1";
-const INK_SECONDARY = "#c3c2b7";
-const INK_MUTED = "#898781";
-const GRID = "rgba(236,236,241,0.06)";
-
-const baseLayout = {
-    paper_bgcolor: "rgba(0,0,0,0)",
-    plot_bgcolor: "rgba(0,0,0,0)",
-    font: { family: "Satoshi, sans-serif", color: INK_SECONDARY, size: 12 },
-    margin: { l: 56, r: 16, t: 8, b: 40 },
-    hoverlabel: { bgcolor: "#15151c", bordercolor: "#2c2c2a", font: { color: INK, family: "JetBrains Mono, monospace", size: 12 } },
-    dragmode: "zoom",
-};
-const axis = (extra = {}) => ({
-    gridcolor: GRID,
-    zeroline: false,
-    showline: false,
-    tickfont: { color: INK_MUTED, family: "JetBrains Mono, monospace", size: 11 },
-    ...extra,
-});
-const config = { responsive: true, scrollZoom: true, displaylogo: false, modeBarButtonsToRemove: ["select2d", "lasso2d", "autoScale2d"] };
-
-const ChartBlock = ({ title, caption, children }) => (
-    <figure className="mt-8 border border-navy/10 bg-surface/50 p-4 sm:p-6">
-        <figcaption>
+const ChartShell = ({ title, caption, children, className = "" }) => (
+    <figure className={`mt-6 overflow-hidden border border-navy/10 bg-surface/80 ${className}`}>
+        <figcaption className="border-b border-navy/10 px-4 py-4 sm:px-6">
             <p className="font-mono text-xs uppercase tracking-widest text-teal">{title}</p>
-            <p className="mt-1 text-sm text-navy/60">{caption}</p>
+            <p className="mt-1 text-sm leading-relaxed text-navy/60">{caption}</p>
         </figcaption>
-        <div className="mt-4">{children}</div>
+        <div className="p-3 sm:p-5">{children}</div>
     </figure>
 );
 
+const DarkTooltip = ({ active, payload, label, valueLabel = "Value" }) => {
+    if (!active || !payload?.length) return null;
+    return (
+        <div
+            className="rounded border px-3 py-2 shadow-lg"
+            style={{ background: CHART.tooltipBg, borderColor: CHART.tooltipBorder }}
+        >
+            {label && (
+                <p className="mb-1.5 font-mono text-[10px] uppercase tracking-wider text-navy/50">{label}</p>
+            )}
+            {payload.map((entry) => (
+                <p key={entry.name} className="font-mono text-xs" style={{ color: entry.color || CHART.inkSecondary }}>
+                    {entry.name}: {typeof entry.value === "number" ? entry.value.toLocaleString(undefined, { maximumFractionDigits: 2 }) : entry.value}
+                    {entry.payload?.effort ? ` · ${entry.payload.effort} effort` : ""}
+                </p>
+            ))}
+            {!payload[0]?.name?.includes("%") && valueLabel === "WAPE" ? null : null}
+        </div>
+    );
+};
+
 const CategoryTabs = ({ value, onChange }) => (
-    <div className="flex flex-wrap gap-2" role="tablist" aria-label="Product category">
+    <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Product category">
         {CATS.map((c) => (
             <button
                 key={c}
+                type="button"
                 role="tab"
                 aria-selected={value === c}
                 onClick={() => onChange(c)}
                 className={`inline-flex items-center gap-2 border px-3 py-1.5 font-mono text-xs tracking-wider transition-colors ${
-                    value === c ? "border-navy/40 text-navy" : "border-navy/15 text-navy/50 hover:text-navy"
+                    value === c
+                        ? "border-teal/40 bg-teal/5 text-navy"
+                        : "border-navy/15 text-navy/50 hover:border-navy/30 hover:text-navy"
                 }`}
             >
-                <span className="inline-block h-2.5 w-2.5" style={{ backgroundColor: CAT_COLOR[c] }} />
+                <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: CAT_COLOR[c] }} />
                 {c}
             </button>
         ))}
@@ -64,151 +81,202 @@ export default function RetailForecastCharts() {
 
     const wape = data.testWape[cat];
     const avf = data.actualVsForecast[cat];
+    const color = CAT_COLOR[cat];
+
+    const wapeRows = useMemo(() => {
+        const best = Math.min(...wape.map((x) => x.wape));
+        return [...wape]
+            .sort((a, b) => b.wape - a.wape)
+            .map((d) => ({ ...d, fill: d.wape === best ? CHART.accent : color }));
+    }, [wape, color]);
+
+    const avfRows = useMemo(() => {
+        const rows = avf.dates.map((ds, i) => ({
+            ds,
+            label: fmtDate(ds),
+            actual: avf.actual[i],
+            forecast: avf.forecast[i],
+        }));
+        // Readable window for the main chart — full year available via smaller multiples later if needed
+        return rows.slice(0, 120);
+    }, [avf]);
+
+    const weeklyRows = useMemo(
+        () => DAYS.map((day, i) => ({
+            day,
+            FOODS: data.weekly.FOODS[i],
+            HOBBIES: data.weekly.HOBBIES[i],
+            HOUSEHOLD: data.weekly.HOUSEHOLD[i],
+        })),
+        []
+    );
+
+    const complexityRows = useMemo(
+        () => [
+            { step: "Naive", FOODS: data.complexity.FOODS[0].wape, HOBBIES: data.complexity.HOBBIES[0].wape, HOUSEHOLD: data.complexity.HOUSEHOLD[0].wape },
+            { step: "ETS", FOODS: data.complexity.FOODS[1].wape, HOBBIES: data.complexity.HOBBIES[1].wape, HOUSEHOLD: data.complexity.HOUSEHOLD[1].wape },
+            { step: "Best", FOODS: data.complexity.FOODS[2].wape, HOBBIES: data.complexity.HOBBIES[2].wape, HOUSEHOLD: data.complexity.HOUSEHOLD[2].wape },
+        ],
+        []
+    );
+
+    const axisStyle = { fill: CHART.inkMuted, fontSize: 11, fontFamily: "JetBrains Mono, monospace" };
+    const gridProps = { stroke: CHART.grid, vertical: false };
 
     return (
         <div data-testid="retail-forecast-charts">
-            <p className="mt-6 font-mono text-[11px] uppercase tracking-widest text-navy/40">
-                Interactive — drag to zoom, scroll to zoom in/out, double-click to reset
-            </p>
-
-            <div className="mt-4">
-                <CategoryTabs value={cat} onChange={setCat} />
+            {/* KPI strip — retail dashboard pattern */}
+            <div className="mt-8 grid gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
+                {KPI.map(({ icon: Icon, value, label, note }) => (
+                    <div key={label} className="flex gap-4 bg-surface p-5 sm:p-6">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center border border-teal/20 bg-teal/5 text-teal">
+                            <Icon size={18} strokeWidth={1.75} />
+                        </div>
+                        <div>
+                            <p className="font-display text-2xl font-extrabold tracking-tight text-teal sm:text-3xl">{value}</p>
+                            <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-navy/70">{label}</p>
+                            <p className="mt-0.5 text-xs text-navy/45">{note}</p>
+                        </div>
+                    </div>
+                ))}
             </div>
 
-            <ChartBlock
-                title="Final test WAPE by model"
-                caption={`Untouched 365-day test year, ${cat}. Forecast accuracy varied by category; no single model won everywhere. Lower is better.`}
-            >
-                <Plot
-                    data={[
-                        {
-                            type: "bar",
-                            orientation: "h",
-                            y: wape.map((d) => d.model),
-                            x: wape.map((d) => d.wape),
-                            marker: { color: CAT_COLOR[cat] },
-                            text: wape.map((d) => `${d.wape.toFixed(2)}%`),
-                            textposition: "outside",
-                            textfont: { color: INK_SECONDARY, family: "JetBrains Mono, monospace", size: 11 },
-                            customdata: wape.map((d) => d.effort),
-                            hovertemplate: "%{y}<br>Test WAPE: %{x:.2f}%<br>Effort: %{customdata}<extra></extra>",
-                        },
-                    ]}
-                    layout={{
-                        ...baseLayout,
-                        height: 340,
-                        bargap: 0.35,
-                        xaxis: axis({ title: { text: "Test WAPE (%)", font: { size: 11, color: INK_MUTED } }, range: [0, Math.max(...wape.map((d) => d.wape)) * 1.18] }),
-                        yaxis: axis({ gridcolor: "rgba(0,0,0,0)", automargin: true }),
-                    }}
-                    config={config}
-                    className="w-full"
-                    useResizeHandler
-                    style={{ width: "100%" }}
-                />
-            </ChartBlock>
+            <CategoryTabs value={cat} onChange={setCat} />
 
-            <ChartBlock
-                title="Actual vs forecast — test year"
-                caption={`${cat}: ${avf.model} (validation-selected). Validation-selected models remained useful on unseen demand, though test error increased.`}
-            >
-                <Plot
-                    data={[
-                        {
-                            type: "scatter",
-                            mode: "lines",
-                            name: "Actual",
-                            x: avf.dates,
-                            y: avf.actual,
-                            line: { color: CAT_COLOR[cat], width: 2 },
-                            hovertemplate: "%{x}<br>Actual: %{y:,.0f}<extra></extra>",
-                        },
-                        {
-                            type: "scatter",
-                            mode: "lines",
-                            name: "Forecast",
-                            x: avf.dates,
-                            y: avf.forecast,
-                            line: { color: INK_SECONDARY, width: 2, dash: "dash" },
-                            hovertemplate: "%{x}<br>Forecast: %{y:,.0f}<extra></extra>",
-                        },
-                    ]}
-                    layout={{
-                        ...baseLayout,
-                        height: 360,
-                        hovermode: "x unified",
-                        legend: { orientation: "h", y: 1.12, font: { color: INK_SECONDARY } },
-                        xaxis: axis({}),
-                        yaxis: axis({ title: { text: "Daily units sold", font: { size: 11, color: INK_MUTED } }, rangemode: "tozero" }),
-                    }}
-                    config={config}
-                    useResizeHandler
-                    style={{ width: "100%" }}
-                />
-            </ChartBlock>
+            <div className="mt-2 grid gap-0 lg:grid-cols-2">
+                <ChartShell
+                    title="Model accuracy"
+                    caption={`Test WAPE by model · ${cat}. Lower is better — best model highlighted.`}
+                >
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart data={wapeRows} layout="vertical" margin={{ top: 4, right: 48, left: 4, bottom: 4 }}>
+                            <CartesianGrid {...gridProps} />
+                            <XAxis type="number" domain={[0, "dataMax + 2"]} tick={axisStyle} tickFormatter={(v) => `${v}%`} axisLine={false} tickLine={false} />
+                            <YAxis type="category" dataKey="model" width={148} tick={axisStyle} axisLine={false} tickLine={false} />
+                            <Tooltip
+                                cursor={{ fill: CHART.accentSoft }}
+                                content={({ active, payload, label }) =>
+                                    active && payload?.[0] ? (
+                                        <DarkTooltip
+                                            active
+                                            label={label}
+                                            payload={[{ name: "Test WAPE", value: `${payload[0].value}%`, color: color, payload: payload[0].payload }]}
+                                        />
+                                    ) : null
+                                }
+                            />
+                            <Bar dataKey="wape" radius={[0, 3, 3, 0]} maxBarSize={18}>
+                                {wapeRows.map((row) => (
+                                    <Cell key={row.model} fill={row.fill} />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </ChartShell>
 
-            <ChartBlock
-                title="Weekly demand seasonality"
-                caption="Average daily units by weekday, full history (2011–2016). Demand generally rises into the weekend across all three categories."
-            >
-                <Plot
-                    data={CATS.map((c) => ({
-                        type: "bar",
-                        name: c,
-                        x: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-                        y: data.weekly[c],
-                        marker: { color: CAT_COLOR[c] },
-                        hovertemplate: `${c}<br>%{x}: %{y:,.0f} avg units<extra></extra>`,
-                    }))}
-                    layout={{
-                        ...baseLayout,
-                        height: 320,
-                        barmode: "group",
-                        bargap: 0.25,
-                        bargroupgap: 0.08,
-                        legend: { orientation: "h", y: 1.14, font: { color: INK_SECONDARY } },
-                        xaxis: axis({ gridcolor: "rgba(0,0,0,0)" }),
-                        yaxis: axis({ title: { text: "Avg daily units", font: { size: 11, color: INK_MUTED } } }),
-                    }}
-                    config={config}
-                    useResizeHandler
-                    style={{ width: "100%" }}
-                />
-            </ChartBlock>
+                <ChartShell
+                    title="Complexity vs value"
+                    caption="Naive → ETS → best observed model. Additional complexity helped selectively, not everywhere."
+                >
+                    <ResponsiveContainer width="100%" height={300}>
+                        <ComposedChart data={complexityRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
+                            <CartesianGrid {...gridProps} />
+                            <XAxis dataKey="step" tick={axisStyle} axisLine={false} tickLine={false} />
+                            <YAxis tick={axisStyle} tickFormatter={(v) => `${v}%`} axisLine={false} tickLine={false} domain={[0, "auto"]} />
+                            <Tooltip
+                                content={({ active, payload, label }) =>
+                                    active && payload?.length ? (
+                                        <DarkTooltip
+                                            active
+                                            label={label}
+                                            payload={payload.map((p) => ({ name: p.name, value: `${p.value}%`, color: p.color }))}
+                                        />
+                                    ) : null
+                                }
+                            />
+                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }} />
+                            {CATS.map((c) => (
+                                <Line key={c} type="monotone" dataKey={c} stroke={CAT_COLOR[c]} strokeWidth={2} dot={{ r: 4, strokeWidth: 0, fill: CAT_COLOR[c] }} activeDot={{ r: 6 }} />
+                            ))}
+                        </ComposedChart>
+                    </ResponsiveContainer>
+                </ChartShell>
+            </div>
 
-            <ChartBlock
-                title="Complexity vs value"
-                caption="Test WAPE from the Naive benchmark to the strongest baseline (ETS) to the best observed model per category. Additional complexity helped selectively, not universally."
+            <ChartShell
+                title="Actual vs forecast"
+                caption={`${cat} · ${avf.model} · first 120 days of the untouched test year. Solid area = true demand; dashed line = forecast.`}
             >
-                <Plot
-                    data={CATS.map((c) => ({
-                        type: "scatter",
-                        mode: "lines+markers+text",
-                        name: c,
-                        x: ["Naive", "ETS", "Best model"],
-                        y: data.complexity[c].map((d) => d.wape),
-                        line: { color: CAT_COLOR[c], width: 2 },
-                        marker: { size: 9 },
-                        text: data.complexity[c].map((d, i) => (i === 2 ? d.stage : "")),
-                        textposition: "middle right",
-                        cliponaxis: false,
-                        textfont: { color: INK_SECONDARY, family: "JetBrains Mono, monospace", size: 11 },
-                        customdata: data.complexity[c].map((d) => d.stage),
-                        hovertemplate: `${c}<br>%{customdata}: %{y:.2f}% WAPE<extra></extra>`,
-                    }))}
-                    layout={{
-                        ...baseLayout,
-                        height: 340,
-                        margin: { ...baseLayout.margin, r: 180 },
-                        legend: { orientation: "h", y: 1.14, font: { color: INK_SECONDARY } },
-                        xaxis: axis({ gridcolor: "rgba(0,0,0,0)" }),
-                        yaxis: axis({ title: { text: "Test WAPE (%)", font: { size: 11, color: INK_MUTED } }, rangemode: "tozero" }),
-                    }}
-                    config={config}
-                    useResizeHandler
-                    style={{ width: "100%" }}
-                />
-            </ChartBlock>
+                <ResponsiveContainer width="100%" height={340}>
+                    <ComposedChart data={avfRows} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
+                        <defs>
+                            <linearGradient id={`demandGrad-${cat}`} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor={color} stopOpacity={0.35} />
+                                <stop offset="100%" stopColor={color} stopOpacity={0.02} />
+                            </linearGradient>
+                        </defs>
+                        <CartesianGrid {...gridProps} />
+                        <XAxis dataKey="label" tick={axisStyle} interval="preserveStartEnd" minTickGap={28} axisLine={false} tickLine={false} />
+                        <YAxis tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={44} />
+                        <Tooltip
+                            content={({ active, payload, label }) =>
+                                active && payload?.length ? (
+                                    <DarkTooltip
+                                        active
+                                        label={label}
+                                        payload={payload.map((p) => ({
+                                            name: p.dataKey === "actual" ? "True demand" : "Forecast",
+                                            value: p.value?.toLocaleString(),
+                                            color: p.color,
+                                        }))}
+                                    />
+                                ) : null
+                            }
+                        />
+                        <Legend
+                            wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }}
+                            formatter={(v) => (v === "actual" ? "True demand" : "Forecast")}
+                        />
+                        <Area type="monotone" dataKey="actual" stroke={color} strokeWidth={2} fill={`url(#demandGrad-${cat})`} dot={false} />
+                        <Line type="monotone" dataKey="forecast" stroke={CHART.inkSecondary} strokeWidth={2} strokeDasharray="6 4" dot={false} />
+                    </ComposedChart>
+                </ResponsiveContainer>
+            </ChartShell>
+
+            <ChartShell
+                title="Weekly seasonality"
+                caption="Average daily units by weekday (2011–2016). Demand rises into the weekend across all three categories."
+                className="lg:max-w-none"
+            >
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={weeklyRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }} barGap={2} barCategoryGap="18%">
+                        <CartesianGrid {...gridProps} />
+                        <XAxis dataKey="day" tick={axisStyle} axisLine={false} tickLine={false} />
+                        <YAxis tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={44} />
+                        <Tooltip
+                            cursor={{ fill: CHART.accentSoft }}
+                            content={({ active, payload, label }) =>
+                                active && payload?.length ? (
+                                    <DarkTooltip
+                                        active
+                                        label={label}
+                                        payload={payload.map((p) => ({ name: p.name, value: Number(p.value).toLocaleString(), color: p.color }))}
+                                    />
+                                ) : null
+                            }
+                        />
+                        <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }} />
+                        {CATS.map((c) => (
+                            <Bar key={c} dataKey={c} fill={CAT_COLOR[c]} radius={[3, 3, 0, 0]} maxBarSize={28} />
+                        ))}
+                    </BarChart>
+                </ResponsiveContainer>
+            </ChartShell>
+
+            <p className="mt-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-navy/35">
+                <TrendingUp size={12} className="text-teal/60" />
+                Hover charts for values · category tabs filter accuracy and forecast views
+            </p>
         </div>
     );
 }

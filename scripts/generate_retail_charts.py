@@ -13,9 +13,10 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "retail-operation" / "data" / "processed"
 OUT = Path(__file__).resolve().parents[1] / "public" / "images"
 
-# Portfolio theme — matches website_replica (bg #0a0a0f, surface #15151c, accent #a855f7)
+# Portfolio theme — matches website_replica (bg #0a0a0f, surface #15151c, raised #1c1c24, accent #a855f7)
 BG = "#0a0a0f"
-CARD = "#15151c"
+CARD = "#1c1c24"
+SURFACE = "#15151c"
 INK = "#ececf1"
 MUTED = "#898781"
 FAINT = "#2c2c2a"
@@ -128,6 +129,7 @@ def make_hero(daily, forecasts):
 
     # Demand trend (7d rolling)
     ax1 = card_axes(fig, [0.045, 0.10, 0.55, 0.55])
+    ax1.set_facecolor(CARD)
     ax1.set_title("Daily category demand (7-day rolling)", loc="left", pad=10)
     for cat, color in CAT_COLORS.items():
         s = daily.loc[daily["cat_id"] == cat].sort_values("ds")
@@ -145,6 +147,7 @@ def make_hero(daily, forecasts):
 
     # Seasonality
     ax2 = card_axes(fig, [0.625, 0.10, 0.33, 0.55])
+    ax2.set_facecolor(CARD)
     ax2.set_title("Average weekly seasonality", loc="left", pad=10)
     order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     short = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -180,7 +183,7 @@ def make_hero(daily, forecasts):
 def make_seasonality(daily):
     fig, ax = plt.subplots(figsize=(12.5, 5.6))
     fig.patch.set_facecolor(BG)
-    ax.set_facecolor(CARD)
+    ax.set_facecolor(SURFACE)
     ax.set_title("Category daily sales (7-day rolling)", loc="left", pad=12)
 
     for cat, color in CAT_COLORS.items():
@@ -230,7 +233,7 @@ def make_actual_vs_forecast(forecasts):
             raise SystemExit(f"No rows for {cat} / {model}. Columns: {cols}")
 
         color = CAT_COLORS[cat]
-        ax.set_facecolor(CARD)
+        ax.set_facecolor(SURFACE)
         ax.plot(sub["ds"], sub["actual"], color=color, lw=1.8, label="True demand")
         ax.plot(sub["ds"], sub["forecast"], color=FORECAST, lw=1.6, ls="--", label="Forecast")
         ax.fill_between(
