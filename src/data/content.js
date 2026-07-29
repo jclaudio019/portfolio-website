@@ -146,6 +146,8 @@ export const projects = [
         ],
         dataset:
             "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect. Unit residuals on the test period were valued using sales-weighted sell_price to support the exposure analysis.",
+        methodologySummary:
+            "Transparent baselines first, then feature-based statistical and machine-learning models on a shared feature set — configurations chosen on 13 expanding, calendar-aligned validation windows and scored once on an untouched 365-day test year, with no post-test tuning. Test residuals were then valued at sales-weighted sell_price to express error as retail exposure.",
         methodology: [
             "Prepared and validated the analytical data, then explored weekly seasonality, category behavior, and calendar effects — including the Friday–Sunday lift and Christmas closures.",
             "Established transparent baselines — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful benchmarks rather than a weak straw man.",

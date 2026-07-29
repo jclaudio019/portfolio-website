@@ -101,6 +101,12 @@ export default function RetailForecastCharts() {
     const avf = data.actualVsForecast[cat];
     const color = CAT_COLOR[cat];
 
+    // The plotted series is the validation-selected model, which is not always the best test model.
+    const avfWape = useMemo(() => {
+        const match = wape.find((d) => d.model === avf.model);
+        return match ? `${match.wape.toFixed(2)}%` : "see accuracy chart";
+    }, [wape, avf.model]);
+
     const wapeRows = useMemo(() => {
         const best = Math.min(...wape.map((x) => x.wape));
         return [...wape]
@@ -229,7 +235,7 @@ export default function RetailForecastCharts() {
             <div className="mt-2 grid gap-0 lg:grid-cols-2">
                 <ChartShell
                     title="Model accuracy"
-                    caption={`Test WAPE by model · ${cat}. Lower is better — best model highlighted.`}
+                    caption={`Test WAPE by model · ${cat}. Lower is better — best observed model highlighted. Values match the saved test-metrics artifact.`}
                 >
                     <ResponsiveContainer width="100%" height={380}>
                         <BarChart data={wapeRows} layout="vertical" margin={{ top: 4, right: 48, left: 4, bottom: 4 }}>
@@ -288,7 +294,7 @@ export default function RetailForecastCharts() {
 
             <ChartShell
                 title="Actual vs forecast"
-                caption={`${cat} · ${avf.model} · first 120 days of the untouched test year. Solid area = true demand; dashed line = forecast.`}
+                caption={`${cat} · ${avf.model} — the validation-selected model, shown on the first 120 days of the untouched test year (test WAPE ${avfWape}). Solid area = true demand; dashed line = forecast.`}
             >
                 <ResponsiveContainer width="100%" height={440}>
                     <ComposedChart data={avfRows} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
