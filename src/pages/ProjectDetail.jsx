@@ -5,6 +5,7 @@ import { projects } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
+const CreditRiskScoreExplorer = lazy(() => import("../components/CreditRiskScoreExplorer"));
 
 const Section = ({ label, children }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
@@ -192,6 +193,17 @@ export default function ProjectDetail() {
                                 }
                             >
                                 <RetailForecastCharts />
+                            </Suspense>
+                        ) : null}
+                        {project.slug === "credit-risk-pd-model" ? (
+                            <Suspense
+                                fallback={
+                                    <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading score explorer…</span>
+                                    </div>
+                                }
+                            >
+                                <CreditRiskScoreExplorer />
                             </Suspense>
                         ) : null}
                     </Section>

@@ -226,7 +226,58 @@ export const projects = [
             "Allocation, replenishment, safety stock, and order recommendations were intentionally out of scope.",
         ],
     },
-    // TODO: Add additional verified project case studies when ready.
+    {
+        slug: "credit-risk-pd-model",
+        title: "Credit Risk Probability of Default",
+        category: "Credit Risk Modeling",
+        summary:
+            "Built an interpretable historical credit-risk case study that ranks observed borrower risk with logistic regression, makes P(good) and PD explicit, and translates the result into an illustrative 300-850 scorecard.",
+        image: `${process.env.PUBLIC_URL}/images/credit-risk-pd-model-hero.svg`,
+        imageCaption:
+            "Held-out ranking evidence and the score-to-risk relationship from the historical Lending Club analysis.",
+        tech: ["Python", "pandas", "NumPy", "statsmodels", "scikit-learn", "Jupyter"],
+        github: "https://github.com/jclaudio019/credit_risk",
+        metrics: [
+            { label: "Historical records", value: "466,285" },
+            { label: "Held-out AUC", value: "0.699" },
+            { label: "Illustrative score", value: "300-850" },
+        ],
+        metricsNote:
+            "Historical educational analysis only. The score is illustrative and is not a lending decision or a calibrated production PD.",
+        problem:
+            "Credit-risk teams need a consistent way to discuss how borrower and loan characteristics relate to observed repayment outcomes. The question was whether historical characteristics could rank observed risk and translate that ordering into an interpretable score, while keeping relative ranking separate from any actual approval or pricing decision.",
+        solutionParagraphs: [
+            "The project delivers a six-notebook train/test workflow that cleans historical Lending Club records, engineers grouped predictors, fits an interpretable logistic regression for P(good), evaluates held-out accounts, and translates fitted log-odds into an illustrative 300-850 scorecard.",
+            "The direction stays explicit throughout: the model estimates P(good), then PD is calculated as 1 - P(good). Higher scores correspond to higher P(good) and lower PD, making the historical ordering easier to communicate without presenting it as a decision rule.",
+        ],
+        dataset:
+            "The analysis reviewed 466,285 historical Lending Club loan records. A stratified 80/20 split produced 373,028 training rows and 93,257 held-out rows. The historical good_bad target labels specified charge-off, default, and late-status outcomes as bad (0), with the remaining observed statuses labelled good standing (1).",
+        methodologySummary:
+            "Training-derived cleaning and grouped feature definitions were applied unchanged to held-out rows. WoE guided grouping and risk ordering, IV remained descriptive, and the final interpretable logistic specification used one-hot grouped categories rather than WoE values.",
+        methodology: [
+            "Prepared the historical loan data, defined the good_bad target, and created a stratified 80/20 train/test split before fitting.",
+            "Learned cleaning rules, imputation statistics, category definitions, and numeric intervals from training rows, then applied them unchanged to held-out rows.",
+            "Used Weight of Evidence to inspect risk ordering and similarity across categories and intervals, guiding category grouping and coarse classing.",
+            "Used Information Value as a descriptive separation diagnostic, not as an automatic feature-selection cutoff.",
+            "Fit logistic regression with one-hot encoded grouped categories, not numeric WoE-transformed values, retaining explicit reference categories for interpretation.",
+            "Evaluated held-out ranking with ROC/AUC, Gini, and KS, then showed how the displayed 0.5 P(good) threshold changes the result from ranking into a single classification rule.",
+            "Translated the fitted log-odds into an illustrative 300-850 scorecard so relative historical risk could be discussed on a familiar scale.",
+        ],
+        findings:
+            "Held-out AUC was 0.699482, with Gini 0.398964 and KS 0.291652. This is limited-to-moderate historical ranking: the model separates observed risk to a useful degree, but good and bad outcomes still materially overlap. At the displayed 0.5 P(good) threshold, it detected 10 of 10,194 held-out bad loans. That weak bad-loan recall does not contradict the ranking metrics because AUC, Gini, and KS assess ordering across thresholds, while 0.5 is only one classification rule.",
+        implications:
+            "The analysis supports a transparent discussion of relative historical risk, not an approval, pricing, or treatment rule. A business threshold would require explicit tradeoffs between missed defaults and rejected good borrowers. The displayed score is educational, based on historical data, and has not been calibrated as a production PD or lending decision.",
+        conclusionParagraphs: [
+            "Historical borrower and loan characteristics provided limited-to-moderate held-out ranking of observed credit risk. The useful result is not a single cutoff, but a transparent account of what the model estimates, how it orders risk, and where that ordering falls short.",
+            "By keeping P(good), PD = 1 - P(good), threshold behavior, and the illustrative 300-850 scorecard distinct, the case study makes its historical evidence easier to interpret without overstating its operational use.",
+        ],
+        limitations: [
+            "The good_bad target is a simplified historical bad-status proxy, not a fixed performance-horizon default definition or current underwriting policy.",
+            "A single random holdout does not establish temporal stability, calibration, fairness, or regulatory suitability.",
+            "The illustrative 300-850 scale is not a production scorecard calibration or lending policy.",
+            "Historical Lending Club data may not represent a current portfolio or lending environment.",
+        ],
+    },
 ];
 
 export const experience = [
