@@ -96,15 +96,28 @@ export default function ProjectDetail() {
                         </div>
                     ))}
                 </Reveal>
+                {project.metricsNote && (
+                    <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-wide text-navy/45">
+                        {project.metricsNote}
+                    </p>
+                )}
 
                 {/* Story sections */}
                 <div className="mt-16">
                     <Section label="Business Problem">
                         <p className="leading-relaxed">{project.problem}</p>
                     </Section>
-                    {project.solution && (
+                    {(project.solutionParagraphs || project.solution) && (
                         <Section label="Solution">
-                            <p className="leading-relaxed">{project.solution}</p>
+                            {project.solutionParagraphs ? (
+                                <div className="space-y-4">
+                                    {project.solutionParagraphs.map((paragraph, i) => (
+                                        <p key={i} className="leading-relaxed">{paragraph}</p>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="leading-relaxed">{project.solution}</p>
+                            )}
                         </Section>
                     )}
                     <Section label="Dataset">
@@ -151,12 +164,94 @@ export default function ProjectDetail() {
                             </Suspense>
                         ) : null}
                     </Section>
+                    {project.financialInterpretation && (
+                        <Section label="Operations & Finance">
+                            <div className="space-y-4">
+                                <p className="leading-relaxed">{project.financialInterpretation.intro}</p>
+                                <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-sm leading-relaxed text-navy/80">
+                                    {project.financialInterpretation.caveat}
+                                </p>
+                                <div className="overflow-x-auto border border-navy/10">
+                                    <table className="min-w-full text-left text-sm">
+                                        <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                            <tr>
+                                                <th className="px-3 py-3">Category</th>
+                                                <th className="px-3 py-3">Model</th>
+                                                <th className="px-3 py-3">Under-forecast units</th>
+                                                <th className="px-3 py-3">Missed-sales retail value</th>
+                                                <th className="px-3 py-3">Over-forecast units</th>
+                                                <th className="px-3 py-3">Excess-inventory retail value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {project.financialInterpretation.exposureRows.map((row) => (
+                                                <tr key={`${row.category}-${row.model}`} className="border-t border-navy/10">
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-teal">{row.category}</td>
+                                                    <td className="px-3 py-2.5 text-navy/80">{row.model}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.underUnits}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.missedValue}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.overUnits}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.excessValue}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p className="leading-relaxed">{project.financialInterpretation.takeaway}</p>
+                                <p className="leading-relaxed">{project.financialInterpretation.priorityIntro}</p>
+                                <div className="overflow-x-auto border border-navy/10">
+                                    <table className="min-w-full text-left text-sm">
+                                        <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                            <tr>
+                                                <th className="px-3 py-3">Category</th>
+                                                <th className="px-3 py-3">Test units</th>
+                                                <th className="px-3 py-3">Retail value</th>
+                                                <th className="px-3 py-3">Avg unit price</th>
+                                                <th className="px-3 py-3">Recommended focus</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {project.financialInterpretation.priorityRows.map((row) => (
+                                                <tr key={row.category} className="border-t border-navy/10 align-top">
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-teal">{row.category}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.units}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.retailValue}</td>
+                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.avgPrice}</td>
+                                                    <td className="px-3 py-2.5 text-navy/75">{row.focus}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </Section>
+                    )}
                     <Section label="Business Implications">
                         <p className="leading-relaxed">{project.implications}</p>
                     </Section>
-                    {project.conclusion && (
+                    {(project.conclusionParagraphs || project.conclusion) && (
                         <Section label="Conclusion">
-                            <p className="leading-relaxed">{project.conclusion}</p>
+                            {project.conclusionParagraphs ? (
+                                <div className="space-y-4">
+                                    {project.conclusionParagraphs.map((paragraph, i) => (
+                                        <p key={i} className="leading-relaxed">{paragraph}</p>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="leading-relaxed">{project.conclusion}</p>
+                            )}
+                        </Section>
+                    )}
+                    {project.nextSteps?.length > 0 && (
+                        <Section label="Worth Digging Deeper">
+                            <ul className="space-y-3">
+                                {project.nextSteps.map((item, i) => (
+                                    <li key={i} className="flex gap-3">
+                                        <span className="font-mono text-sm text-teal">{String(i + 1).padStart(2, "0")}</span>
+                                        <span className="leading-relaxed">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         </Section>
                     )}
                     {project.limitations?.length > 0 && (
