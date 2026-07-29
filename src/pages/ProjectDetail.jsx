@@ -69,7 +69,7 @@ export default function ProjectDetail() {
 
                 {/* Hero image */}
                 <Reveal className="mt-12">
-                    <div className="overflow-hidden border border-navy/10 bg-[#F6F3EE]">
+                    <div className="overflow-hidden border border-navy/10 bg-surface">
                         <img
                             src={project.image}
                             alt={`${project.title} results overview`}
