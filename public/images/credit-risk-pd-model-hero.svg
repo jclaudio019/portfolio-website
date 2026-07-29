@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title desc">
-  <title id="title">Credit risk probability of default results</title>
-  <desc id="desc">Held-out AUC, Gini, and KS for a historical credit-risk model, plus an illustrative score increasing as probability of default decreases.</desc>
+  <title id="title">Historical credit-risk score-band results</title>
+  <desc id="desc">Held-out AUC, Gini, and KS for a historical credit-risk model, followed by five illustrative score bands with population shares and observed bad rates.</desc>
   <rect width="1200" height="900" fill="#0a0a0f"/>
   <rect x="56" y="56" width="1088" height="788" fill="#15151c" stroke="#a855f7" stroke-width="2"/>
   <text x="96" y="126" fill="#ececf1" font-family="Arial, sans-serif" font-size="22" letter-spacing="5">HISTORICAL CREDIT RISK</text>
@@ -14,17 +14,31 @@
   <text x="672" y="348" fill="#a855f7" font-family="Arial, sans-serif" font-size="76" font-weight="700">0.292</text>
   <text x="96" y="412" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="19">Limited-to-moderate historical ranking ability</text>
   <rect x="96" y="472" width="1008" height="280" fill="#0a0a0f" stroke="#ececf1" stroke-opacity=".25" stroke-width="2"/>
-  <text x="130" y="522" fill="#ececf1" font-family="Arial, sans-serif" font-size="17" letter-spacing="3">ILLUSTRATIVE SCORE AND RISK RELATIONSHIP</text>
-  <line x1="166" y1="678" x2="1034" y2="678" stroke="#ececf1" stroke-opacity=".45" stroke-width="2"/>
-  <line x1="166" y1="572" x2="166" y2="678" stroke="#ececf1" stroke-opacity=".45" stroke-width="2"/>
-  <path d="M166 584 L382 602 L600 630 L816 651 L1034 668" fill="none" stroke="#a855f7" stroke-width="7"/>
-  <circle cx="166" cy="584" r="8" fill="#a855f7"/>
-  <circle cx="600" cy="630" r="8" fill="#a855f7"/>
-  <circle cx="1034" cy="668" r="8" fill="#a855f7"/>
-  <text x="142" y="716" fill="#ececf1" font-family="Arial, sans-serif" font-size="18">300</text>
-  <text x="575" y="716" fill="#ececf1" font-family="Arial, sans-serif" font-size="18">575</text>
-  <text x="1004" y="716" fill="#ececf1" font-family="Arial, sans-serif" font-size="18">850</text>
-  <text x="168" y="564" fill="#ececf1" font-family="Arial, sans-serif" font-size="17">higher PD</text>
-  <text x="918" y="648" fill="#ececf1" font-family="Arial, sans-serif" font-size="17">lower PD</text>
-  <text x="96" y="806" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="18">Model output: P(good)   •   PD = 1 - P(good)   •   score: 300-850</text>
+  <text x="130" y="522" fill="#ececf1" font-family="Arial, sans-serif" font-size="17" letter-spacing="3">HISTORICAL HELD-OUT SCORE BANDS</text>
+  <text x="130" y="558" fill="#a855f7" font-family="Arial, sans-serif" font-size="14" letter-spacing="1.5">LOWER SCORE / HIGHER OBSERVED HISTORICAL RISK</text>
+  <line x1="130" y1="576" x2="1070" y2="576" stroke="#ececf1" stroke-opacity=".45" stroke-width="2"/>
+  <text x="130" y="604" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="14" letter-spacing="1.5">ILLUSTRATIVE SCORE</text>
+  <text x="560" y="604" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="14" letter-spacing="1.5">POPULATION</text>
+  <text x="790" y="604" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="14" letter-spacing="1.5">OBSERVED BAD RATE</text>
+  <line x1="130" y1="618" x2="1070" y2="618" stroke="#ececf1" stroke-opacity=".2"/>
+  <text x="130" y="642" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">384–556</text>
+  <text x="560" y="642" fill="#ececf1" font-family="Arial, sans-serif" font-size="19">20.3%</text>
+  <text x="790" y="642" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">22.2%</text>
+  <line x1="130" y1="653" x2="1070" y2="653" stroke="#ececf1" stroke-opacity=".15"/>
+  <text x="130" y="665" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">557–588</text>
+  <text x="560" y="665" fill="#ececf1" font-family="Arial, sans-serif" font-size="19">20.1%</text>
+  <text x="790" y="665" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">13.6%</text>
+  <line x1="130" y1="676" x2="1070" y2="676" stroke="#ececf1" stroke-opacity=".15"/>
+  <text x="130" y="688" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">589–617</text>
+  <text x="560" y="688" fill="#ececf1" font-family="Arial, sans-serif" font-size="19">20.1%</text>
+  <text x="790" y="688" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">9.3%</text>
+  <line x1="130" y1="699" x2="1070" y2="699" stroke="#ececf1" stroke-opacity=".15"/>
+  <text x="130" y="711" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">618–654</text>
+  <text x="560" y="711" fill="#ececf1" font-family="Arial, sans-serif" font-size="19">19.5%</text>
+  <text x="790" y="711" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">6.3%</text>
+  <line x1="130" y1="722" x2="1070" y2="722" stroke="#ececf1" stroke-opacity=".15"/>
+  <text x="130" y="734" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">655–791</text>
+  <text x="560" y="734" fill="#ececf1" font-family="Arial, sans-serif" font-size="19">19.9%</text>
+  <text x="790" y="734" fill="#a855f7" font-family="Arial, sans-serif" font-size="19" font-weight="700">2.9%</text>
+  <text x="96" y="806" fill="#ececf1" fill-opacity=".72" font-family="Arial, sans-serif" font-size="16">93,257 held-out accounts • illustrative score • not an approval or pricing policy</text>
 </svg>
