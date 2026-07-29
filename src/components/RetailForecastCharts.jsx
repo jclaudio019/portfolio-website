@@ -235,7 +235,7 @@ export default function RetailForecastCharts() {
             <div className="mt-2 grid gap-0 lg:grid-cols-2">
                 <ChartShell
                     title="Model accuracy"
-                    caption={`Test WAPE by model · ${cat}. Lower is better — best observed model highlighted. Values match the saved test-metrics artifact.`}
+                    caption={`Test WAPE by model · ${cat}. Lower is better — best observed model highlighted.`}
                 >
                     <ResponsiveContainer width="100%" height={380}>
                         <BarChart data={wapeRows} layout="vertical" margin={{ top: 4, right: 48, left: 4, bottom: 4 }}>
