@@ -279,7 +279,7 @@ export const projects = [
             "The displayed 0.5 P(good) threshold has extremely weak bad-loan recall and is not a business policy.",
             "Fairness, monitoring, regulatory suitability, and model governance have not been assessed.",
             "Advanced models may improve discrimination, but complexity must be justified against interpretability, stability, calibration, validation, auditability, implementation cost, and stakeholder explainability.",
-            "IFRS 9 is a financial-reporting and accounting boundary; this analysis does not comply with IFRS 9 and has no 12-month/lifetime ECL framework, SICR staging, origination-to-reporting-date comparison, forward-looking probability-weighted macroeconomic scenarios, calibrated term structure, LGD, EAD, or effective-interest-rate discounting.",
+            "IFRS 9 is an accounting standard and financial-reporting framework; this analysis does not comply with IFRS 9 and has no 12-month/lifetime ECL framework, SICR staging, origination-to-reporting-date comparison, forward-looking probability-weighted macroeconomic scenarios, calibrated term structure, LGD, EAD, or effective-interest-rate discounting.",
             "Historical Lending Club accounts may not represent a current institution, portfolio, policy, or economic environment.",
         ],
     },
