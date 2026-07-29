@@ -112,7 +112,7 @@ export const projects = [
         title: "Retail Demand Forecasting",
         category: "Forecasting",
         summary:
-            "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — comparing baselines, statistical models, and machine learning on expanding-window validation and an untouched 365-day test year.",
+            "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — then translated forecast error into retail-value exposure so accuracy could be discussed in operations and finance terms, not only as WAPE.",
         image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.png`,
         imageCaption:
             "From the project data: category demand over time, weekly seasonality (Fri–Sun lift), and true demand vs forecast with under-/over-forecast regions.",
@@ -130,32 +130,95 @@ export const projects = [
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
             { label: "Best test WAPE", value: "7.05%" },
-            { label: "Categories forecast", value: "3" },
+            { label: "Naive excess inventory*", value: "$3.01M" },
             { label: "Untouched test period", value: "365 days" },
         ],
+        metricsNote:
+            "*Retail-value exposure for FOODS under a Naive inventory-constrained scenario (sales-weighted sell_price). Not realized P&L, cash, or profit.",
         problem:
-            "Retail teams need a reliable view of expected daily demand before they can plan staffing, inventory reviews, and other downstream operations. Using recent sales alone often misses recurring weekly patterns, changes in demand level, and known calendar disruptions such as Christmas closures. Without a defensible forecast, planners lack a clear demand signal to support those decisions.",
-        solution:
-            "This project delivers a category-level demand forecasting process for daily point-of-sale unit sales in FOODS, HOBBIES, and HOUSEHOLD. Historical sales are evaluated with expanding-window validation, then pre-specified models are compared once on an untouched 365-day test period. The output is a transparent, leakage-safe forecast signal a downstream planning process could use — without claiming allocation, replenishment, or safety-stock decisions that were intentionally out of scope.",
+            "Retail teams need a reliable view of expected daily demand before they can plan staffing, inventory reviews, and other downstream operations. Using recent sales alone often misses recurring weekly patterns, changes in demand level, and known calendar disruptions such as Christmas closures. Without a defensible forecast, planners lack a clear demand signal — and finance stakeholders have little way to connect forecast quality to the cost of being short versus the cost of carrying too much product.",
+        solutionParagraphs: [
+            "Why this project: I wanted a forecasting process that was honest about validation, clear about model trade-offs, and close enough to operations and finance that accuracy could be discussed as exposure — not only as a percentage error.",
+            "What was delivered: a category-level demand forecasting workflow for daily POS unit sales in FOODS, HOBBIES, and HOUSEHOLD. The process starts with transparent baselines, moves to feature-based statistical and machine-learning models, selects configurations on expanding-window validation, and evaluates everything once on an untouched 365-day test year.",
+            "How it works: each category-day residual (actual − forecast) is treated as an operational exposure. An under-forecast is potential missed demand if inventory were limited to the forecast; an over-forecast is excess product that would remain after demand was met. Those unit residuals are valued at the daily sales-weighted M5 sell_price to produce retail-value exposure figures.",
+            "What this is not: the dollar figures are not claimed lost revenue, working capital freed, or profit saved. The dataset does not include unit cost, gross margin, carrying cost, markdowns, substitutions, or backorders. The value of the translation is directional — it shows why Naive-style thinking can leave far more product on shelves than needed, and why model choice should be judged by both accuracy and the under-/over-forecast balance.",
+            "Scope boundary: allocation, replenishment, safety stock, and order recommendations were intentionally out of scope. The deliverable is a leakage-safe demand signal and a finance-aware way to interpret forecast error.",
+        ],
         dataset:
-            "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect.",
+            "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect. Unit residuals on the test period were valued using sales-weighted sell_price to support the exposure analysis.",
         methodology: [
-            "Prepared and validated the analytical data, then explored weekly seasonality, category behavior, and calendar effects.",
-            "Established transparent baselines — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful benchmarks.",
-            "Built Linear Regression with lag, rolling, trend, calendar, and Christmas features (full and reduced versions via permutation importance).",
-            "Tested Prophet with weekly/yearly seasonality and Christmas as a holiday, plus XGBoost on the shared feature set with small, pre-specified configurations.",
+            "Prepared and validated the analytical data, then explored weekly seasonality, category behavior, and calendar effects — including the Friday–Sunday lift and Christmas closures.",
+            "Established transparent baselines — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful benchmarks rather than a weak straw man.",
+            "Built Linear Regression with lag, rolling, trend, calendar, and Christmas features (full and reduced versions via permutation importance) to keep an interpretable option in the comparison.",
+            "Tested Prophet with weekly/yearly seasonality and Christmas as a holiday, plus XGBoost on the shared feature set with small, pre-specified configurations — not an exhaustive hyperparameter search.",
             "Compared models across 13 expanding monthly validation windows with identical dates, horizons, and metrics (WAPE primary; MAE and RMSE also tracked).",
             "Froze validation-selected models per category, then evaluated every pre-specified model once on the untouched 365-day test year — with no post-test tuning.",
+            "Translated test residuals into under-forecast and over-forecast unit counts and retail-value exposure, then ranked categories by volume, average selling price, and where deeper analysis would create the most decision value.",
         ],
         findings:
-            "Every evaluated alternative improved on the Naive benchmark (FOODS 16.10%, HOBBIES 17.47%, HOUSEHOLD 19.88% test WAPE). Best observed test models: XGBoost Faster for FOODS at 10.22% (−5.88 pts vs Naive), XGBoost Shallow for HOBBIES at 8.00% (−9.47 pts), and Linear Regression (Full) for HOUSEHOLD at 7.05% (−12.83 pts). No single model won everywhere: ETS was nearly as accurate as XGBoost on FOODS (+0.47 WAPE), HOBBIES was effectively a near-tie among XGBoost, Prophet, and ETS, and HOUSEHOLD favored the interpretable linear model over more complex alternatives. Validation winners also shifted on the holdout for HOBBIES and HOUSEHOLD — an important finding that reinforces keeping test data untouched rather than retuning after the fact.",
+            "Every evaluated alternative improved on the Naive benchmark (FOODS 16.10%, HOBBIES 17.47%, HOUSEHOLD 19.88% test WAPE). Best observed test models: XGBoost Faster for FOODS at 10.22% (−5.88 pts vs Naive), XGBoost Shallow for HOBBIES at 8.00% (−9.47 pts), and Linear Regression (Full) for HOUSEHOLD at 7.05% (−12.83 pts). No single model won everywhere: ETS was nearly as accurate as XGBoost on FOODS (+0.47 WAPE), HOBBIES was effectively a near-tie among XGBoost, Prophet, and ETS, and HOUSEHOLD favored the interpretable linear model over more complex alternatives. Validation winners also shifted on the holdout for HOBBIES and HOUSEHOLD — reinforcing why test data must stay untouched.",
+        financialInterpretation: {
+            intro:
+                "Forecast accuracy matters because it changes two operational exposures. For each category-day, a positive residual (actual − forecast) is an under-forecast: demand that could not be filled if inventory were limited to the forecast. A negative residual is an over-forecast: inventory that would remain after demand was met. The table below applies that inventory-constrained scenario to fixed test forecasts and values units at sales-weighted sell_price.",
+            caveat:
+                "These dollar figures are retail-value exposure, not realized lost sales, cash tied up, or profit. Margin, unit cost, carrying cost, and service-level policy are not in the dataset — so the numbers are directional decision support, not a P&L claim.",
+            exposureRows: [
+                { category: "FOODS", model: "Naive", underUnits: "415,148", missedValue: "$1.09M", overUnits: "1,150,579", excessValue: "$3.01M" },
+                { category: "FOODS", model: "ETS", underUnits: "830,705", missedValue: "$2.18M", overUnits: "209,461", excessValue: "$0.54M" },
+                { category: "FOODS", model: "XGBoost Faster", underUnits: "696,729", missedValue: "$1.82M", overUnits: "296,956", excessValue: "$0.78M" },
+                { category: "HOBBIES", model: "Naive", underUnits: "25,534", missedValue: "$0.11M", overUnits: "225,804", excessValue: "$0.96M" },
+                { category: "HOBBIES", model: "ETS", underUnits: "96,856", missedValue: "$0.41M", overUnits: "20,009", excessValue: "$0.07M" },
+                { category: "HOBBIES", model: "XGBoost Shallow", underUnits: "90,863", missedValue: "$0.38M", overUnits: "24,192", excessValue: "$0.10M" },
+                { category: "HOUSEHOLD", model: "Naive", underUnits: "114,353", missedValue: "$0.46M", overUnits: "595,585", excessValue: "$2.30M" },
+                { category: "HOUSEHOLD", model: "ETS", underUnits: "241,795", missedValue: "$0.95M", overUnits: "59,615", excessValue: "$0.22M" },
+                { category: "HOUSEHOLD", model: "Linear Regression (Full)", underUnits: "132,093", missedValue: "$0.52M", overUnits: "119,754", excessValue: "$0.46M" },
+            ],
+            takeaway:
+                "Naive forecasts leave far more excess-inventory exposure in every category. Better models reduce that shelf burden, but they can shift the balance toward under-forecast exposure — which is exactly why finance and operations should look at both sides, not WAPE alone. For HOBBIES the ETS-to-XGBoost gap is small; for HOUSEHOLD, Linear Regression improves the under-/over-forecast balance relative to ETS.",
+            priorityIntro:
+                "Average selling price helps put error into business context (it is not a margin measure). Categories differ in volume, retail value, and where deeper work is worth the effort:",
+            priorityRows: [
+                {
+                    category: "FOODS",
+                    units: "9.73M",
+                    retailValue: "$25.49M",
+                    avgPrice: "$2.62",
+                    focus: "Highest volume and retail-value exposure. ETS is a credible simpler baseline; optimize weekday buffers before adding complexity.",
+                },
+                {
+                    category: "HOBBIES",
+                    units: "1.44M",
+                    retailValue: "$6.15M",
+                    avgPrice: "$4.27",
+                    focus: "Highest average selling price, but ETS≈XGBoost. Dig deeper only if margin, stockout cost, or promotions make the small accuracy gain meaningful.",
+                },
+                {
+                    category: "HOUSEHOLD",
+                    units: "3.57M",
+                    retailValue: "$14.05M",
+                    avgPrice: "$3.94",
+                    focus: "Strongest candidate for deeper analysis — better observed balance than ETS, worth weekday/event/high-value item review.",
+                },
+            ],
+        },
         implications:
-            "The business takeaway is category-specific forecasting: model complexity should be justified by category-level value, not assumed to be better. FOODS may justify XGBoost when the marginal gain matters; otherwise ETS is a credible simpler option. HOBBIES does not clearly justify a much more complex workflow. HOUSEHOLD is the strongest case for the interpretable Linear Regression result. Operationally, lower aggregate error is not the whole decision — under-forecasts and over-forecasts create different inventory exposures, so the next practical step is weekday- and event-aware buffers guided by the cost of a stockout relative to the cost of carrying inventory.",
-        conclusion:
-            "Historical POS demand can forecast future category demand accurately enough to beat simple recent-sales thinking, but the right model depends on the category. This project shows a complete, reproducible path from data preparation through baseline comparison, feature-based modeling, leakage-safe validation, and a fixed holdout evaluation — ending with a clear recommendation: choose models by category, prefer simpler approaches when accuracy is nearly tied, treat holidays explicitly, and keep an untouched test period before deploying a forecast.",
+            "The retail–finance merge is the point: a forecast is only useful if someone can act on the cost of being wrong. Lower aggregate error is not the whole decision. Under-forecasts and over-forecasts create different exposures — missed demand versus excess product on the shelf. In production, model choice should move toward minimizing expected economic cost (stockout cost vs carrying / markdown cost), with category-specific buffers when running short is more expensive than carrying extra inventory.",
+        conclusionParagraphs: [
+            "Historical POS demand can forecast future category demand well enough to beat simple recent-sales thinking — but the right model depends on the category, and accuracy alone is not enough to choose it.",
+            "What this project contributes is a complete, reproducible path: explore demand patterns, set honest baselines, test interpretable and more flexible models, validate without leakage, evaluate on an untouched year, and translate residuals into retail-value exposure so operations and finance can discuss the same result.",
+            "The practical recommendation is category-specific: prefer simpler models when accuracy is nearly tied (HOBBIES), use XGBoost for FOODS only when the marginal gain justifies maintenance, and treat HOUSEHOLD as the priority for deeper weekday, event, and high-value item analysis. Keep holidays explicit. Keep the holdout untouched. And when time allows, move from point forecasts toward buffers and prediction intervals guided by the relative cost of stockouts versus excess inventory.",
+        ],
+        nextSteps: [
+            "Measure forecast error by weekday and business-critical demand periods, then set category-specific safety buffers from stockout cost versus carrying cost.",
+            "Where the data supports it, add prediction intervals or forecast quantiles so buffers are probabilistic rather than ad hoc point-forecast padding.",
+            "Drill into high-value item groups within HOUSEHOLD (and price-sensitive pockets of HOBBIES) where average selling price makes residual error more expensive.",
+            "If unit cost, margin, and holding-cost inputs become available, replace retail-value exposure with a true expected economic-cost objective for model selection.",
+            "Extend beyond category-level demand into allocation / replenishment only after the demand signal and its uncertainty are stable enough to trust.",
+        ],
         limitations: [
             "Forecasts are at the daily category level, not SKU-store level.",
             "Price, promotions, substitutions, stockouts, and inventory availability were not modeled as predictive inputs.",
+            "Dollar exposure uses sell_price retail value — not unit cost, margin, carrying cost, or realized P&L.",
             "Recursive multi-day forecasts can accumulate error through lag and rolling features.",
             "The test period is one historical year; demand changes should be monitored on future data.",
             "Allocation, replenishment, safety stock, and order recommendations were intentionally out of scope.",
