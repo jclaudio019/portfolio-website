@@ -87,10 +87,9 @@ const ChristmasGlow = (seriesColor) =>
         if (!payload?.isChristmas || cx == null || cy == null) return null;
         return (
             <g>
-                <circle cx={cx} cy={cy} r={52} fill={CHART.accent} fillOpacity={0.1} />
-                <circle cx={cx} cy={cy} r={38} fill={CHART.accent} fillOpacity={0.16} />
-                <circle cx={cx} cy={cy} r={24} fill={CHART.accent} fillOpacity={0.28} />
-                <circle cx={cx} cy={cy} r={9} fill={CHART.accent} stroke={seriesColor} strokeWidth={2} />
+                <circle cx={cx} cy={cy} r={34} fill={CHART.accent} fillOpacity={0.06} />
+                <circle cx={cx} cy={cy} r={34} fill="none" stroke={CHART.accent} strokeWidth={2.4} strokeOpacity={0.85} />
+                <circle cx={cx} cy={cy} r={5} fill={CHART.accent} stroke={seriesColor} strokeWidth={1.6} />
             </g>
         );
     };
