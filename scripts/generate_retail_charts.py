@@ -133,18 +133,19 @@ def make_hero(daily, forecasts):
     ax1 = card_axes(fig, [0.045, 0.10, 0.55, 0.55])
     ax1.set_facecolor(CARD)
     ax1.set_title("Daily category demand (7-day rolling)", loc="left", pad=10)
+    rolled = {}
     for cat, color in CAT_COLORS.items():
         s = daily.loc[daily["cat_id"] == cat].sort_values("ds")
         y = s.set_index("ds")["y"].rolling(7, min_periods=1).mean()
-        ax1.plot(y.index, y.values, color=color, lw=1.8, label=cat)
+        ax1.plot(y.index, y.values, color=color, lw=1.8, label=cat, zorder=4)
+        rolled[cat] = (y.index, y, color)
     soft_y_grid(ax1)
     ax1.set_ylabel("Units / day", color=MUTED)
     ax1.xaxis.set_major_locator(mdates.YearLocator())
     ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     ax1.legend(loc="upper left", ncol=3, fontsize=9, labelcolor=INK)
     ax1.set_xlim(daily["ds"].min(), daily["ds"].max())
-    # Christmas markers (subtle accent tint)
-    christmas_markers(ax1, years=range(2012, 2017))
+    christmas_glow(ax1, rolled, years=range(2012, 2017))
 
     # Seasonality
     ax2 = card_axes(fig, [0.625, 0.10, 0.33, 0.55])
@@ -181,24 +182,26 @@ def make_hero(daily, forecasts):
     print("wrote", out)
 
 
-def christmas_markers(ax, years=range(2012, 2017)):
-    """Highlight Dec 25 demand collapses — visible on dark theme."""
-    ymin, ymax = ax.get_ylim()
+def christmas_glow(ax, rolled_series, years=range(2012, 2017)):
+    """Soft circle highlights at Dec 25 demand dips."""
     for year in years:
         x = pd.Timestamp(f"{year}-12-25")
-        ax.axvline(x, color=ACCENT, lw=1.4, ls="--", zorder=4, alpha=0.85)
-        ax.axvspan(x - pd.Timedelta(days=1), x + pd.Timedelta(days=1), color=ACCENT, alpha=0.06, zorder=1)
-        ax.annotate(
-            f"Dec 25 '{str(year)[2:]}",
-            xy=(x, ymax),
-            xytext=(0, 8),
-            textcoords="offset points",
-            ha="center",
-            va="bottom",
-            fontsize=7.5,
-            color=ACCENT,
-            rotation=90,
-        )
+        for cat, (index, values, line_color) in rolled_series.items():
+            if x not in index:
+                continue
+            yv = float(values.loc[x])
+            for size, alpha in ((1400, 0.05), (750, 0.09), (320, 0.16)):
+                ax.scatter([x], [yv], s=size, color=ACCENT, alpha=alpha, zorder=3, linewidths=0)
+            ax.scatter(
+                [x],
+                [yv],
+                s=52,
+                color=ACCENT,
+                alpha=0.95,
+                zorder=5,
+                edgecolors=line_color,
+                linewidths=1.2,
+            )
 
 
 def export_demand_rolling(daily):
@@ -232,13 +235,15 @@ def make_seasonality(daily):
     ax.set_facecolor(SURFACE)
     ax.set_title("Category daily sales (7-day rolling)", loc="left", pad=14, fontsize=14)
 
+    rolled = {}
     for cat, color in CAT_COLORS.items():
         s = daily.loc[daily["cat_id"] == cat].sort_values("ds")
         y = s.set_index("ds")["y"].rolling(7, min_periods=1).mean()
-        ax.plot(y.index, y.values, color=color, lw=2.0, label=cat)
+        ax.plot(y.index, y.values, color=color, lw=2.0, label=cat, zorder=4)
+        rolled[cat] = (y.index, y, color)
 
     soft_y_grid(ax)
-    christmas_markers(ax)
+    christmas_glow(ax, rolled)
     ax.set_ylabel("Units sold / day", fontsize=11)
     ax.legend(loc="upper left", ncol=3, fontsize=10)
     ax.xaxis.set_major_locator(mdates.YearLocator())
@@ -248,7 +253,7 @@ def make_seasonality(daily):
     fig.text(
         0.045,
         0.03,
-        "Purple markers = Dec 25 · demand drops to near zero when stores close · FOODS highest volume · HOUSEHOLD rising over time",
+        "Purple glow = Dec 25 · demand drops to near zero when stores close · FOODS highest volume · HOUSEHOLD rising over time",
         fontsize=9,
         color=MUTED,
     )

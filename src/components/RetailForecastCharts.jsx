@@ -8,7 +8,6 @@ import {
     ComposedChart,
     Legend,
     Line,
-    ReferenceLine,
     ResponsiveContainer,
     Tooltip,
     XAxis,
@@ -83,10 +82,17 @@ const tickYear = (ds) => {
     return "";
 };
 
-const ChristmasDot = (color) =>
-    function ChristmasDotMarker({ cx, cy, payload }) {
+const ChristmasGlow = (seriesColor) =>
+    function ChristmasGlowMarker({ cx, cy, payload }) {
         if (!payload?.isChristmas || cx == null || cy == null) return null;
-        return <circle cx={cx} cy={cy} r={5} fill={CHART.accent} stroke={color} strokeWidth={2} />;
+        return (
+            <g>
+                <circle cx={cx} cy={cy} r={26} fill={CHART.accent} fillOpacity={0.07} />
+                <circle cx={cx} cy={cy} r={18} fill={CHART.accent} fillOpacity={0.12} />
+                <circle cx={cx} cy={cy} r={11} fill={CHART.accent} fillOpacity={0.2} />
+                <circle cx={cx} cy={cy} r={5} fill={CHART.accent} stroke={seriesColor} strokeWidth={1.5} />
+            </g>
+        );
     };
 
 export default function RetailForecastCharts() {
@@ -173,28 +179,12 @@ export default function RetailForecastCharts() {
             {demandRows.length > 0 && (
                 <ChartShell
                     title="Category demand (7-day rolling)"
-                    caption="Full history (2011–2016). Purple markers highlight Dec 25 — demand collapses to near zero when stores close."
+                    caption="Full history (2011–2016). Soft purple glow marks Dec 25 — demand collapses to near zero when stores close."
                     className="mt-4"
                 >
                     <ResponsiveContainer width="100%" height={460}>
                         <ComposedChart data={demandRows} margin={{ top: 16, right: 12, left: 4, bottom: 28 }}>
                             <CartesianGrid {...gridProps} />
-                            {data.demandRolling?.christmasDates?.map((ds) => (
-                                <ReferenceLine
-                                    key={ds}
-                                    x={ds}
-                                    stroke={CHART.accent}
-                                    strokeDasharray="5 4"
-                                    strokeWidth={1.5}
-                                    label={{
-                                        value: "Dec 25",
-                                        position: "insideTopRight",
-                                        fill: CHART.accent,
-                                        fontSize: 9,
-                                        fontFamily: "JetBrains Mono, monospace",
-                                    }}
-                                />
-                            ))}
                             <XAxis
                                 dataKey="ds"
                                 tickFormatter={tickYear}
@@ -228,7 +218,7 @@ export default function RetailForecastCharts() {
                                     dataKey={c}
                                     stroke={CAT_COLOR[c]}
                                     strokeWidth={2}
-                                    dot={ChristmasDot(CAT_COLOR[c])}
+                                    dot={ChristmasGlow(CAT_COLOR[c])}
                                     activeDot={{ r: 5 }}
                                 />
                             ))}
