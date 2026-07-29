@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Polished portfolio charts for the retail demand forecasting case study."""
 
+import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -12,6 +13,7 @@ import seaborn as sns
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "retail-operation" / "data" / "processed"
 OUT = Path(__file__).resolve().parents[1] / "public" / "images"
+CHART_JSON = Path(__file__).resolve().parents[1] / "src" / "data" / "retailForecastCharts.json"
 
 # Portfolio theme — matches website_replica (bg #0a0a0f, surface #15151c, raised #1c1c24, accent #a855f7)
 BG = "#0a0a0f"
@@ -142,8 +144,7 @@ def make_hero(daily, forecasts):
     ax1.legend(loc="upper left", ncol=3, fontsize=9, labelcolor=INK)
     ax1.set_xlim(daily["ds"].min(), daily["ds"].max())
     # Christmas markers (subtle accent tint)
-    for year in range(2012, 2017):
-        ax1.axvline(pd.Timestamp(f"{year}-12-25"), color=ACCENT, lw=0.7, ls="--", alpha=0.35, zorder=0)
+    christmas_markers(ax1, years=range(2012, 2017))
 
     # Seasonality
     ax2 = card_axes(fig, [0.625, 0.10, 0.33, 0.55])
@@ -180,32 +181,76 @@ def make_hero(daily, forecasts):
     print("wrote", out)
 
 
+def christmas_markers(ax, years=range(2012, 2017)):
+    """Highlight Dec 25 demand collapses — visible on dark theme."""
+    ymin, ymax = ax.get_ylim()
+    for year in years:
+        x = pd.Timestamp(f"{year}-12-25")
+        ax.axvline(x, color=ACCENT, lw=1.4, ls="--", zorder=4, alpha=0.85)
+        ax.axvspan(x - pd.Timedelta(days=1), x + pd.Timedelta(days=1), color=ACCENT, alpha=0.06, zorder=1)
+        ax.annotate(
+            f"Dec 25 '{str(year)[2:]}",
+            xy=(x, ymax),
+            xytext=(0, 8),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=7.5,
+            color=ACCENT,
+            rotation=90,
+        )
+
+
+def export_demand_rolling(daily):
+    """Append downsampled 7-day rolling series + Christmas dates for interactive charts."""
+    if not CHART_JSON.exists():
+        print("skip json export —", CHART_JSON, "missing")
+        return
+    payload = json.loads(CHART_JSON.read_text())
+
+    base = daily.loc[daily["cat_id"] == "FOODS"].sort_values("ds")
+    base_roll = base.set_index("ds")["y"].rolling(7, min_periods=1).mean()
+    dates = []
+    for i, d in enumerate(base_roll.index):
+        if i % 6 == 0 or (d.month == 12 and d.day == 25):
+            dates.append(d.strftime("%Y-%m-%d"))
+
+    rolling = {}
+    for cat in CAT_COLORS:
+        s = daily.loc[daily["cat_id"] == cat].sort_values("ds")
+        y = s.set_index("ds")["y"].rolling(7, min_periods=1).mean()
+        rolling[cat] = [round(float(y.loc[pd.Timestamp(d)]), 1) for d in dates]
+
+    payload["demandRolling"] = {**rolling, "dates": dates, "christmasDates": [d for d in dates if d.endswith("-12-25")]}
+    CHART_JSON.write_text(json.dumps(payload))
+    print("updated", CHART_JSON)
+
+
 def make_seasonality(daily):
-    fig, ax = plt.subplots(figsize=(12.5, 5.6))
+    fig, ax = plt.subplots(figsize=(14.5, 7.8))
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(SURFACE)
-    ax.set_title("Category daily sales (7-day rolling)", loc="left", pad=12)
+    ax.set_title("Category daily sales (7-day rolling)", loc="left", pad=14, fontsize=14)
 
     for cat, color in CAT_COLORS.items():
         s = daily.loc[daily["cat_id"] == cat].sort_values("ds")
         y = s.set_index("ds")["y"].rolling(7, min_periods=1).mean()
-        ax.plot(y.index, y.values, color=color, lw=1.9, label=cat)
-
-    for year in range(2012, 2017):
-        ax.axvline(pd.Timestamp(f"{year}-12-25"), color=ACCENT, lw=0.7, ls="--", zorder=0, alpha=0.35)
+        ax.plot(y.index, y.values, color=color, lw=2.0, label=cat)
 
     soft_y_grid(ax)
-    ax.set_ylabel("Units sold / day")
+    christmas_markers(ax)
+    ax.set_ylabel("Units sold / day", fontsize=11)
     ax.legend(loc="upper left", ncol=3, fontsize=10)
     ax.xaxis.set_major_locator(mdates.YearLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
+    ax.tick_params(axis="both", labelsize=10)
+    fig.subplots_adjust(bottom=0.14)
     fig.text(
-        0.01,
-        -0.02,
-        "Dashed lines mark Christmas · FOODS highest volume · HOUSEHOLD rising over time · HOBBIES more variable",
-        fontsize=8.5,
+        0.045,
+        0.03,
+        "Purple markers = Dec 25 · demand drops to near zero when stores close · FOODS highest volume · HOUSEHOLD rising over time",
+        fontsize=9,
         color=MUTED,
-        transform=ax.transAxes,
     )
     out = OUT / "retail-demand-sales-seasonality.png"
     fig.savefig(out)
@@ -214,7 +259,7 @@ def make_seasonality(daily):
 
 
 def make_actual_vs_forecast(forecasts):
-    fig, axes = plt.subplots(3, 1, figsize=(12.5, 9.2), sharex=False)
+    fig, axes = plt.subplots(3, 1, figsize=(14.5, 11.5), sharex=False)
     fig.patch.set_facecolor(BG)
     fig.suptitle("True demand vs forecast (untouched test year)", x=0.01, ha="left", fontsize=14, fontweight="semibold", color=INK)
 
@@ -285,6 +330,7 @@ def main():
     make_hero(daily, forecasts)
     make_seasonality(daily)
     make_actual_vs_forecast(forecasts)
+    export_demand_rolling(daily)
 
 
 if __name__ == "__main__":
