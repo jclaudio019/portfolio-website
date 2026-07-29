@@ -122,6 +122,23 @@ export default function ProjectDetail() {
                     </Section>
                     <Section label="Findings">
                         <p className="leading-relaxed">{project.findings}</p>
+                        {project.gallery?.length > 0 && (
+                            <div className="mt-8 space-y-8">
+                                {project.gallery.map((item) => (
+                                    <figure key={item.src} className="border border-navy/10 bg-surface/50">
+                                        <img
+                                            src={item.src}
+                                            alt={item.caption}
+                                            className="w-full object-contain"
+                                            loading="lazy"
+                                        />
+                                        <figcaption className="border-t border-navy/10 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/40">
+                                            {item.caption}
+                                        </figcaption>
+                                    </figure>
+                                ))}
+                            </div>
+                        )}
                         {project.slug === "retail-demand-forecasting" ? (
                             <Suspense
                                 fallback={

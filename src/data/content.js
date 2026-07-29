@@ -113,9 +113,19 @@ export const projects = [
         category: "Forecasting",
         summary:
             "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — comparing baselines, statistical models, and machine learning on expanding-window validation and an untouched 365-day test year.",
-        image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.svg`,
+        image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.png`,
         imageCaption:
-            "Project results graphic: Naive vs best-model test WAPE by category, plus the end-to-end workflow from data prep through untouched holdout evaluation.",
+            "From the project data: category demand over time, weekly seasonality (Fri–Sun lift), and true demand vs forecast with under-/over-forecast regions.",
+        gallery: [
+            {
+                src: `${process.env.PUBLIC_URL}/images/retail-demand-sales-seasonality.png`,
+                caption: "Category daily sales (7-day rolling) — recurring weekly patterns and Christmas demand drops to near zero.",
+            },
+            {
+                src: `${process.env.PUBLIC_URL}/images/retail-demand-actual-vs-forecast.png`,
+                caption: "True demand vs best observed model on the untouched test year — FOODS (XGBoost), HOBBIES (XGBoost), HOUSEHOLD (Linear Regression).",
+            },
+        ],
         tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
