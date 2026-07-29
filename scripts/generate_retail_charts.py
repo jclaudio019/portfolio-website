@@ -13,17 +13,18 @@ ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "retail-operation" / "data" / "processed"
 OUT = Path(__file__).resolve().parents[1] / "public" / "images"
 
-# Cream / editorial dashboard palette (portfolio-first impression)
-BG = "#F6F3EE"
-CARD = "#FFFFFF"
-INK = "#1C1C1A"
-MUTED = "#6B6A64"
-FAINT = "#D8D4CB"
-FOODS = "#0F766E"
-HOBBIES = "#C2410C"
-HOUSEHOLD = "#1D4ED8"
-FORECAST = "#64748B"
-ACCENT = "#0F766E"
+# Portfolio theme — matches website_replica (bg #0a0a0f, surface #15151c, accent #a855f7)
+BG = "#0a0a0f"
+CARD = "#15151c"
+INK = "#ececf1"
+MUTED = "#898781"
+FAINT = "#2c2c2a"
+ACCENT = "#a855f7"
+FOODS = "#3987e5"
+HOBBIES = "#d95926"
+HOUSEHOLD = "#199e70"
+FORECAST = "#c3c2b7"
+BORDER = "#2c2c2a"
 
 CAT_COLORS = {"FOODS": FOODS, "HOBBIES": HOBBIES, "HOUSEHOLD": HOUSEHOLD}
 BEST = {
@@ -34,12 +35,12 @@ BEST = {
 
 
 def style():
-    sns.set_theme(style="white", font="DejaVu Sans")
+    sns.set_theme(style="dark", font="DejaVu Sans")
     plt.rcParams.update(
         {
             "figure.facecolor": BG,
             "axes.facecolor": CARD,
-            "axes.edgecolor": FAINT,
+            "axes.edgecolor": BORDER,
             "axes.labelcolor": MUTED,
             "axes.titlecolor": INK,
             "axes.spines.top": False,
@@ -52,7 +53,7 @@ def style():
             "text.color": INK,
             "grid.color": FAINT,
             "grid.linewidth": 0.6,
-            "grid.alpha": 0.55,
+            "grid.alpha": 0.45,
             "legend.frameon": False,
             "font.size": 11,
             "axes.titlesize": 13,
@@ -77,12 +78,11 @@ def load():
 
 
 def soft_y_grid(ax):
-    # Horizontal guides only — light enough to disappear in screenshots
-    ax.yaxis.grid(True, which="major", color=FAINT, linewidth=0.7, alpha=0.7)
+    ax.yaxis.grid(True, which="major", color=FAINT, linewidth=0.7, alpha=0.55)
     ax.xaxis.grid(False)
     ax.set_axisbelow(True)
     ax.tick_params(length=0)
-    ax.spines["bottom"].set_color(FAINT)
+    ax.spines["bottom"].set_color(BORDER)
 
 
 def card_axes(fig, rect):
@@ -90,7 +90,7 @@ def card_axes(fig, rect):
     ax.set_facecolor(CARD)
     for sp in ax.spines.values():
         sp.set_visible(True)
-        sp.set_color(FAINT)
+        sp.set_color(BORDER)
         sp.set_linewidth(1.0)
     return ax
 
@@ -139,9 +139,9 @@ def make_hero(daily, forecasts):
     ax1.xaxis.set_major_formatter(mdates.DateFormatter("%Y"))
     ax1.legend(loc="upper left", ncol=3, fontsize=9, labelcolor=INK)
     ax1.set_xlim(daily["ds"].min(), daily["ds"].max())
-    # Christmas markers (subtle)
+    # Christmas markers (subtle accent tint)
     for year in range(2012, 2017):
-        ax1.axvline(pd.Timestamp(f"{year}-12-25"), color=FAINT, lw=0.9, ls="--", zorder=0)
+        ax1.axvline(pd.Timestamp(f"{year}-12-25"), color=ACCENT, lw=0.7, ls="--", alpha=0.35, zorder=0)
 
     # Seasonality
     ax2 = card_axes(fig, [0.625, 0.10, 0.33, 0.55])
@@ -189,7 +189,7 @@ def make_seasonality(daily):
         ax.plot(y.index, y.values, color=color, lw=1.9, label=cat)
 
     for year in range(2012, 2017):
-        ax.axvline(pd.Timestamp(f"{year}-12-25"), color="#B8B3A8", lw=0.9, ls="--", zorder=0, alpha=0.8)
+        ax.axvline(pd.Timestamp(f"{year}-12-25"), color=ACCENT, lw=0.7, ls="--", zorder=0, alpha=0.35)
 
     soft_y_grid(ax)
     ax.set_ylabel("Units sold / day")
@@ -261,7 +261,7 @@ def make_actual_vs_forecast(forecasts):
     fig.text(
         0.01,
         0.01,
-        "Shaded gap: teal when demand exceeds forecast (under-forecast) · slate when forecast exceeds demand (over-forecast)",
+        "Shaded gap: category color when demand exceeds forecast (under-forecast) · muted line when forecast exceeds demand (over-forecast)",
         fontsize=8.5,
         color=MUTED,
     )
