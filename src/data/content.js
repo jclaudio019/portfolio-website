@@ -115,15 +115,15 @@ export const projects = [
             "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — then translated forecast error into retail-value exposure so accuracy could be discussed in operations and finance terms, not only as WAPE.",
         image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.png`,
         imageCaption:
-            "From the project data: category demand over time, weekly seasonality (Fri–Sun lift), and true demand vs forecast with under-/over-forecast regions.",
+            "Portfolio overview from the project data: headline metrics, category demand over time, and Friday–Sunday seasonality.",
         gallery: [
             {
                 src: `${process.env.PUBLIC_URL}/images/retail-demand-sales-seasonality.png`,
-                caption: "Category daily sales (7-day rolling) — recurring weekly patterns and Christmas demand drops to near zero.",
+                caption: "Category daily sales (7-day rolling) — weekly rhythm and Christmas demand drops.",
             },
             {
                 src: `${process.env.PUBLIC_URL}/images/retail-demand-actual-vs-forecast.png`,
-                caption: "True demand vs best observed model on the untouched test year — FOODS (XGBoost), HOBBIES (XGBoost), HOUSEHOLD (Linear Regression).",
+                caption: "True demand vs best observed model on the untouched test year — shaded gaps show under- and over-forecast.",
             },
         ],
         tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
@@ -138,11 +138,11 @@ export const projects = [
         problem:
             "Retail teams need a reliable view of expected daily demand before they can plan staffing, inventory reviews, and other downstream operations. Using recent sales alone often misses recurring weekly patterns, changes in demand level, and known calendar disruptions such as Christmas closures. Without a defensible forecast, planners lack a clear demand signal — and finance stakeholders have little way to connect forecast quality to the cost of being short versus the cost of carrying too much product.",
         solutionParagraphs: [
-            "Why this project: I wanted a forecasting process that was honest about validation, clear about model trade-offs, and close enough to operations and finance that accuracy could be discussed as exposure — not only as a percentage error.",
-            "What was delivered: a category-level demand forecasting workflow for daily POS unit sales in FOODS, HOBBIES, and HOUSEHOLD. The process starts with transparent baselines, moves to feature-based statistical and machine-learning models, selects configurations on expanding-window validation, and evaluates everything once on an untouched 365-day test year.",
-            "How it works: each category-day residual (actual − forecast) is treated as an operational exposure. An under-forecast is potential missed demand if inventory were limited to the forecast; an over-forecast is excess product that would remain after demand was met. Those unit residuals are valued at the daily sales-weighted M5 sell_price to produce retail-value exposure figures.",
-            "What this is not: the dollar figures are not claimed lost revenue, working capital freed, or profit saved. The dataset does not include unit cost, gross margin, carrying cost, markdowns, substitutions, or backorders. The value of the translation is directional — it shows why Naive-style thinking can leave far more product on shelves than needed, and why model choice should be judged by both accuracy and the under-/over-forecast balance.",
-            "Scope boundary: allocation, replenishment, safety stock, and order recommendations were intentionally out of scope. The deliverable is a leakage-safe demand signal and a finance-aware way to interpret forecast error.",
+            "The response is a leakage-safe, category-level demand forecast for daily POS unit sales in FOODS, HOBBIES, and HOUSEHOLD — a demand signal planners can trust before staffing, inventory reviews, and other downstream work begin.",
+            "Category aggregation is intentional. At this level, weekly seasonality and holiday closures are still visible, noise is manageable, and the forecast stays interpretable enough for operations and finance to debate the same result. Working SKU-by-store would add allocation complexity before the demand signal itself was stable.",
+            "The workflow starts with transparent baselines (Naive, Seasonal Naive, moving averages, ETS), then compares interpretable linear models with Prophet and XGBoost on a shared feature set. Configurations are selected on expanding-window validation and scored once on an untouched 365-day test year, so later accuracy claims are not the product of peeking at holdout data.",
+            "Forecast error is also translated into operational language. Each category-day residual is valued at sales-weighted sell_price: under-forecasts read as potential missed demand if inventory were limited to the forecast; over-forecasts read as excess product that would remain after demand was met. Those dollar figures are retail-value exposure — directional decision support, not lost revenue, freed working capital, or profit. Unit cost, margin, and carrying cost are not in the dataset.",
+            "The work stops at the demand signal and that finance-aware reading of error. Allocation, replenishment, safety stock, and order recommendations were left for later once the forecast — and its under-/over-forecast balance — are solid enough to act on.",
         ],
         dataset:
             "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect. Unit residuals on the test period were valued using sales-weighted sell_price to support the exposure analysis.",
@@ -205,8 +205,8 @@ export const projects = [
             "The retail–finance merge is the point: a forecast is only useful if someone can act on the cost of being wrong. Lower aggregate error is not the whole decision. Under-forecasts and over-forecasts create different exposures — missed demand versus excess product on the shelf. In production, model choice should move toward minimizing expected economic cost (stockout cost vs carrying / markdown cost), with category-specific buffers when running short is more expensive than carrying extra inventory.",
         conclusionParagraphs: [
             "Historical POS demand can forecast future category demand well enough to beat simple recent-sales thinking — but the right model depends on the category, and accuracy alone is not enough to choose it.",
-            "What this project contributes is a complete, reproducible path: explore demand patterns, set honest baselines, test interpretable and more flexible models, validate without leakage, evaluate on an untouched year, and translate residuals into retail-value exposure so operations and finance can discuss the same result.",
-            "The practical recommendation is category-specific: prefer simpler models when accuracy is nearly tied (HOBBIES), use XGBoost for FOODS only when the marginal gain justifies maintenance, and treat HOUSEHOLD as the priority for deeper weekday, event, and high-value item analysis. Keep holidays explicit. Keep the holdout untouched. And when time allows, move from point forecasts toward buffers and prediction intervals guided by the relative cost of stockouts versus excess inventory.",
+            "What remains is a complete, reproducible path: explore demand patterns, set honest baselines, test interpretable and more flexible models, validate without leakage, evaluate on an untouched year, and translate residuals into retail-value exposure so operations and finance can discuss the same result.",
+            "In practice that means category-specific choices: prefer simpler models when accuracy is nearly tied (HOBBIES), use XGBoost for FOODS only when the marginal gain justifies maintenance, and treat HOUSEHOLD as the priority for deeper weekday, event, and high-value item analysis. Holidays stay explicit. The holdout stays untouched. And when time allows, point forecasts give way to buffers and prediction intervals guided by the relative cost of stockouts versus excess inventory.",
         ],
         nextSteps: [
             "Measure forecast error by weekday and business-critical demand periods, then set category-specific safety buffers from stockout cost versus carrying cost.",

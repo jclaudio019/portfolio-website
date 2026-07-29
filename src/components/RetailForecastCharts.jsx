@@ -11,20 +11,20 @@ const CAT_COLOR = { FOODS: "#3987e5", HOBBIES: "#d95926", HOUSEHOLD: "#199e70" }
 const INK = "#ececf1";
 const INK_SECONDARY = "#c3c2b7";
 const INK_MUTED = "#898781";
-const GRID = "#2c2c2a";
+const GRID = "rgba(236,236,241,0.06)";
 
 const baseLayout = {
     paper_bgcolor: "rgba(0,0,0,0)",
     plot_bgcolor: "rgba(0,0,0,0)",
     font: { family: "Satoshi, sans-serif", color: INK_SECONDARY, size: 12 },
     margin: { l: 56, r: 16, t: 8, b: 40 },
-    hoverlabel: { bgcolor: "#15151c", bordercolor: GRID, font: { color: INK, family: "JetBrains Mono, monospace", size: 12 } },
+    hoverlabel: { bgcolor: "#15151c", bordercolor: "#2c2c2a", font: { color: INK, family: "JetBrains Mono, monospace", size: 12 } },
     dragmode: "zoom",
 };
 const axis = (extra = {}) => ({
     gridcolor: GRID,
-    zerolinecolor: GRID,
-    linecolor: GRID,
+    zeroline: false,
+    showline: false,
     tickfont: { color: INK_MUTED, family: "JetBrains Mono, monospace", size: 11 },
     ...extra,
 });
