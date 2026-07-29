@@ -190,17 +190,26 @@ def christmas_glow(ax, rolled_series, years=range(2012, 2017)):
             if x not in index:
                 continue
             yv = float(values.loc[x])
-            for size, alpha in ((4200, 0.08), (2400, 0.14), (1100, 0.24)):
-                ax.scatter([x], [yv], s=size, color=ACCENT, alpha=alpha, zorder=3, linewidths=0)
+            ax.scatter([x], [yv], s=2200, color=ACCENT, alpha=0.06, zorder=3, linewidths=0)
             ax.scatter(
                 [x],
                 [yv],
-                s=95,
+                s=1500,
+                facecolors="none",
+                edgecolors=ACCENT,
+                alpha=0.85,
+                zorder=5,
+                linewidths=1.8,
+            )
+            ax.scatter(
+                [x],
+                [yv],
+                s=55,
                 color=ACCENT,
                 alpha=0.98,
-                zorder=5,
+                zorder=6,
                 edgecolors=line_color,
-                linewidths=1.8,
+                linewidths=1.4,
             )
 
 
