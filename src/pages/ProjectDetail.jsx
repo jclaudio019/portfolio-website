@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
-import { ArrowLeft, Github, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, Github, ArrowUpRight, ChevronDown } from "lucide-react";
 import { projects } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
@@ -11,6 +11,29 @@ const Section = ({ label, children }) => (
         <h2 className="font-mono text-xs uppercase tracking-widest text-teal">{label}</h2>
         <div className="text-navy/80">{children}</div>
     </Reveal>
+);
+
+/** Baseline + chosen model per category, so the headline contrast reads without the full grid. */
+const compactExposure = (rows = []) => {
+    const byCategory = new Map();
+    rows.forEach((row) => {
+        if (!byCategory.has(row.category)) byCategory.set(row.category, []);
+        byCategory.get(row.category).push(row);
+    });
+    return [...byCategory.values()].flatMap((group) =>
+        group.length > 1 ? [group[0], group[group.length - 1]] : group
+    );
+};
+
+/** Progressive disclosure so the page stays scannable; detail stays one click away. */
+const Disclosure = ({ summary, children }) => (
+    <details className="group mt-4 border border-navy/10 bg-surface/40">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/60 transition-colors hover:text-navy">
+            {summary}
+            <ChevronDown size={14} className="shrink-0 transition-transform group-open:rotate-180" />
+        </summary>
+        <div className="border-t border-navy/10 px-4 py-5">{children}</div>
+    </details>
 );
 
 export default function ProjectDetail() {
@@ -33,7 +56,8 @@ export default function ProjectDetail() {
         );
     }
 
-    const next = projects[(index + 1) % projects.length];
+    // Only offer a "next project" when another case study actually exists
+    const next = projects.length > 1 ? projects[(index + 1) % projects.length] : null;
 
     return (
         <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-40" data-testid="project-detail-page">
@@ -124,14 +148,19 @@ export default function ProjectDetail() {
                         <p className="leading-relaxed">{project.dataset}</p>
                     </Section>
                     <Section label="Methodology">
-                        <ul className="space-y-3">
-                            {project.methodology.map((step, i) => (
-                                <li key={i} className="flex gap-3">
-                                    <span className="font-mono text-sm text-teal">{String(i + 1).padStart(2, "0")}</span>
-                                    <span className="leading-relaxed">{step}</span>
-                                </li>
-                            ))}
-                        </ul>
+                        {project.methodologySummary && (
+                            <p className="leading-relaxed">{project.methodologySummary}</p>
+                        )}
+                        <Disclosure summary={`Step-by-step method · ${project.methodology.length} steps`}>
+                            <ul className="space-y-3">
+                                {project.methodology.map((step, i) => (
+                                    <li key={i} className="flex gap-3">
+                                        <span className="font-mono text-sm text-teal">{String(i + 1).padStart(2, "0")}</span>
+                                        <span className="leading-relaxed">{step}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Disclosure>
                     </Section>
                     <Section label="Findings">
                         <p className="leading-relaxed">{project.findings}</p>
@@ -179,26 +208,58 @@ export default function ProjectDetail() {
                                             <tr>
                                                 <th className="px-3 py-3">Category</th>
                                                 <th className="px-3 py-3">Model</th>
-                                                <th className="px-3 py-3">Under-forecast units</th>
                                                 <th className="px-3 py-3">Missed-sales retail value</th>
-                                                <th className="px-3 py-3">Over-forecast units</th>
                                                 <th className="px-3 py-3">Excess-inventory retail value</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {project.financialInterpretation.exposureRows.map((row) => (
-                                                <tr key={`${row.category}-${row.model}`} className="border-t border-navy/10">
+                                            {compactExposure(project.financialInterpretation.exposureRows).map((row) => (
+                                                <tr key={`compact-${row.category}-${row.model}`} className="border-t border-navy/10">
                                                     <td className="px-3 py-2.5 font-mono text-xs text-teal">{row.category}</td>
                                                     <td className="px-3 py-2.5 text-navy/80">{row.model}</td>
-                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.underUnits}</td>
                                                     <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.missedValue}</td>
-                                                    <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.overUnits}</td>
                                                     <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.excessValue}</td>
                                                 </tr>
                                             ))}
                                         </tbody>
                                     </table>
                                 </div>
+                                <Disclosure summary="Full exposure detail · all models and unit counts">
+                                    <div className="overflow-x-auto border border-navy/10">
+                                        <table className="min-w-full text-left text-sm">
+                                            <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                                <tr>
+                                                    <th className="px-3 py-3">Category</th>
+                                                    <th className="px-3 py-3">Model</th>
+                                                    <th className="px-3 py-3">Under-forecast units</th>
+                                                    <th className="px-3 py-3">Missed-sales retail value</th>
+                                                    <th className="px-3 py-3">Over-forecast units</th>
+                                                    <th className="px-3 py-3">Excess-inventory retail value</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {project.financialInterpretation.exposureRows.map((row) => (
+                                                    <tr key={`${row.category}-${row.model}`} className="border-t border-navy/10">
+                                                        <td className="px-3 py-2.5 font-mono text-xs text-teal">{row.category}</td>
+                                                        <td className="px-3 py-2.5 text-navy/80">{row.model}</td>
+                                                        <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.underUnits}</td>
+                                                        <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.missedValue}</td>
+                                                        <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.overUnits}</td>
+                                                        <td className="px-3 py-2.5 font-mono text-xs text-navy/70">{row.excessValue}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-teal hover:text-teal-hover"
+                                    >
+                                        Full report and code <ArrowUpRight size={13} />
+                                    </a>
+                                </Disclosure>
                                 <p className="leading-relaxed">{project.financialInterpretation.takeaway}</p>
                                 <p className="leading-relaxed">{project.financialInterpretation.priorityIntro}</p>
                                 <div className="overflow-x-auto border border-navy/10">
@@ -280,19 +341,21 @@ export default function ProjectDetail() {
                 </div>
 
                 {/* Next project */}
-                <Reveal className="mt-8 border-t border-navy/10 pt-10">
-                    <Link
-                        to={`/projects/${next.slug}`}
-                        data-testid="next-project"
-                        className="group flex items-center justify-between gap-6"
-                    >
-                        <div>
-                            <p className="font-mono text-xs uppercase tracking-widest text-navy/50">Next project</p>
-                            <p className="mt-2 font-display text-2xl font-bold text-navy md:text-3xl">{next.title}</p>
-                        </div>
-                        <ArrowUpRight size={32} className="shrink-0 text-navy/40 transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-teal" />
-                    </Link>
-                </Reveal>
+                {next && (
+                    <Reveal className="mt-8 border-t border-navy/10 pt-10">
+                        <Link
+                            to={`/projects/${next.slug}`}
+                            data-testid="next-project"
+                            className="group flex items-center justify-between gap-6"
+                        >
+                            <div>
+                                <p className="font-mono text-xs uppercase tracking-widest text-navy/50">Next project</p>
+                                <p className="mt-2 font-display text-2xl font-bold text-navy md:text-3xl">{next.title}</p>
+                            </div>
+                            <ArrowUpRight size={32} className="shrink-0 text-navy/40 transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-teal" />
+                        </Link>
+                    </Reveal>
+                )}
             </div>
         </div>
     );
