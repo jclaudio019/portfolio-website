@@ -119,7 +119,7 @@ export const projects = [
         gallery: [
             {
                 src: `${process.env.PUBLIC_URL}/images/retail-demand-sales-seasonality.png`,
-                caption: "Category daily sales (7-day rolling) — weekly rhythm and Christmas demand drops.",
+                caption: "Category daily sales (7-day rolling) — purple markers show Dec 25 demand dropping to near zero.",
             },
             {
                 src: `${process.env.PUBLIC_URL}/images/retail-demand-actual-vs-forecast.png`,

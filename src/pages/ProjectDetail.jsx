@@ -139,12 +139,14 @@ export default function ProjectDetail() {
                             <div className="mt-8 space-y-8">
                                 {project.gallery.map((item) => (
                                     <figure key={item.src} className="border border-navy/10 bg-surface/50">
-                                        <img
-                                            src={item.src}
-                                            alt={item.caption}
-                                            className="w-full object-contain"
-                                            loading="lazy"
-                                        />
+                                        <div className="min-h-[28rem] bg-surface p-2 sm:min-h-[32rem] sm:p-4">
+                                            <img
+                                                src={item.src}
+                                                alt={item.caption}
+                                                className="h-full w-full object-contain"
+                                                loading="lazy"
+                                            />
+                                        </div>
                                         <figcaption className="border-t border-navy/10 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/40">
                                             {item.caption}
                                         </figcaption>
