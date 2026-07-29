@@ -69,12 +69,18 @@ export default function ProjectDetail() {
 
                 {/* Hero image */}
                 <Reveal className="mt-12">
-                    <div className="aspect-[16/9] overflow-hidden border border-navy/10">
-                        <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
+                    <div className="aspect-[16/9] overflow-hidden border border-navy/10 bg-cream">
+                        <img
+                            src={project.image}
+                            alt={`${project.title} results overview`}
+                            className="h-full w-full object-cover object-top"
+                        />
                     </div>
-                    <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-navy/40">
-                        Placeholder — replace with a real project screenshot or chart.
-                    </p>
+                    {project.imageCaption && (
+                        <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-navy/40">
+                            {project.imageCaption}
+                        </p>
+                    )}
                 </Reveal>
 
                 {/* Metrics */}
@@ -96,6 +102,11 @@ export default function ProjectDetail() {
                     <Section label="Business Problem">
                         <p className="leading-relaxed">{project.problem}</p>
                     </Section>
+                    {project.solution && (
+                        <Section label="Solution">
+                            <p className="leading-relaxed">{project.solution}</p>
+                        </Section>
+                    )}
                     <Section label="Dataset">
                         <p className="leading-relaxed">{project.dataset}</p>
                     </Section>
@@ -121,17 +132,28 @@ export default function ProjectDetail() {
                             >
                                 <RetailForecastCharts />
                             </Suspense>
-                        ) : (
-                            <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                                <span className="font-mono text-xs uppercase tracking-widest text-navy/40">
-                                    Chart placeholder — add a results visualization here
-                                </span>
-                            </div>
-                        )}
+                        ) : null}
                     </Section>
                     <Section label="Business Implications">
                         <p className="leading-relaxed">{project.implications}</p>
                     </Section>
+                    {project.conclusion && (
+                        <Section label="Conclusion">
+                            <p className="leading-relaxed">{project.conclusion}</p>
+                        </Section>
+                    )}
+                    {project.limitations?.length > 0 && (
+                        <Section label="Limitations">
+                            <ul className="space-y-3">
+                                {project.limitations.map((item, i) => (
+                                    <li key={i} className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
+                                        <span className="leading-relaxed">{item}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Section>
+                    )}
                     <Section label="Technologies">
                         <div className="flex flex-wrap gap-2">
                             {project.tech.map((t) => (

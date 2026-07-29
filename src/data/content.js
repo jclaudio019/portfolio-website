@@ -112,9 +112,10 @@ export const projects = [
         title: "Retail Demand Forecasting",
         category: "Forecasting",
         summary:
-            "Forecasted daily retail POS demand across three product categories, comparing baseline, statistical, and machine-learning models with leakage-safe expanding-window validation and an untouched 365-day test year.",
-        image:
-            "https://images.unsplash.com/photo-1644088379091-d574269d422f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTJ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMGRhdGElMjB2aXN1YWxpemF0aW9ufGVufDB8fHx8MTc4NDIxMjA2OHww&ixlib=rb-4.1.0&q=85",
+            "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — comparing baselines, statistical models, and machine learning on expanding-window validation and an untouched 365-day test year.",
+        image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.svg`,
+        imageCaption:
+            "Project results graphic: Naive vs best-model test WAPE by category, plus the end-to-end workflow from data prep through untouched holdout evaluation.",
         tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
@@ -123,23 +124,34 @@ export const projects = [
             { label: "Untouched test period", value: "365 days" },
         ],
         problem:
-            "Retail teams need a dependable view of expected daily demand before they can plan labor, replenishment inputs, or inventory reviews. Recent averages alone miss recurring weekly patterns, longer-term demand shifts, and calendar disruptions like Christmas closures. This project builds the forecasting layer: estimating future daily category-level demand from historical POS sales, producing a defensible demand signal a downstream planning process could use.",
+            "Retail teams need a reliable view of expected daily demand before they can plan staffing, inventory reviews, and other downstream operations. Using recent sales alone often misses recurring weekly patterns, changes in demand level, and known calendar disruptions such as Christmas closures. Without a defensible forecast, planners lack a clear demand signal to support those decisions.",
+        solution:
+            "This project delivers a category-level demand forecasting process for daily point-of-sale unit sales in FOODS, HOBBIES, and HOUSEHOLD. Historical sales are evaluated with expanding-window validation, then pre-specified models are compared once on an untouched 365-day test period. The output is a transparent, leakage-safe forecast signal a downstream planning process could use — without claiming allocation, replenishment, or safety-stock decisions that were intentionally out of scope.",
         dataset:
-            "The M5 retail dataset (Walmart daily unit sales), aggregated to daily category-level POS demand for FOODS, HOBBIES, and HOUSEHOLD. Training spanned 2011–2014, with a 365-day validation year split into 13 expanding monthly windows and a final untouched 365-day test year (2015–2016).",
+            "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect.",
         methodology: [
-            "Established transparent benchmarks — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful baselines.",
-            "Engineered leakage-safe lag, rolling, trend, calendar, and Christmas features; multi-day forecasts were recursive since future actuals are unknown.",
-            "Compared Linear Regression, Prophet, and XGBoost against baselines across 13 expanding monthly validation windows with identical dates, horizons, and metrics (MAE, RMSE, WAPE).",
-            "Froze validation-selected models per category, then evaluated them once on the untouched 365-day test year.",
+            "Prepared and validated the analytical data, then explored weekly seasonality, category behavior, and calendar effects.",
+            "Established transparent baselines — Naive, Seasonal Naive, 7-day SMA, and ETS — so advanced models had to beat meaningful benchmarks.",
+            "Built Linear Regression with lag, rolling, trend, calendar, and Christmas features (full and reduced versions via permutation importance).",
+            "Tested Prophet with weekly/yearly seasonality and Christmas as a holiday, plus XGBoost on the shared feature set with small, pre-specified configurations.",
+            "Compared models across 13 expanding monthly validation windows with identical dates, horizons, and metrics (WAPE primary; MAE and RMSE also tracked).",
+            "Froze validation-selected models per category, then evaluated every pre-specified model once on the untouched 365-day test year — with no post-test tuning.",
         ],
         findings:
-            "Every advanced model beat the Naive benchmark on the test year, but no single model won everywhere: XGBoost was strongest for FOODS (10.22% WAPE vs 16.10% Naive), while interpretable Linear Regression won HOUSEHOLD (7.05% vs 19.88%) and ETS/Prophet were nearly tied with XGBoost on HOBBIES. Added model complexity earned its place only category by category.",
+            "Every evaluated alternative improved on the Naive benchmark (FOODS 16.10%, HOBBIES 17.47%, HOUSEHOLD 19.88% test WAPE). Best observed test models: XGBoost Faster for FOODS at 10.22% (−5.88 pts vs Naive), XGBoost Shallow for HOBBIES at 8.00% (−9.47 pts), and Linear Regression (Full) for HOUSEHOLD at 7.05% (−12.83 pts). No single model won everywhere: ETS was nearly as accurate as XGBoost on FOODS (+0.47 WAPE), HOBBIES was effectively a near-tie among XGBoost, Prophet, and ETS, and HOUSEHOLD favored the interpretable linear model over more complex alternatives. Validation winners also shifted on the holdout for HOBBIES and HOUSEHOLD — an important finding that reinforces keeping test data untouched rather than retuning after the fact.",
         implications:
-            "The results support category-specific forecasting rather than one model for all demand patterns. When a simpler model is nearly as accurate, it is often preferable — easier to explain, maintain, and monitor. Holiday disruptions should be represented explicitly, and validation rankings shifting on unseen data shows why an untouched test period matters before deploying a forecast.",
+            "The business takeaway is category-specific forecasting: model complexity should be justified by category-level value, not assumed to be better. FOODS may justify XGBoost when the marginal gain matters; otherwise ETS is a credible simpler option. HOBBIES does not clearly justify a much more complex workflow. HOUSEHOLD is the strongest case for the interpretable Linear Regression result. Operationally, lower aggregate error is not the whole decision — under-forecasts and over-forecasts create different inventory exposures, so the next practical step is weekday- and event-aware buffers guided by the cost of a stockout relative to the cost of carrying inventory.",
+        conclusion:
+            "Historical POS demand can forecast future category demand accurately enough to beat simple recent-sales thinking, but the right model depends on the category. This project shows a complete, reproducible path from data preparation through baseline comparison, feature-based modeling, leakage-safe validation, and a fixed holdout evaluation — ending with a clear recommendation: choose models by category, prefer simpler approaches when accuracy is nearly tied, treat holidays explicitly, and keep an untouched test period before deploying a forecast.",
+        limitations: [
+            "Forecasts are at the daily category level, not SKU-store level.",
+            "Price, promotions, substitutions, stockouts, and inventory availability were not modeled as predictive inputs.",
+            "Recursive multi-day forecasts can accumulate error through lag and rolling features.",
+            "The test period is one historical year; demand changes should be monitored on future data.",
+            "Allocation, replenishment, safety stock, and order recommendations were intentionally out of scope.",
+        ],
     },
     // TODO: Add additional verified project case studies when ready.
-    // Placeholder projects removed: inventory-allocation-replenishment,
-    // credit-risk-pd-model, financial-time-series-forecasting
 ];
 
 export const experience = [
