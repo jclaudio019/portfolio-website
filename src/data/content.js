@@ -4,11 +4,12 @@
 
 export const profile = {
     name: "Jose Claudio",
-    role: "Analytics | Finance, Supply Chain & Applied Statistics",
-    roleShort: "Analytics, Forecasting & Business Decisions",
+    role: "Applied Analytics | Forecasting, Statistical Modeling & Decision Support",
+    roleShort: "Forecasting, Modeling, Automation & Business Decision Support",
     location: "Orange City, Florida",
     availability: [
         "Open to remote, hybrid, and on-site opportunities",
+        "Willing to relocate for the right opportunity",
     ],
     email: "jose.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
@@ -18,9 +19,9 @@ export const profile = {
     resumeUrl: null,
     education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
     heroIntro:
-        "I combine experience in finance, supply chain, and operations with Python, forecasting, statistics, and automation.",
+        "I combine 5+ years of experience across finance, supply chain, and operations with Python, SQL, statistical modeling, forecasting, and automation to solve practical business problems.",
     heroSupport:
-        "I am also pursuing an M.S. in Applied Statistics and building projects around real business questions.",
+        "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused analytics projects that connect rigorous methods with real operational and financial questions.",
 };
 
 export const marqueeItems = [
@@ -43,46 +44,32 @@ export const aboutChapters = [
         n: "01",
         title: "How It Started",
         paragraphs: [
-            "Hi, I'm Jose. I'm originally from Puerto Rico and currently based in Orange City, Florida. My path into analytics began while I was completing my bachelor's degree in finance.",
-            "I had always been interested in technology, but during my senior year, I took courses in computer science and data analysis for finance that introduced me to Python. Once I began using it, I was amazed by the possibilities. Programming gave me a way to explore data, test ideas, automate repetitive work, and turn questions into practical solutions.",
+            "Hi, I'm Jose. I'm originally from Puerto Rico and currently based in Orange City, Florida. My path into analytics began while I was completing my bachelor's degree in finance at Bryant University.",
+            "During my senior year, courses in computer science and data analysis for finance introduced me to Python. Programming gave me a practical way to explore data, test assumptions, automate repetitive work, and turn business questions into solutions.",
         ],
     },
     {
         n: "02",
-        title: "Early Projects",
+        title: "Professional Application",
         paragraphs: [
-            "Some of my earliest projects used linear and logistic regression to explore real-world data, including temperature data from NASA. I also used Python to test investment ideas and built a simple backtester with moving averages, the Relative Strength Index, and the stochastic oscillator.",
-            "That project was simple compared with the work I do today, but it changed how I thought about analytics. I realized that programming was not only about writing code. It was a way to study a problem, define assumptions, test possible solutions, and learn from the results.",
+            "Since graduating, I have built more than five years of experience across finance, accounting, supply chain, inventory planning, and analytics. That combination has taught me to examine both the numbers and the business process behind them.",
+            "In my current role, I develop POS-driven forecasts and allocation analyses for retail accounts within a $40M+ product portfolio. I use Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support inventory and working-capital decisions. I also led a $1M+ inventory validation initiative that improved data accuracy by 15%.",
         ],
     },
     {
         n: "03",
-        title: "Professional Application",
+        title: "Why Applied Statistics",
         paragraphs: [
-            "After graduating, I gained experience across finance, accounting, supply chain, and operations. Although I enjoyed working in finance, supply chain gave me more opportunities to work directly with forecasting, automation, inventory decisions, and large operational datasets.",
-            "In my current work, I use tools such as Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support forecasting and inventory allocation decisions. I have contributed to allocation models used across the organization, developed automated reporting processes, and led a validation initiative involving more than $1 million in inventory that improved data accuracy by 15%.",
+            "As my analytical work became more advanced, I wanted a deeper understanding of the methods behind the models—not only how to use them, but when they are appropriate, which assumptions matter, and how to evaluate their results.",
+            "I am now pursuing an M.S. in Applied Statistics at Purdue University. My graduate work in regression, probability, statistical inference, and time-series analysis is strengthening how I approach forecasting, model evaluation, uncertainty, and analytical communication.",
         ],
     },
     {
         n: "04",
-        title: "Why Applied Statistics",
+        title: "What I Build Now",
         paragraphs: [
-            "Graduate coursework in financial mathematics introduced me to stochastic processes and made me want a stronger foundation in statistics. I wanted to understand not only how to use a method, but also when it is appropriate and how its assumptions affect the result.",
-            "I am now pursuing a master's degree in applied statistics at Purdue University. My coursework includes linear regression, probability, and statistical inference.",
-        ],
-    },
-    {
-        n: "05",
-        title: "What Motivates Me",
-        paragraphs: [
-            "What continues to motivate me is the opportunity to understand how a process works, identify where it can be improved, and build a practical solution. Sometimes that means automating a report. Other times, it means developing a forecasting model, investigating an unexpected pattern, or translating complex data into information that people can use to make better decisions.",
-        ],
-    },
-    {
-        n: "06",
-        title: "This Portfolio",
-        paragraphs: [
-            "This portfolio brings together my experience in finance and operations with my work in statistics, programming, and forecasting. Each project starts with a practical question and explains the result, the limitations, and what I learned.",
+            "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, allocation logic, and market-expansion research.",
+            "Each project is built around a real business question and documents the methods, assumptions, limitations, and decision implications—not only the final output. My goal is to build analytical solutions that are technically sound, explainable, and useful to the people making the decision.",
         ],
     },
 ];
@@ -93,7 +80,7 @@ export const educationEntries = [
         location: "West Lafayette, Indiana",
         degree: "M.S. in Applied Statistics",
         date: "Expected May 2027",
-        coursework: ["Linear Regression", "Probability", "Statistical Inference"],
+        coursework: ["Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis"],
     },
     {
         school: "Bryant University",
@@ -398,110 +385,133 @@ export const projects = [
     },
 ];
 
-export const experience = [
+export const professionalExperience = [
     {
-        theme: "Supply Chain & Inventory Analysis",
-        icon: "boxes",
-        blurb:
-            "Forecasting, inventory allocation, and data validation across supply chain and operations.",
-        points: [
-            "Contributed to allocation models used across the organization.",
-            "Led a validation initiative involving more than $1 million in inventory that improved data accuracy by 15%.",
-            "Supported forecasting and inventory allocation decisions using Python, Excel, VBA, and Power Query.",
+        company: "EssilorLuxottica",
+        title: "Supply Chain Analyst",
+        dates: "April 2022 — Present",
+        summary:
+            "Apply forecasting, inventory analytics, automation, and financial interpretation to support retail planning and operational decisions.",
+        bullets: [
+            "Develop POS-driven demand forecasts and inventory-allocation analyses for assigned retail accounts within a $40M+ product portfolio.",
+            "Translate unit-level demand and inventory signals into revenue and working-capital views for planning and performance analysis.",
+            "Automate recurring reporting, KPI consolidation, and data-validation workflows using Python, Excel, VBA, and Power Query.",
+            "Led a $1M+ inventory validation initiative that improved data accuracy by 15%.",
+            "Partner with sales, merchandising, planning, finance, and operations stakeholders to improve product availability and support business decisions.",
         ],
     },
     {
-        theme: "Reporting & Process Automation",
-        icon: "workflow",
-        blurb:
-            "Automated recurring reports and validation checks to reduce manual work and improve data reliability.",
-        points: [
-            "Developed automated reporting processes using Python, Excel, VBA, and Power Query.",
-            "Built validation checks and KPI reporting to support cross-functional decision-making.",
-            "Used Power BI and Tableau to communicate performance and operational trends.",
+        company: "Rexel USA",
+        title: "Financial & Accounting Analyst",
+        dates: "July 2021 — April 2022",
+        summary:
+            "Supported financial reporting, forecasting, reconciliations, and scenario analysis across regional and national finance processes.",
+        bullets: [
+            "Supported monthly and quarterly financial reporting, close activities, and forecast-versus-actual analysis.",
+            "Performed reconciliations for real estate and equipment lease accounts under IFRS standards and posted related entries in Oracle.",
+            "Modeled financial outcomes based on commodity-price and supplier-pricing changes to support short-term planning.",
+            "Prepared KPI analyses, financial reporting packages, and presentations for leadership.",
         ],
     },
     {
-        theme: "Finance, Forecasting & Decision Support",
-        icon: "trending-up",
-        blurb:
-            "Used analytics across finance, accounting, supply chain, and operations to support practical decisions.",
-        points: [
-            "Supported forecasting workflows and performance analysis in operational and financial contexts.",
-            "Analyzed large operational datasets to inform inventory, allocation, and reporting decisions.",
-            "Translated analytical results into information stakeholders could use for planning and review.",
+        company: "FGX International",
+        title: "Vendor Managed Inventory Analyst",
+        dates: "January 2021 — July 2021",
+        summary:
+            "Supported retail inventory planning, replenishment, product availability, and sales-trend analysis.",
+        bullets: [
+            "Managed inventory planning and replenishment activities for retail accounts.",
+            "Analyzed POS and sales trends to investigate in-stock issues and support seasonal inventory planning.",
+            "Partnered with supply and demand planning teams to resolve inventory challenges and improve product availability.",
         ],
     },
 ];
 
+export const earlierExperience = {
+    roles: [
+        "Internal Auditor Intern — Neighborhood Health Plan of Rhode Island",
+        "Retail Operations — The Home Depot",
+    ],
+    summary:
+        "Earlier experience in internal-audit support and retail operations contributed to my understanding of controls, compliance, fulfillment, and frontline business processes.",
+};
+
 export const skillGroups = [
     {
-        title: "Analytics & Operations",
+        title: "Analytics & Decision Support",
         items: [
             { label: "Forecasting", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
+            "Variance Analysis",
             { label: "Inventory Analysis", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
-            { label: "KPI Reporting", projectSlugs: ["retail-demand-forecasting"] },
+            "Working Capital Analysis",
+            "KPI Reporting",
             { label: "Data Validation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
-            { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r"] },
+            { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r", "warehouse-club-market-expansion"] },
+            "Reporting Automation",
         ],
     },
     {
         title: "Programming & Data",
         items: [
             { label: "Python", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
-            { label: "R", projectSlugs: ["time-series-analysis-r"] },
             "SQL",
+            { label: "R", projectSlugs: ["time-series-analysis-r"] },
+            { label: "pandas", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "NumPy", projectSlugs: ["credit-risk-pd-model"] },
             { label: "Excel", projectSlugs: ["retail-allocation-simulator"] },
             "VBA",
             "Power Query",
-            { label: "pandas", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
-            { label: "NumPy", projectSlugs: ["credit-risk-pd-model"] },
+            "Git & GitHub",
             { label: "Jupyter", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "pytest", projectSlugs: ["retail-allocation-simulator"] },
         ],
     },
     {
-        title: "Machine Learning & Forecasting",
+        title: "Modeling & Statistics",
         items: [
+            { label: "Time-Series Analysis", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
+            { label: "Forecast Validation", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
             { label: "Machine Learning", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
-            { label: "scikit-learn", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
-            { label: "XGBoost", projectSlugs: ["retail-demand-forecasting"] },
-            { label: "statsmodels", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
-            { label: "Prophet", projectSlugs: ["retail-demand-forecasting"] },
-            { label: "ARIMA", projectSlugs: ["time-series-analysis-r"] },
-        ],
-    },
-    {
-        title: "Visualization",
-        items: ["Power BI", "Tableau", "Excel (advanced)", "Dashboard Design"],
-    },
-    {
-        title: "Business & Research",
-        items: [
-            { label: "Supply Chain", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
-            { label: "Finance", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
-            "Accounting",
-            { label: "Operations", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
-            { label: "Market Research", projectSlugs: ["warehouse-club-market-expansion"] },
-            { label: "Public Data", projectSlugs: ["warehouse-club-market-expansion"] },
-            { label: "Business Strategy", projectSlugs: ["warehouse-club-market-expansion"] },
-        ],
-    },
-    {
-        title: "Statistical Methods",
-        items: [
             { label: "Linear Regression", projectSlugs: ["retail-demand-forecasting"] },
             { label: "Logistic Regression", projectSlugs: ["credit-risk-pd-model"] },
-            { label: "Probability", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "Statistical Inference", projectSlugs: ["time-series-analysis-r"] },
-            { label: "Time Series Analysis", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
+            { label: "Probability", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
+            { label: "Feature Engineering", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "Model Evaluation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "ROC-AUC", projectSlugs: ["credit-risk-pd-model"] },
+            { label: "WoE & Information Value", projectSlugs: ["credit-risk-pd-model"] },
+            { label: "Scorecard Development", projectSlugs: ["credit-risk-pd-model"] },
+        ],
+    },
+    {
+        title: "Visualization & Communication",
+        items: [
+            "Power BI",
+            "Tableau",
+            "Matplotlib",
+            "Plotly",
+            "Dashboard Design",
+            "Executive Reporting",
+            "Analytical Storytelling",
+        ],
+    },
+    {
+        title: "Business Domains",
+        items: [
+            { label: "Finance", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "Supply Chain", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            { label: "Retail Operations", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            { label: "Inventory & Allocation", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            "Financial Planning & Analysis",
+            { label: "Market Research", projectSlugs: ["warehouse-club-market-expansion"] },
+            { label: "Business Strategy", projectSlugs: ["warehouse-club-market-expansion"] },
         ],
     },
 ];
 
 export const resumeHighlights = [
-    { label: "Location", value: "Orange City, Florida" },
-    { label: "Education", value: "M.S. Applied Statistics, Purdue University (Expected May 2027)" },
-    { label: "Toolset", value: "Python · SQL · Excel · VBA · Power Query · Power BI · Tableau" },
-    { label: "Focus", value: "Finance · Supply Chain · Forecasting · Applied Statistics" },
+    { label: "Location", value: "Orange City, Florida · Open to relocation" },
+    { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
+    { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
+    { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
 ];

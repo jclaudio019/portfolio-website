@@ -33,23 +33,26 @@ const renderSkills = () => act(() => root.render(
 test("opens a single-project skill directly", () => {
     renderSkills();
 
-    const xgboost = [...container.querySelectorAll("a")].find(({ textContent }) => textContent === "XGBoost");
-    expect(xgboost.getAttribute("href")).toBe("/projects/retail-demand-forecasting");
+    const logisticRegression = [...container.querySelectorAll("a")].find(({ textContent }) => textContent === "Logistic Regression");
+    expect(logisticRegression.getAttribute("href")).toBe("/projects/credit-risk-pd-model");
 });
 
 test("reveals project choices for a multi-project skill", () => {
     renderSkills();
 
-    const scikitLearn = [...container.querySelectorAll("button")].find(({ textContent }) => textContent === "scikit-learn");
-    expect(scikitLearn.getAttribute("aria-expanded")).toBe("false");
+    const decisionSupport = [...container.querySelectorAll("button")].find(({ textContent }) => textContent === "Decision Support");
+    expect(decisionSupport.getAttribute("aria-expanded")).toBe("false");
 
-    act(() => scikitLearn.dispatchEvent(new MouseEvent("click", { bubbles: true })));
+    act(() => decisionSupport.dispatchEvent(new MouseEvent("click", { bubbles: true })));
 
-    expect(scikitLearn.getAttribute("aria-expanded")).toBe("true");
+    expect(decisionSupport.getAttribute("aria-expanded")).toBe("true");
     const links = [...container.querySelectorAll("[data-testid='skill-project-choice']")];
     expect(links.map(({ textContent }) => textContent.replace("↗", ""))).toEqual([
         "Retail Demand Forecasting",
         "Credit Risk Probability of Default",
+        "Retail Allocation Simulator",
+        "Time-Series Analysis & Forecasting in R",
+        "Warehouse Club Market Expansion",
     ]);
 });
 
