@@ -72,9 +72,19 @@ export default function ProjectDetail() {
                 </Link>
 
                 <Reveal>
-                    <p className="mt-10 font-mono text-xs uppercase tracking-widest text-teal">
-                        {String(index + 1).padStart(2, "0")} — {project.category}
-                    </p>
+                    <div className="mt-10 flex flex-wrap items-center gap-3">
+                        <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                            {String(index + 1).padStart(2, "0")} — {project.category}
+                        </p>
+                        {project.status && (
+                            <span
+                                data-testid="project-status"
+                                className="bg-teal px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-cream"
+                            >
+                                {project.status}
+                            </span>
+                        )}
+                    </div>
                     <h1 className="mt-4 font-display text-4xl font-extrabold leading-[0.95] tracking-tighter text-navy sm:text-5xl md:text-6xl">
                         {project.title}
                     </h1>
@@ -97,7 +107,7 @@ export default function ProjectDetail() {
                     <div className="overflow-hidden border border-navy/10 bg-surface">
                         <img
                             src={project.image}
-                            alt={`${project.title} results overview`}
+                            alt={`${project.title} project overview`}
                             className="h-full w-full object-contain object-top"
                         />
                     </div>

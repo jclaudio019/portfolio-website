@@ -113,7 +113,7 @@ export const projects = [
         category: "Forecasting",
         summary:
             "Built a leakage-safe forecasting process for daily category-level POS demand across FOODS, HOBBIES, and HOUSEHOLD — then translated forecast error into retail-value exposure so accuracy could be discussed in operations and finance terms, not only as WAPE.",
-        image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero.png`,
+        image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero-v2.png`,
         imageCaption:
             "Portfolio overview from the project data: headline metrics, category demand over time, and Friday–Sunday seasonality.",
         gallery: [
@@ -232,7 +232,7 @@ export const projects = [
         category: "Credit Risk Modeling",
         summary:
             "Credit decisions require more than predicting who may default: lenders need a consistent way to rank relative risk, examine tradeoffs, and challenge model output. This case study builds that transparent foundation from historical Lending Club outcomes.",
-        image: `${process.env.PUBLIC_URL}/images/credit-risk-pd-model-hero.svg`,
+        image: `${process.env.PUBLIC_URL}/images/credit-risk-pd-model-hero-v2.png`,
         imageCaption:
             "Held-out ranking evidence and the score-to-risk relationship from the historical Lending Club analysis.",
         tech: ["Python", "pandas", "NumPy", "statsmodels", "scikit-learn", "Jupyter"],
@@ -281,6 +281,112 @@ export const projects = [
             "Advanced models may improve discrimination, but complexity must be justified against interpretability, stability, calibration, validation, auditability, implementation cost, and stakeholder explainability.",
             "IFRS 9 is an accounting standard and financial-reporting framework; this analysis does not comply with IFRS 9 and has no 12-month/lifetime ECL framework, SICR staging, origination-to-reporting-date comparison, forward-looking probability-weighted macroeconomic scenarios, calibrated term structure, LGD, EAD, or effective-interest-rate discounting.",
             "Historical Lending Club accounts may not represent a current institution, portfolio, policy, or economic environment.",
+        ],
+    },
+    {
+        slug: "retail-allocation-simulator",
+        title: "Retail Allocation Simulator",
+        category: "Retail Operations",
+        summary:
+            "Automates a weekly store-item allocation process so limited distribution-center inventory follows consistent business rules, protects the strongest sales opportunities, and remains auditable in Excel.",
+        image: `${process.env.PUBLIC_URL}/images/retail-allocation-simulator-hero.png`,
+        imageCaption:
+            "A distribution-center-to-store flow represents the allocation decision itself—not a forecast or an optimization claim.",
+        tech: ["Python", "pandas", "Excel", "XlsxWriter", "pytest"],
+        github: "https://github.com/jclaudio019/retail-allocation-simulator",
+        metrics: [
+            { label: "Store-item rows", value: "325K" },
+            { label: "Fictional stores", value: "1,800" },
+            { label: "Audit tabs", value: "13" },
+        ],
+        metricsNote:
+            "The included large example is independently generated fictional data; it does not reproduce employer records, identifiers, or proprietary materials.",
+        problem:
+            "When available inventory cannot satisfy every suggested store order, a retailer needs a repeatable way to decide which locations receive product. Manual reductions or additions can become inconsistent, difficult to review, and disconnected from store need, recent sales, shipment minimums, and inventory constraints.",
+        solutionParagraphs: [
+            "The simulator evaluates one weekly allocation snapshot and classifies each item as balanced, short, or available for an increase. It then applies explicit rank, inventory, sales, capacity, line-limit, shipment, and optional dollar-target rules to produce a final recommendation.",
+            "The result is delivered as an Excel workbook with a final allocation, availability validation, approval flags, and supporting audit tabs. Reviewers can trace why units were added, reduced, retained, or excluded without relying on a black-box score.",
+            "The project intentionally stops at allocation. It does not forecast demand, determine purchasing quantities, optimize transportation, or represent a production deployment.",
+        ],
+        dataset:
+            "The included large weekly example contains 325,000 unique store-item rows across 1,800 fictional stores and 380 fictional items in two retail categories. Recent Item Sales is an illustrative year-to-date measure, and store ranks run from A1 through E. All values are independently generated for the portfolio.",
+        methodologySummary:
+            "Validate weekly inputs, classify item availability, apply transparent reduction or increase rules, enforce operational controls, and preserve each decision in a 13-tab Excel output for business review.",
+        methodology: [
+            "Validate the control panel and store-item input for required fields, unique keys, numeric values, and supported operating modes.",
+            "Compare suggested orders with distribution-center availability to identify balanced items, shortages, and inventory that may be allocated.",
+            "Reduce short items using current inventory, store rank, and recent sales-based priority rather than arbitrary cuts.",
+            "Add eligible units only while store capacity, item availability, line limits, minimum-shipment requirements, and target controls permit them.",
+            "Write the final recommendation, availability checks, approval flags, and allocation summaries to an ordered 13-tab workbook for review.",
+        ],
+        findings:
+            "The completed simulator demonstrates that a complex weekly allocation can be expressed as visible business rules and checked end to end. The included scenarios cover shortages, surplus availability, capacity limits, shipment minimums, target accounting, validation, and approval flags; they demonstrate process behavior rather than claiming a measured sales or inventory improvement.",
+        implications:
+            "Operations teams gain a consistent recommendation and a review trail they can challenge before approval. The business value is transparency and repeatability: each allocation remains tied to defined inputs and constraints, while exceptions stay visible instead of being hidden inside an unexplained result.",
+        conclusionParagraphs: [
+            "Limited inventory does not require an opaque model to support a disciplined decision. Explicit prioritization rules, validation controls, and audit-ready outputs can make a weekly allocation process more consistent and easier to review.",
+            "A next production step would require live-system integration, performance monitoring, governance, and measured outcomes. Forecasting, replenishment, purchasing, and transportation decisions remain separate problems.",
+        ],
+        limitations: [
+            "This is a portfolio-scale rule-based simulator, not a production optimization system.",
+            "The example data is fictional and does not establish real-world sales, service-level, or inventory improvements.",
+            "Demand forecasting, purchasing, transportation, routing, and distribution-center operations are outside scope.",
+            "Manual business validation remains necessary even when automated implementation tests pass.",
+        ],
+    },
+    {
+        slug: "warehouse-club-market-expansion",
+        title: "Warehouse Club Market Expansion",
+        category: "Market Strategy",
+        status: "In progress",
+        summary:
+            "Developing a public-data case study for a fictional regional warehouse club to compare U.S. metropolitan markets on commercial potential, operating feasibility, and expansion risk.",
+        image: `${process.env.PUBLIC_URL}/images/warehouse-club-market-expansion-hero.png`,
+        imageCaption:
+            "The regional network concept represents a market-screening question; no final market ranking has been issued.",
+        tech: ["Public Data", "Market Research", "Business Strategy"],
+        github: "https://github.com/jclaudio019/warehouse-club-market-expansion-strategy",
+        metrics: [
+            { label: "Data policy", value: "Public" },
+            { label: "Analysis level", value: "Metro" },
+            { label: "Project status", value: "Research" },
+        ],
+        metricsNote:
+            "Atlas Warehouse Club is fictional. Research is in progress, and no market recommendation or financial outcome has been finalized.",
+        problem:
+            "A warehouse-club market can look attractive on population growth while still carrying heavy competition, labor constraints, weak distribution access, or economic concentration. Atlas Warehouse Club needs a defensible way to compare markets across demand potential and operating feasibility before committing to site-level due diligence.",
+        solutionParagraphs: [
+            "The case study is evaluating whether public data can support a credible metropolitan-market comparison. Candidate evidence is being screened for reliability, geographic coverage, freshness, join compatibility, licensing, and reproducibility before an analytical method is selected.",
+            "The working framework considers membership and demand potential, household purchasing power, competitive whitespace, workforce conditions, supply-chain accessibility, and economic resilience. These remain research hypotheses—not final criteria or weights.",
+            "Any future ranking will be presented as a decision aid for market prioritization and entry sequencing, not a prediction of store profitability, membership conversion, revenue, or customer lifetime value.",
+        ],
+        dataset:
+            "Public sources only. Source feasibility and geographic compatibility are still being evaluated at the U.S. metropolitan level. Fictional client context will remain clearly separated from observed public evidence, proxy variables, analytical assumptions, and interpretation.",
+        methodologySummary:
+            "The current phase is evidence design: define the decision, test candidate public sources, document proxy limitations, and only then choose a reproducible comparison method.",
+        methodology: [
+            "Define the metropolitan-level business decision and separate market screening from site selection and capital approval.",
+            "Evaluate candidate public sources for reliability, coverage, freshness, licensing, and geographic join compatibility.",
+            "Test whether proposed demand, purchasing-power, competition, workforce, access, and resilience indicators are decision-relevant and defensible.",
+            "Document proxy limitations and avoid predictive claims where no observed Atlas outcomes exist.",
+            "Develop and sensitivity-test a comparison framework before presenting any market ranking or entry sequence.",
+        ],
+        findings:
+            "Research and data-feasibility work are still in progress. No metropolitan market has been ranked or recommended, and the provisional working hypothesis has not yet been accepted or rejected by evidence.",
+        implications:
+            "The completed work is intended to narrow where Atlas should invest in deeper due diligence while keeping commercial opportunity and operating risk visible together. It will not replace parcel analysis, lease review, financial underwriting, or final capital approval.",
+        conclusion:
+            "No final conclusion has been reached. The next milestone is a reproducible public-data foundation strong enough to support a transparent market comparison without overstating what proxy measures can prove.",
+        nextSteps: [
+            "Complete the public-source feasibility review and document each source's geographic and time coverage.",
+            "Confirm which proposed indicators are comparable across metropolitan markets and which require defensible proxies.",
+            "Build and sensitivity-test the market comparison before making any prioritization recommendation.",
+        ],
+        limitations: [
+            "Atlas Warehouse Club and its approximately 25-club operating footprint are fictional.",
+            "The project has no observed outcomes for profitability, membership conversion, revenue, or customer lifetime value.",
+            "Metro-level screening cannot answer exact store, parcel, lease, construction-cost, or freight questions.",
+            "Future rankings will be decision aids, not claims of causality, guaranteed performance, or precise profitability.",
         ],
     },
 ];
