@@ -25,10 +25,10 @@ export default function Home() {
                     </motion.p>
 
                     <h1
-                        className="fluid-hero-title font-display font-extrabold leading-[0.92] tracking-tighter text-navy"
+                        className="font-display text-4xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-5xl md:text-6xl lg:text-7xl"
                         data-testid="hero-headline"
                     >
-                        <MaskedLines lines={["I use data to solve"]} />
+                        <MaskedLines lines={["In a world full of answers,"]} />
                         <span className="block overflow-hidden">
                             <motion.span
                                 className="block text-teal"
@@ -36,7 +36,7 @@ export default function Home() {
                                 animate={{ y: "0%" }}
                                 transition={{ duration: 0.9, delay: 0.39, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                practical business problems
+                                better solutions begin with the right questions.
                             </motion.span>
                         </span>
                     </h1>
