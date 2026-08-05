@@ -28,14 +28,28 @@ export default function Skills() {
                                     </span>
                                 </div>
                                 <div className="mt-6 flex flex-wrap gap-2">
-                                    {group.items.map((item) => (
-                                        <span
-                                            key={item}
-                                            className="border border-navy/15 px-3 py-1.5 font-mono text-xs text-navy/70 transition-colors hover:border-teal hover:text-teal"
-                                        >
-                                            {item}
-                                        </span>
-                                    ))}
+                                    {group.items.map((item) => {
+                                        const skill = typeof item === "string" ? { label: item } : item;
+                                        const className = "border border-navy/15 px-3 py-1.5 font-mono text-xs text-navy/70 transition-colors hover:border-teal hover:text-teal";
+
+                                        return skill.href ? (
+                                            <a
+                                                key={skill.label}
+                                                href={skill.href}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                data-testid="skill-evidence-link"
+                                                aria-label={`${skill.label} — view public project evidence on GitHub`}
+                                                className={className}
+                                            >
+                                                {skill.label}
+                                            </a>
+                                        ) : (
+                                            <span key={skill.label} className={className}>
+                                                {skill.label}
+                                            </span>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         </Reveal>

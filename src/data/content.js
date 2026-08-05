@@ -389,6 +389,58 @@ export const projects = [
             "Future rankings will be decision aids, not claims of causality, guaranteed performance, or precise profitability.",
         ],
     },
+    {
+        slug: "time-series-analysis-r",
+        title: "Time-Series Analysis in R",
+        category: "Applied Statistics",
+        summary:
+            "Curated graduate coursework demonstrating how R can be used to diagnose, model, and interpret time-dependent data—from stationarity and autocorrelation through ARIMA forecasting and spectral analysis.",
+        image: `${process.env.PUBLIC_URL}/images/time-series-analysis-r-hero.png`,
+        imageCaption:
+            "A conceptual time-series ribbon moves from repeating historical structure into multiple possible future paths, representing seasonality, lag dependence, and forecast uncertainty.",
+        tech: ["R", "Jupyter", "TSA", "ARIMA", "Forecasting"],
+        github: "https://github.com/jclaudio019/time_series_analysis",
+        metrics: [
+            { label: "Executed notebooks", value: "7" },
+            { label: "Coursework modules", value: "6" },
+            { label: "Primary language", value: "R" },
+        ],
+        metricsNote:
+            "Selected work from graduate Applied Statistics coursework at Purdue University, reorganized and lightly edited for portfolio presentation.",
+        problem:
+            "Time-dependent observations cannot be treated like independent rows in a conventional dataset. Trend, seasonality, changing variance, lag dependence, and nonstationarity can distort conclusions unless they are identified and modeled explicitly. The analytical challenge is to recognize those structures, select a defensible model, test whether residual dependence remains, and communicate what a forecast can and cannot support.",
+        solutionParagraphs: [
+            "This repository organizes six graduate-coursework notebooks and a final project into a reproducible R learning sequence. The notebooks move from transformations and stationarity through ACF/PACF interpretation, ARIMA estimation, residual diagnostics, forecasting, and Fourier methods.",
+            "The featured final project connects those foundations in one workflow. It simulates stochastic processes, analyzes U.S. unemployment, and evaluates an S&P 500 series before producing and interpreting 24-month ARIMA forecasts.",
+            "Each retained notebook runs from top to bottom with its results preserved. Descriptive filenames, project introductions, and a repository guide make the work easier for recruiters and reviewers to navigate without presenting graduate exercises as production forecasting claims.",
+        ],
+        dataset:
+            "Most coursework examples use datasets distributed with the R TSA and astsa packages. The final project also retains two original S&P 500 workbook inputs beside the notebook so its relative file paths remain reproducible. The repository identifies the work as selected graduate coursework rather than official course material or an answer key.",
+        methodologySummary:
+            "Inspect the series, stabilize its behavior where necessary, use correlation structure to identify candidate models, estimate parsimonious ARIMA specifications, test residuals, and interpret forecasts with explicit educational limitations.",
+        methodology: [
+            "Visualized level, trend, seasonality, variance, and unusual observations before specifying a model.",
+            "Applied logarithmic, Box-Cox, and differencing transformations where the original series was nonstationary or heteroskedastic.",
+            "Used ACF and PACF patterns to distinguish tentative autoregressive and moving-average structures.",
+            "Estimated AR, MA, and ARIMA models and compared candidate specifications using coefficients, uncertainty, and AIC.",
+            "Evaluated residual autocorrelation and Ljung-Box results before interpreting forecasts.",
+            "Extended the analysis to stochastic-process simulation and Fourier regression to connect time-domain and frequency-domain concepts.",
+        ],
+        findings:
+            "The coursework shows that model choice follows the structure of the series: transformations and differencing address changing level or variance, ACF/PACF patterns narrow candidate AR and MA forms, and residual checks determine whether meaningful dependence remains. The final project demonstrates those ideas across simulations and two applied forecasting examples without treating a single ARIMA specification as universally optimal.",
+        implications:
+            "For analytical work, the key lesson is procedural rather than model-specific: understand the time structure before forecasting, preserve chronological logic, diagnose what the model leaves behind, and separate an educational forecast from an operational decision rule. The repository also provides direct public evidence of R, Jupyter, time-series, and applied-statistics skills.",
+        conclusionParagraphs: [
+            "Time-series analysis is not simply fitting a curve through historical observations. It requires explicit reasoning about dependence, stationarity, transformations, model adequacy, and uncertainty.",
+            "This collection documents that reasoning across a progression of graduate exercises and a final project. It is a foundation for future forecasting work, not a claim that the included fixed specifications are production-ready or economically actionable.",
+        ],
+        limitations: [
+            "The notebooks are selected graduate coursework and should be interpreted as evidence of learning, not production deployment.",
+            "Several exercises use fixed or limited candidate specifications rather than exhaustive model selection and rolling-origin validation.",
+            "The final-project forecasts are educational and do not support employment, economic-policy, trading, or investment decisions.",
+            "The retained S&P 500 workbook inputs do not include a full external data-provenance pipeline.",
+        ],
+    },
 ];
 
 export const experience = [
@@ -440,7 +492,15 @@ export const skillGroups = [
     },
     {
         title: "Programming & Data",
-        items: ["Python", "SQL", "Excel", "VBA", "Power Query", "pandas"],
+        items: [
+            "Python",
+            { label: "R", href: "https://github.com/jclaudio019/time_series_analysis" },
+            "SQL",
+            "Excel",
+            "VBA",
+            "Power Query",
+            "pandas",
+        ],
     },
     {
         title: "Visualization",
@@ -457,7 +517,7 @@ export const skillGroups = [
             "Logistic Regression",
             "Probability",
             "Statistical Inference",
-            "Time-Series (coursework/projects)",
+            { label: "Time Series Analysis", href: "https://github.com/jclaudio019/time_series_analysis" },
         ],
     },
 ];
