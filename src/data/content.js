@@ -349,7 +349,7 @@ export const projects = [
         metrics: [
             { label: "Data policy", value: "Public" },
             { label: "Analysis level", value: "Metro" },
-            { label: "Project status", value: "Research" },
+            { label: "Project status", value: "In progress" },
         ],
         metricsNote:
             "Atlas Warehouse Club is fictional. Research is in progress, and no market recommendation or financial outcome has been finalized.",
