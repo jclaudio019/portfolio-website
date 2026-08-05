@@ -1,5 +1,6 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
+import { MemoryRouter } from "react-router-dom";
 import Experience from "./Experience";
 
 global.IS_REACT_ACT_ENVIRONMENT = true;
@@ -23,16 +24,27 @@ afterEach(() => {
     container.remove();
 });
 
-test("renders the professional timeline in reverse chronological order", () => {
-    act(() => root.render(<Experience />));
+test("renders impact-first experience and compact professional context", () => {
+    act(() => root.render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Experience />
+        </MemoryRouter>
+    ));
 
-    const roles = [...container.querySelectorAll("[data-testid='experience-role']")];
-    expect(roles.map(({ textContent }) => textContent)).toEqual([
-        expect.stringContaining("EssilorLuxottica"),
-        expect.stringContaining("Rexel USA"),
-        expect.stringContaining("FGX International"),
+    const areas = [...container.querySelectorAll("[data-testid='experience-impact-area']")];
+    expect(areas.map(({ textContent }) => textContent)).toEqual([
+        expect.stringContaining("Forecasting, Inventory & Decision Support"),
+        expect.stringContaining("Automation, Reporting & Data Validation"),
+        expect.stringContaining("Finance, Modeling & Performance Analysis"),
     ]);
-    expect(container.textContent).toContain("Earlier experience");
-    expect(container.textContent).toContain("Internal Auditor Intern — Neighborhood Health Plan of Rhode Island");
-    expect(container.textContent).toContain("Retail Operations — The Home Depot");
+    expect(container.textContent).toContain("Organized by the problems I solve, not job titles.");
+    expect(container.textContent).toContain("Professional Context");
+    expect(container.textContent).toContain("EssilorLuxottica — Supply Chain Analyst");
+    expect(container.textContent).not.toContain("April 2022");
+    expect(container.textContent).not.toContain("Home Depot");
+
+    const projectLinks = [...container.querySelectorAll("[data-testid='experience-project-link']")];
+    expect(projectLinks.some(({ href }) => href.endsWith("/projects/credit-risk-pd-model"))).toBe(true);
+    expect(container.querySelector("a[href='https://www.linkedin.com/in/jclaudio019']")).not.toBeNull();
+    expect(container.textContent).toContain("Resume available on request");
 });

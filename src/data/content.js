@@ -19,24 +19,24 @@ export const profile = {
     resumeUrl: null,
     education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
     heroIntro:
-        "I combine 5+ years of experience across finance, supply chain, and operations with Python, SQL, statistical modeling, forecasting, and automation to solve practical business problems.",
+        "I bring 5+ years of experience across finance, supply chain, inventory planning, and analytics, using Python, SQL, statistical modeling, forecasting, and automation to support practical business decisions.",
     heroSupport:
-        "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused analytics projects that connect rigorous methods with real operational and financial questions.",
+        "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused projects that connect rigorous analytical methods with operational and financial questions.",
 };
 
 export const marqueeItems = [
     "Forecasting",
-    "Supply Chain",
+    "Statistical Modeling",
     "Python",
     "SQL",
-    "Excel",
-    "VBA",
-    "Power Query",
-    "Power BI",
-    "Tableau",
-    "Statistical Modeling",
+    "Machine Learning",
+    "Decision Support",
     "Reporting Automation",
     "Inventory Analysis",
+    "Finance",
+    "Supply Chain",
+    "Power BI",
+    "Applied Statistics",
 ];
 
 export const aboutChapters = [
@@ -53,7 +53,7 @@ export const aboutChapters = [
         title: "Professional Application",
         paragraphs: [
             "Since graduating, I have built more than five years of experience across finance, accounting, supply chain, inventory planning, and analytics. That combination has taught me to examine both the numbers and the business process behind them.",
-            "In my current role, I develop POS-driven forecasts and allocation analyses for retail accounts within a $40M+ product portfolio. I use Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support inventory and working-capital decisions. I also led a $1M+ inventory validation initiative that improved data accuracy by 15%.",
+            "In my current work, I develop POS-driven forecasts and allocation analyses for retail accounts within a $40M+ product portfolio. I use Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support inventory and working-capital decisions. I also led a $1M+ inventory-validation initiative that improved data accuracy by 15%.",
         ],
     },
     {
@@ -69,7 +69,7 @@ export const aboutChapters = [
         title: "What I Build Now",
         paragraphs: [
             "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, allocation logic, and market-expansion research.",
-            "Each project is built around a real business question and documents the methods, assumptions, limitations, and decision implications—not only the final output. My goal is to build analytical solutions that are technically sound, explainable, and useful to the people making the decision.",
+            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. My goal is to build analytical solutions that are technically sound, explainable, and useful to the people making the decision.",
         ],
     },
 ];
@@ -385,55 +385,61 @@ export const projects = [
     },
 ];
 
-export const professionalExperience = [
+export const experienceImpactAreas = [
     {
-        company: "EssilorLuxottica",
-        title: "Supply Chain Analyst",
-        dates: "April 2022 — Present",
-        summary:
-            "Apply forecasting, inventory analytics, automation, and financial interpretation to support retail planning and operational decisions.",
-        bullets: [
-            "Develop POS-driven demand forecasts and inventory-allocation analyses for assigned retail accounts within a $40M+ product portfolio.",
-            "Translate unit-level demand and inventory signals into revenue and working-capital views for planning and performance analysis.",
-            "Automate recurring reporting, KPI consolidation, and data-validation workflows using Python, Excel, VBA, and Power Query.",
-            "Led a $1M+ inventory validation initiative that improved data accuracy by 15%.",
-            "Partner with sales, merchandising, planning, finance, and operations stakeholders to improve product availability and support business decisions.",
+        theme: "Forecasting, Inventory & Decision Support",
+        icon: "boxes",
+        description:
+            "Develop POS-driven forecasts and allocation analyses that connect demand, inventory, revenue, and working-capital considerations.",
+        professionalEvidence: [
+            "Support assigned retail accounts within a $40M+ product portfolio.",
+            "Analyze store- and SKU-level demand, sales, and inventory behavior to support forecasting and allocation decisions.",
+            "Translate unit-level forecasts and inventory signals into revenue, performance, and working-capital views.",
+            "Partner across sales, merchandising, planning, finance, and operations to support product availability and business planning.",
         ],
+        projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator", "time-series-analysis-r"],
     },
     {
-        company: "Rexel USA",
-        title: "Financial & Accounting Analyst",
-        dates: "July 2021 — April 2022",
-        summary:
-            "Supported financial reporting, forecasting, reconciliations, and scenario analysis across regional and national finance processes.",
-        bullets: [
-            "Supported monthly and quarterly financial reporting, close activities, and forecast-versus-actual analysis.",
-            "Performed reconciliations for real estate and equipment lease accounts under IFRS standards and posted related entries in Oracle.",
-            "Modeled financial outcomes based on commodity-price and supplier-pricing changes to support short-term planning.",
-            "Prepared KPI analyses, financial reporting packages, and presentations for leadership.",
+        theme: "Automation, Reporting & Data Validation",
+        icon: "workflow",
+        description:
+            "Build repeatable analytical workflows that reduce manual work, improve data reliability, and make recurring decisions easier to support.",
+        professionalEvidence: [
+            "Automate recurring reporting, analytical checks, and validation workflows using Python, Excel, VBA, and Power Query.",
+            "Consolidate KPIs and large operational datasets into information stakeholders can review and use.",
+            "Led a validation initiative involving more than $1 million in inventory that improved data accuracy by 15%.",
+            "Contributed to allocation and reporting processes used across the organization.",
         ],
+        projectSlugs: ["retail-allocation-simulator", "retail-demand-forecasting", "credit-risk-pd-model"],
     },
     {
-        company: "FGX International",
-        title: "Vendor Managed Inventory Analyst",
-        dates: "January 2021 — July 2021",
-        summary:
-            "Supported retail inventory planning, replenishment, product availability, and sales-trend analysis.",
-        bullets: [
-            "Managed inventory planning and replenishment activities for retail accounts.",
-            "Analyzed POS and sales trends to investigate in-stock issues and support seasonal inventory planning.",
-            "Partnered with supply and demand planning teams to resolve inventory challenges and improve product availability.",
+        theme: "Finance, Modeling & Performance Analysis",
+        icon: "trending-up",
+        description:
+            "Combine financial analysis, statistical modeling, and business context to identify performance drivers, evaluate scenarios, and communicate implications.",
+        professionalEvidence: [
+            "Perform forecast-versus-actual and variance analysis across operational and financial contexts.",
+            "Translate volume, inventory, and pricing changes into financial and performance implications.",
+            "Modeled financial outcomes based on commodity-price and supplier-pricing changes while working in finance.",
+            "Supported financial reporting, reconciliations, KPI reviews, and leadership presentations.",
         ],
+        portfolioEvidence: [
+            "Built an interpretable probability-of-default model and 300–850 scorecard using logistic regression, WoE and Information Value, and ROC-AUC evaluation.",
+            "Applied regression, time-series analysis, forecast validation, and machine-learning methods across public portfolio projects.",
+            "Developing a public-data market-expansion case study for a fictional warehouse-club business.",
+        ],
+        projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r", "warehouse-club-market-expansion"],
     },
 ];
 
-export const earlierExperience = {
-    roles: [
-        "Internal Auditor Intern — Neighborhood Health Plan of Rhode Island",
-        "Retail Operations — The Home Depot",
+export const professionalContext = {
+    intro:
+        "My analytical experience has developed across EssilorLuxottica, Rexel USA, and FGX International in supply-chain analytics, financial reporting, inventory planning, forecasting, and decision support.",
+    entries: [
+        "EssilorLuxottica — Supply Chain Analyst",
+        "Rexel USA — Financial & Accounting Analyst",
+        "FGX International — Vendor Managed Inventory Analyst",
     ],
-    summary:
-        "Earlier experience in internal-audit support and retail operations contributed to my understanding of controls, compliance, fulfillment, and frontline business processes.",
 };
 
 export const skillGroups = [
@@ -444,10 +450,10 @@ export const skillGroups = [
             "Variance Analysis",
             { label: "Inventory Analysis", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
             "Working Capital Analysis",
-            "KPI Reporting",
+            { label: "KPI Reporting", projectSlugs: ["retail-demand-forecasting"] },
             { label: "Data Validation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
             { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r", "warehouse-club-market-expansion"] },
-            "Reporting Automation",
+            { label: "Reporting Automation", projectSlugs: ["retail-allocation-simulator"] },
         ],
     },
     {
