@@ -65,16 +65,11 @@
 }
 
 .site-shell {
-    width: min(100%, 100rem);
-    margin-inline: auto;
+    width: 100%;
 }
 
 .fluid-page-title {
     font-size: clamp(2.25rem, 4.5vw, 5.25rem);
-}
-
-.fluid-hero-title {
-    font-size: clamp(2.5rem, 6vw, 6.5rem);
 }
 
 /* Editorial grain overlay */
