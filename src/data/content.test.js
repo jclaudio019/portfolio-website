@@ -1,8 +1,8 @@
 import {
     aboutChapters,
-    earlierExperience,
     educationEntries,
-    professionalExperience,
+    experienceImpactAreas,
+    professionalContext,
     profile,
     projects,
     resumeHighlights,
@@ -59,8 +59,8 @@ test("positions Jose as an experienced applied analytics professional", () => {
             "Open to remote, hybrid, and on-site opportunities",
             "Willing to relocate for the right opportunity",
         ],
-        heroIntro: "I combine 5+ years of experience across finance, supply chain, and operations with Python, SQL, statistical modeling, forecasting, and automation to solve practical business problems.",
-        heroSupport: "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused analytics projects that connect rigorous methods with real operational and financial questions.",
+        heroIntro: "I bring 5+ years of experience across finance, supply chain, inventory planning, and analytics, using Python, SQL, statistical modeling, forecasting, and automation to support practical business decisions.",
+        heroSupport: "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused projects that connect rigorous analytical methods with operational and financial questions.",
     }));
 });
 
@@ -80,15 +80,21 @@ test("keeps the About story concise and education accurate", () => {
     ]);
 });
 
-test("publishes professional experience in reverse chronological order", () => {
-    expect(professionalExperience.map(({ company, title, dates }) => ({ company, title, dates }))).toEqual([
-        { company: "EssilorLuxottica", title: "Supply Chain Analyst", dates: "April 2022 — Present" },
-        { company: "Rexel USA", title: "Financial & Accounting Analyst", dates: "July 2021 — April 2022" },
-        { company: "FGX International", title: "Vendor Managed Inventory Analyst", dates: "January 2021 — July 2021" },
+test("organizes experience around impact areas with compact employer context", () => {
+    expect(experienceImpactAreas.map(({ theme }) => theme)).toEqual([
+        "Forecasting, Inventory & Decision Support",
+        "Automation, Reporting & Data Validation",
+        "Finance, Modeling & Performance Analysis",
     ]);
-    expect(earlierExperience.roles).toEqual([
-        "Internal Auditor Intern — Neighborhood Health Plan of Rhode Island",
-        "Retail Operations — The Home Depot",
+    expect(experienceImpactAreas[0].projectSlugs).toEqual([
+        "retail-demand-forecasting",
+        "retail-allocation-simulator",
+        "time-series-analysis-r",
+    ]);
+    expect(professionalContext.entries).toEqual([
+        "EssilorLuxottica — Supply Chain Analyst",
+        "Rexel USA — Financial & Accounting Analyst",
+        "FGX International — Vendor Managed Inventory Analyst",
     ]);
 });
 

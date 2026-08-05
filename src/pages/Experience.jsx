@@ -1,5 +1,13 @@
-import { earlierExperience, professionalExperience } from "../data/content";
+import { Link } from "react-router-dom";
+import { Boxes, TrendingUp, Workflow } from "lucide-react";
+import { experienceImpactAreas, professionalContext, profile, projects } from "../data/content";
 import { Reveal } from "../components/Reveal";
+
+const icons = {
+    boxes: Boxes,
+    workflow: Workflow,
+    "trending-up": TrendingUp,
+};
 
 export default function Experience() {
     return (
@@ -8,68 +16,119 @@ export default function Experience() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Experience</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Experience across analytics, finance, and operations.
+                        Organized by the problems I solve, not job titles.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My work has focused on forecasting, inventory and working-capital analysis,
-                        financial reporting, process automation, and data validation. The timeline
-                        below shows how those capabilities developed across roles.
+                        My experience spans forecasting, inventory and working-capital analysis,
+                        financial reporting, process automation, and data validation. Rather than
+                        repeat my resume, this page highlights the kinds of problems I solve and the
+                        evidence behind that work.
                     </p>
                 </Reveal>
 
                 <div className="mt-16 space-y-px border-t border-navy/10">
-                    {professionalExperience.map((role, i) => (
-                        <Reveal key={role.company + role.title} delay={i * 0.08}>
+                    {experienceImpactAreas.map((area, i) => {
+                        const Icon = icons[area.icon];
+                        const relatedProjects = area.projectSlugs
+                            .map((slug) => projects.find((project) => project.slug === slug))
+                            .filter(Boolean);
+
+                        return <Reveal key={area.theme} delay={i * 0.08}>
                             <article
                                 className="grid gap-6 border-b border-navy/10 py-10 md:grid-cols-[20rem_1fr] md:gap-12"
-                                data-testid="experience-role"
+                                data-testid="experience-impact-area"
                             >
                                 <div>
-                                    <span className="font-mono text-xs text-navy/40">
+                                    <Icon size={24} className="text-teal" aria-hidden="true" />
+                                    <span className="mt-5 block font-mono text-xs text-navy/40">
                                         {String(i + 1).padStart(2, "0")}
                                     </span>
-                                    <p className="mt-3 font-mono text-xs uppercase tracking-widest text-teal">
-                                        {role.company}
-                                    </p>
-                                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight text-navy">
-                                        {role.title}
+                                    <h2 className="mt-3 font-display text-2xl font-bold leading-tight text-navy">
+                                        {area.theme}
                                     </h2>
-                                    <p className="mt-3 text-sm text-navy/60">{role.dates}</p>
                                 </div>
                                 <div>
                                     <p className="text-lg leading-relaxed text-navy/80">
-                                        {role.summary}
+                                        {area.description}
                                     </p>
                                     <ul className="mt-5 space-y-3">
-                                        {role.bullets.map((bullet) => (
+                                        {area.professionalEvidence.map((bullet) => (
                                             <li key={bullet} className="flex gap-3 text-navy/70">
                                                 <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
                                                 <span className="leading-relaxed">{bullet}</span>
                                             </li>
                                         ))}
                                     </ul>
+                                    {area.portfolioEvidence && (
+                                        <div className="mt-7 border-t border-navy/10 pt-5">
+                                            <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">
+                                                Portfolio evidence
+                                            </p>
+                                            <ul className="mt-3 space-y-3">
+                                                {area.portfolioEvidence.map((item) => (
+                                                    <li key={item} className="flex gap-3 text-navy/70">
+                                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
+                                                        <span className="leading-relaxed">{item}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    <div className="mt-7 border-t border-navy/10 pt-5">
+                                        <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">
+                                            Related public project evidence
+                                        </p>
+                                        <div className="mt-3 flex flex-wrap gap-2">
+                                            {relatedProjects.map((project) => (
+                                                <Link
+                                                    key={project.slug}
+                                                    to={`/projects/${project.slug}`}
+                                                    data-testid="experience-project-link"
+                                                    className="border border-navy/15 px-3 py-2 font-mono text-xs text-navy/70 transition-colors hover:border-teal hover:text-teal"
+                                                >
+                                                    {project.title} ↗
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
                                 </div>
                             </article>
-                        </Reveal>
-                    ))}
+                        </Reveal>;
+                    })}
                 </div>
 
-                <Reveal className="mt-12 border-b border-navy/10 pb-10">
+                <Reveal className="mt-12 border border-navy/10 bg-surface p-8">
                     <div className="grid gap-6 md:grid-cols-[20rem_1fr] md:gap-12">
                         <div>
                             <p className="font-mono text-xs uppercase tracking-widest text-teal">
-                                Earlier experience
+                                Professional Context
                             </p>
                         </div>
                         <div>
+                            <p className="max-w-3xl leading-relaxed text-navy/70">
+                                {professionalContext.intro}
+                            </p>
                             <ul className="space-y-2 text-navy/80">
-                                {earlierExperience.roles.map((role) => (
-                                    <li key={role}>{role}</li>
+                                {professionalContext.entries.map((entry) => (
+                                    <li key={entry} className="mt-3">{entry}</li>
                                 ))}
                             </ul>
-                            <p className="mt-4 max-w-3xl leading-relaxed text-navy/65">
-                                {earlierExperience.summary}
-                            </p>
+                            <div className="mt-6 flex flex-wrap gap-3">
+                                <a
+                                    href={profile.linkedin}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="border border-navy px-4 py-2 font-mono text-xs uppercase tracking-widest text-navy transition-colors hover:bg-navy hover:text-cream"
+                                >
+                                    View complete experience on LinkedIn
+                                </a>
+                                <Link
+                                    to="/resume"
+                                    className="border border-navy/20 px-4 py-2 font-mono text-xs uppercase tracking-widest text-navy transition-colors hover:border-teal hover:text-teal"
+                                >
+                                    {profile.resumeUrl ? "View resume" : "Resume available on request"}
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </Reveal>
