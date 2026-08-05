@@ -59,6 +59,7 @@ test("resolves the allocation detail route without an in-progress label", () => 
 
     expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("Retail Allocation Simulator");
     expect(container.querySelector("[data-testid='project-status']")).toBeNull();
+    expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("Methodology");
 });
 
 test("shows in-progress status on the warehouse detail route", () => {
@@ -66,4 +67,19 @@ test("shows in-progress status on the warehouse detail route", () => {
 
     expect(container.querySelector("[data-testid='project-status']").textContent).toBe("In progress");
     expect(container.querySelector("img").getAttribute("alt")).toBe("Warehouse Club Market Expansion project overview");
+
+    const page = container.querySelector("[data-testid='project-detail-page']");
+    expect(page.textContent).toContain("Business Problem");
+    expect(page.textContent).toContain("This project is in progress. This page will be updated as the research and analysis develop.");
+    expect(page.textContent).not.toContain("Data policy");
+    expect(page.textContent).not.toContain("Project status");
+    expect(page.textContent).not.toContain("Solution");
+    expect(page.textContent).not.toContain("Dataset");
+    expect(page.textContent).not.toContain("Methodology");
+    expect(page.textContent).not.toContain("Findings");
+    expect(page.textContent).not.toContain("Business Implications");
+    expect(page.textContent).not.toContain("Conclusion");
+    expect(page.textContent).not.toContain("Limitations");
+    expect(page.textContent).not.toContain("Technologies");
+    expect(container.querySelector("[data-testid='next-project']")).toBeNull();
 });
