@@ -30,7 +30,7 @@ export default function Navbar() {
                     : "border-b border-transparent"
             }`}
         >
-            <nav className="mx-auto flex max-w-[1400px] items-center justify-between px-6 py-4 lg:px-12">
+            <nav className="site-shell flex items-center justify-between px-6 py-4 lg:px-12">
                 <Link
                     to="/"
                     data-testid="nav-logo"

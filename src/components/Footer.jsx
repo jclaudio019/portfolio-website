@@ -8,7 +8,7 @@ export default function Footer() {
             className="border-t border-navy/10 bg-cream"
             data-testid="footer"
         >
-            <div className="mx-auto max-w-[1400px] px-6 py-16 lg:px-12">
+            <div className="site-shell px-6 py-16 lg:px-12">
                 <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
                     <div>
                         <p className="font-mono text-xs uppercase tracking-widest text-teal">

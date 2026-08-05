@@ -6,11 +6,12 @@ import { Reveal } from "../components/Reveal";
 
 const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
 const CreditRiskScoreExplorer = lazy(() => import("../components/CreditRiskScoreExplorer"));
+const TimeSeriesCharts = lazy(() => import("../components/TimeSeriesCharts"));
 
-const Section = ({ label, children }) => (
+const Section = ({ label, children, wide = false }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
         <h2 className="font-mono text-xs uppercase tracking-widest text-teal">{label}</h2>
-        <div className="text-navy/80">{children}</div>
+        <div className={`min-w-0 text-navy/80 ${wide ? "" : "max-w-4xl"}`}>{children}</div>
     </Reveal>
 );
 
@@ -58,12 +59,12 @@ export default function ProjectDetail() {
     }
 
     // Only offer a "next project" when another case study actually exists
-    const next = projects.length > 1 ? projects[(index + 1) % projects.length] : null;
+    const next = projects[index + 1] ?? null;
     const isInProgress = project.status === "In progress";
 
     return (
         <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-40" data-testid="project-detail-page">
-            <div className="mx-auto max-w-[1100px]">
+            <div className="site-shell">
                 <Link
                     to="/projects"
                     data-testid="back-to-projects"
@@ -86,7 +87,7 @@ export default function ProjectDetail() {
                             </span>
                         )}
                     </div>
-                    <h1 className="mt-4 font-display text-4xl font-extrabold leading-[0.95] tracking-tighter text-navy sm:text-5xl md:text-6xl">
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
                         {project.title}
                     </h1>
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-navy/70">
@@ -186,7 +187,7 @@ export default function ProjectDetail() {
                             </ul>
                         </Disclosure>
                     </Section>
-                    <Section label="Findings">
+                    <Section label="Findings" wide>
                         <p className="leading-relaxed">{project.findings}</p>
                         {project.gallery?.length > 0 && (
                             <div className="mt-8 space-y-8">
@@ -229,9 +230,20 @@ export default function ProjectDetail() {
                                 <CreditRiskScoreExplorer />
                             </Suspense>
                         ) : null}
+                        {project.slug === "time-series-analysis-r" ? (
+                            <Suspense
+                                fallback={
+                                    <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading time-series explorer…</span>
+                                    </div>
+                                }
+                            >
+                                <TimeSeriesCharts />
+                            </Suspense>
+                        ) : null}
                     </Section>
                     {project.financialInterpretation && (
-                        <Section label="Operations & Finance">
+                        <Section label="Operations & Finance" wide>
                             <div className="space-y-4">
                                 <p className="leading-relaxed">{project.financialInterpretation.intro}</p>
                                 <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-sm leading-relaxed text-navy/80">

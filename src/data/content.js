@@ -335,6 +335,57 @@ export const projects = [
         ],
     },
     {
+        slug: "time-series-analysis-r",
+        title: "Time-Series Analysis & Forecasting in R",
+        category: "Applied Statistics",
+        summary:
+            "From stochastic-process simulations to 24-month forecasts of U.S. unemployment and the S&P 500, this graduate final project connects time-series theory with applied modeling in R.",
+        image: `${process.env.PUBLIC_URL}/images/time-series-analysis-r-hero.png`,
+        imageCaption:
+            "A conceptual time-series ribbon moves from repeating historical structure into multiple possible future paths, representing seasonality, lag dependence, and forecast uncertainty.",
+        tech: ["R", "Jupyter", "astsa", "ARIMA", "Forecasting"],
+        github: "https://github.com/jclaudio019/time_series_analysis",
+        metrics: [
+            { label: "Time-series behaviors simulated", value: "6" },
+            { label: "Real-world series forecasted", value: "2" },
+            { label: "Forecast horizon", value: "24 months" },
+        ],
+        metricsNote:
+            "Graduate final project completed in R as part of the M.S. in Applied Statistics program at Purdue University. Educational analysis; not an economic or investment recommendation.",
+        problem:
+            "Economic and financial observations are ordered through time, so trend, persistence, shocks, and nonstationarity can make conventional independent-data methods misleading. The final project asks how stochastic simulations, correlation structure, differencing, and ARIMA models can reveal those behaviors and support transparent forecasts for two real-world series.",
+        solutionParagraphs: [
+            "The first section builds intuition by simulating Gaussian noise and a random walk, a Poisson process, a two-dimensional Brownian bridge, AR(1), MA(1), and integrated ARIMA behavior. The resulting paths and correlation patterns show how different data-generating processes leave different analytical signatures.",
+            "The applied sections fit ARIMA(1,1,1) models to monthly U.S. unemployment and S&P 500 series, then extend each model through a 24-month forecast. The work emphasizes what the model is implementing and how uncertainty expands beyond the observed data.",
+        ],
+        dataset:
+            "The applied analysis uses the monthly U.S. unemployment-rate series provided by the R astsa package and two S&P 500 workbook inputs retained with the final project. Simulated series use a fixed seed for reproducibility, with 500 observations in the core stochastic-process exercises.",
+        methodologySummary:
+            "The project moves from controlled simulations to applied forecasting: generate known processes, examine their ACF/PACF structure, difference integrated behavior, fit ARIMA models, and compare observed histories with 24-month forecast paths.",
+        methodology: [
+            "Simulated Gaussian, Poisson, Brownian-bridge, autoregressive, moving-average, and integrated time-series behavior in R.",
+            "Compared ACF and PACF patterns to identify persistence, moving-average cutoff, and the effect of differencing.",
+            "Visualized the monthly U.S. unemployment series and summarized its historical level and variance.",
+            "Fit an ARIMA(1,1,1) model and generated a 24-month unemployment forecast.",
+            "Loaded and inspected the retained S&P 500 level and percentage-change workbooks, including a regenerated cumulative index.",
+            "Fit a second ARIMA(1,1,1) model and generated a 24-month S&P 500 forecast.",
+        ],
+        findings:
+            "The simulations make the distinction between stationary and integrated behavior visible: white noise fluctuates around a stable level, a random walk accumulates shocks, the AR(1) ACF decays, and the MA(1) ACF cuts off quickly. In the applied models, both point forecasts remain close to the latest observed level while their uncertainty widens over the 24-month horizon—a useful reminder that the forecast range is as important as the center line.",
+        implications:
+            "The project demonstrates an end-to-end R workflow for connecting theoretical process behavior to practical economic and financial forecasting. It also shows why forecasts should be communicated as uncertain model-based scenarios rather than guaranteed future values.",
+        conclusionParagraphs: [
+            "This final project connects stochastic-process foundations, model identification, differencing, ARIMA estimation, and forecast interpretation in one reproducible R analysis.",
+            "The public GitHub repository also includes six supporting coursework notebooks for reviewers who want to explore the broader progression in stationarity, autocorrelation, model diagnostics, forecasting, and spectral analysis.",
+        ],
+        limitations: [
+            "The applied sections use fixed ARIMA(1,1,1) specifications rather than an exhaustive model-selection process.",
+            "The project does not include rolling-origin validation or comparison against multiple forecasting benchmarks.",
+            "The retained S&P 500 inputs do not include a complete external data-provenance pipeline or calendar-date field.",
+            "The forecasts are educational and should not be used for economic-policy, employment, trading, or investment decisions.",
+        ],
+    },
+    {
         slug: "warehouse-club-market-expansion",
         title: "Warehouse Club Market Expansion",
         category: "Market Strategy",
@@ -389,71 +440,6 @@ export const projects = [
             "Future rankings will be decision aids, not claims of causality, guaranteed performance, or precise profitability.",
         ],
     },
-    {
-        slug: "time-series-analysis-r",
-        title: "Time-Series Analysis & Forecasting in R",
-        category: "Applied Statistics",
-        summary:
-            "From stochastic-process simulations to 24-month forecasts of U.S. unemployment and the S&P 500, this graduate final project connects time-series theory with applied modeling in R.",
-        image: `${process.env.PUBLIC_URL}/images/time-series-analysis-r-hero.png`,
-        imageCaption:
-            "A conceptual time-series ribbon moves from repeating historical structure into multiple possible future paths, representing seasonality, lag dependence, and forecast uncertainty.",
-        tech: ["R", "Jupyter", "astsa", "ARIMA", "Forecasting"],
-        github: "https://github.com/jclaudio019/time_series_analysis",
-        metrics: [
-            { label: "Time-series behaviors simulated", value: "6" },
-            { label: "Real-world series forecasted", value: "2" },
-            { label: "Forecast horizon", value: "24 months" },
-        ],
-        metricsNote:
-            "Graduate final project completed in R as part of the M.S. in Applied Statistics program at Purdue University. Educational analysis; not an economic or investment recommendation.",
-        problem:
-            "Economic and financial observations are ordered through time, so trend, persistence, shocks, and nonstationarity can make conventional independent-data methods misleading. The final project asks how stochastic simulations, correlation structure, differencing, and ARIMA models can reveal those behaviors and support transparent forecasts for two real-world series.",
-        solutionParagraphs: [
-            "The first section builds intuition by simulating Gaussian noise and a random walk, a Poisson process, a two-dimensional Brownian bridge, AR(1), MA(1), and integrated ARIMA behavior. The resulting paths and correlation patterns show how different data-generating processes leave different analytical signatures.",
-            "The applied sections fit ARIMA(1,1,1) models to monthly U.S. unemployment and S&P 500 series, then extend each model through a 24-month forecast. The work emphasizes what the model is implementing and how uncertainty expands beyond the observed data.",
-        ],
-        dataset:
-            "The applied analysis uses the monthly U.S. unemployment-rate series provided by the R astsa package and two S&P 500 workbook inputs retained with the final project. Simulated series use a fixed seed for reproducibility, with 500 observations in the core stochastic-process exercises.",
-        methodologySummary:
-            "The project moves from controlled simulations to applied forecasting: generate known processes, examine their ACF/PACF structure, difference integrated behavior, fit ARIMA models, and compare observed histories with 24-month forecast paths.",
-        methodology: [
-            "Simulated Gaussian, Poisson, Brownian-bridge, autoregressive, moving-average, and integrated time-series behavior in R.",
-            "Compared ACF and PACF patterns to identify persistence, moving-average cutoff, and the effect of differencing.",
-            "Visualized the monthly U.S. unemployment series and summarized its historical level and variance.",
-            "Fit an ARIMA(1,1,1) model and generated a 24-month unemployment forecast.",
-            "Loaded and inspected the retained S&P 500 level and percentage-change workbooks, including a regenerated cumulative index.",
-            "Fit a second ARIMA(1,1,1) model and generated a 24-month S&P 500 forecast.",
-        ],
-        findings:
-            "The simulations make the distinction between stationary and integrated behavior visible: white noise fluctuates around a stable level, a random walk accumulates shocks, the AR(1) ACF decays, and the MA(1) ACF cuts off quickly. In the applied models, both point forecasts remain close to the latest observed level while their uncertainty widens over the 24-month horizon—a useful reminder that the forecast range is as important as the center line.",
-        gallery: [
-            {
-                src: `${process.env.PUBLIC_URL}/images/time-series-brownian-bridge.png`,
-                caption: "A two-dimensional Brownian bridge demonstrates a random path constrained to return to its endpoint.",
-            },
-            {
-                src: `${process.env.PUBLIC_URL}/images/time-series-unemployment-forecast.png`,
-                caption: "The unemployment ARIMA forecast stays near the latest observation as uncertainty expands across 24 months.",
-            },
-            {
-                src: `${process.env.PUBLIC_URL}/images/time-series-sp500-forecast.png`,
-                caption: "The S&P 500 model extends the observed index path while making the widening 24-month forecast interval explicit.",
-            },
-        ],
-        implications:
-            "The project demonstrates an end-to-end R workflow for connecting theoretical process behavior to practical economic and financial forecasting. It also shows why forecasts should be communicated as uncertain model-based scenarios rather than guaranteed future values.",
-        conclusionParagraphs: [
-            "This final project connects stochastic-process foundations, model identification, differencing, ARIMA estimation, and forecast interpretation in one reproducible R analysis.",
-            "The public GitHub repository also includes six supporting coursework notebooks for reviewers who want to explore the broader progression in stationarity, autocorrelation, model diagnostics, forecasting, and spectral analysis.",
-        ],
-        limitations: [
-            "The applied sections use fixed ARIMA(1,1,1) specifications rather than an exhaustive model-selection process.",
-            "The project does not include rolling-origin validation or comparison against multiple forecasting benchmarks.",
-            "The retained S&P 500 inputs do not include a complete external data-provenance pipeline or calendar-date field.",
-            "The forecasts are educational and should not be used for economic-policy, employment, trading, or investment decisions.",
-        ],
-    },
 ];
 
 export const experience = [
@@ -496,23 +482,37 @@ export const skillGroups = [
     {
         title: "Analytics & Operations",
         items: [
-            "Forecasting",
-            "Inventory Analysis",
-            "KPI Reporting",
-            "Data Validation",
-            "Decision Support",
+            { label: "Forecasting", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
+            { label: "Inventory Analysis", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            { label: "KPI Reporting", projectSlugs: ["retail-demand-forecasting"] },
+            { label: "Data Validation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r"] },
         ],
     },
     {
         title: "Programming & Data",
         items: [
-            "Python",
-            { label: "R", href: "https://github.com/jclaudio019/time_series_analysis" },
+            { label: "Python", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "R", projectSlugs: ["time-series-analysis-r"] },
             "SQL",
-            "Excel",
+            { label: "Excel", projectSlugs: ["retail-allocation-simulator"] },
             "VBA",
             "Power Query",
-            "pandas",
+            { label: "pandas", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "NumPy", projectSlugs: ["credit-risk-pd-model"] },
+            { label: "Jupyter", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
+            { label: "pytest", projectSlugs: ["retail-allocation-simulator"] },
+        ],
+    },
+    {
+        title: "Machine Learning & Forecasting",
+        items: [
+            { label: "Machine Learning", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "scikit-learn", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "XGBoost", projectSlugs: ["retail-demand-forecasting"] },
+            { label: "statsmodels", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "Prophet", projectSlugs: ["retail-demand-forecasting"] },
+            { label: "ARIMA", projectSlugs: ["time-series-analysis-r"] },
         ],
     },
     {
@@ -520,17 +520,25 @@ export const skillGroups = [
         items: ["Power BI", "Tableau", "Excel (advanced)", "Dashboard Design"],
     },
     {
-        title: "Business Domains",
-        items: ["Supply Chain", "Finance", "Accounting", "Operations"],
+        title: "Business & Research",
+        items: [
+            { label: "Supply Chain", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            { label: "Finance", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            "Accounting",
+            { label: "Operations", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
+            { label: "Market Research", projectSlugs: ["warehouse-club-market-expansion"] },
+            { label: "Public Data", projectSlugs: ["warehouse-club-market-expansion"] },
+            { label: "Business Strategy", projectSlugs: ["warehouse-club-market-expansion"] },
+        ],
     },
     {
         title: "Statistical Methods",
         items: [
-            "Linear Regression",
-            "Logistic Regression",
-            "Probability",
-            "Statistical Inference",
-            { label: "Time Series Analysis", href: "https://github.com/jclaudio019/time_series_analysis" },
+            { label: "Linear Regression", projectSlugs: ["retail-demand-forecasting"] },
+            { label: "Logistic Regression", projectSlugs: ["credit-risk-pd-model"] },
+            { label: "Probability", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
+            { label: "Statistical Inference", projectSlugs: ["time-series-analysis-r"] },
+            { label: "Time Series Analysis", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
         ],
     },
 ];

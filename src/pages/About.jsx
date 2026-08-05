@@ -4,10 +4,10 @@ import { Reveal } from "../components/Reveal";
 export default function About() {
     return (
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="about-page">
-            <div className="mx-auto max-w-[1400px]">
+            <div className="site-shell">
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">About</p>
-                    <h1 className="mt-4 max-w-4xl font-display text-4xl font-extrabold leading-[0.95] tracking-tighter text-navy sm:text-5xl md:text-6xl">
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
                         From finance and operations toward applied statistics.
                     </h1>
                 </Reveal>
