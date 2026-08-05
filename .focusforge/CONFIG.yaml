@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "roles": {
+    "orchestrator": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "session", "unavailable_action": "pause"},
+    "design_author": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "roadmap", "unavailable_action": "external_handoff"},
+    "design_auditor": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "audit", "unavailable_action": "external_handoff"},
+    "plan_author": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "phase", "unavailable_action": "external_handoff"},
+    "plan_auditor": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "audit", "unavailable_action": "external_handoff"},
+    "implementer": {"preferred_model": "", "fallbacks": [], "minimum_capability": "standard", "stability_scope": "phase", "unavailable_action": "external_handoff"},
+    "fast_reviewer": {"preferred_model": "", "fallbacks": [], "minimum_capability": "standard", "stability_scope": "phase", "unavailable_action": "external_handoff"},
+    "phase_auditor": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "audit", "unavailable_action": "external_handoff"},
+    "roadmap_auditor": {"preferred_model": "", "fallbacks": [], "minimum_capability": "high", "stability_scope": "audit", "unavailable_action": "external_handoff"}
+  },
+  "retry_limits": {"commit": 1, "push": 3, "pr_create": 3, "merge": 2, "ci_check": 3, "post_merge_verification": 1}
+}

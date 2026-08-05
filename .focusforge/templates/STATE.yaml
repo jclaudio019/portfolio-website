@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "repository": {"root": "", "identity": "", "base_branch": "main"},
+  "roadmap": {"id": "", "status": "", "lock": "INACTIVE", "branch": "", "worktree": ""},
+  "workflow": {
+    "state": "UNINITIALIZED",
+    "current_phase": "",
+    "current_task": "",
+    "next_action": "Inspect repository",
+    "resume_state": "",
+    "pause_pending": false,
+    "automatic_progression": true,
+    "external_gate": ""
+  },
+  "roles": {"orchestrator": {}, "design_author": {}, "implementer": {}, "fast_reviewer": {}, "current_auditor": {}},
+  "counters": {
+    "task_remediation": 0,
+    "design_audit_remediation": 0,
+    "plan_audit_remediation": 0,
+    "phase_audit_remediation": 0,
+    "roadmap_audit_remediation": 0
+  },
+  "evidence": {
+    "last_verified_commit": "",
+    "last_atomic_task_commit": "",
+    "latest_handoff": "",
+    "unresolved_critical": 0,
+    "unresolved_high": 0,
+    "verification_commands": [],
+    "phase_audit_verdict": "",
+    "phase_verification_commit": "",
+    "roadmap_audit_verdict": "",
+    "integrated_verification_commit": "",
+    "approval_evidence": [],
+    "activation": {}
+  },
+  "session": {"id": "", "runtime": "", "assumed_at": "", "predecessor": "", "reconciliation": "", "active": false}
+}

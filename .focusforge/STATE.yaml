@@ -1,0 +1,65 @@
+{
+  "counters": {
+    "design_audit_remediation": 0,
+    "phase_audit_remediation": 0,
+    "plan_audit_remediation": 0,
+    "roadmap_audit_remediation": 0,
+    "task_remediation": 0
+  },
+  "evidence": {
+    "activation": {},
+    "approval_evidence": [],
+    "integrated_verification_commit": "",
+    "last_atomic_task_commit": "",
+    "last_verified_commit": "",
+    "latest_handoff": "",
+    "phase_audit_verdict": "",
+    "phase_verification_commit": "",
+    "roadmap_audit_verdict": "",
+    "unresolved_critical": 0,
+    "unresolved_high": 0,
+    "verification_commands": []
+  },
+  "repository": {
+    "base_branch": "main",
+    "identity": "git@github.com:jclaudio019/portfolio-website.git",
+    "root": "/Users/joseclaudio/Dev_local/project_potfolio/website_replica"
+  },
+  "roadmap": {
+    "branch": "main",
+    "id": "portfolio-project-expansion",
+    "lock": "ACTIVE",
+    "status": "ACTIVE",
+    "worktree": "/Users/joseclaudio/Dev_local/project_potfolio/website_replica"
+  },
+  "roles": {
+    "current_auditor": {},
+    "design_author": {
+      "id": "UNASSIGNED_IMPORT"
+    },
+    "fast_reviewer": {},
+    "implementer": {},
+    "orchestrator": {
+      "id": "UNASSIGNED_IMPORT"
+    }
+  },
+  "schema_version": 1,
+  "session": {
+    "active": false,
+    "assumed_at": "",
+    "id": "",
+    "predecessor": "",
+    "reconciliation": "",
+    "runtime": ""
+  },
+  "workflow": {
+    "automatic_progression": true,
+    "current_phase": "",
+    "current_task": "",
+    "external_gate": "",
+    "next_action": "Reconcile imported roadmap evidence",
+    "pause_pending": false,
+    "resume_state": "",
+    "state": "RECONCILIATION_REQUIRED"
+  }
+}
