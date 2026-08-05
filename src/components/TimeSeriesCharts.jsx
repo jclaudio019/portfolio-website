@@ -100,7 +100,7 @@ export default function TimeSeriesCharts() {
             <figure className="overflow-hidden border border-white/10 bg-[#0a0a0f] text-white">
                 <figcaption className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <p className="font-mono text-xs uppercase tracking-widest text-purple-400">A random path with a destination</p>
+                        <p className="font-mono text-xs uppercase tracking-widest text-purple-400">Brownian bridge simulation</p>
                         <p className="mt-1 max-w-2xl text-sm leading-relaxed text-white/55">
                             A two-dimensional Brownian bridge wanders unpredictably, yet is constrained to return to its origin.
                         </p>

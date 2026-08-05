@@ -11,12 +11,11 @@ export default function Experience() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Experience</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Organized by the problems I solve, not job titles.
+                        Experience across analytics and operations.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My work spans supply chain, inventory and allocation analysis, finance and
-                        accounting, forecasting, KPI reporting, process automation, and data
-                        validation — organized here by the kinds of problems I help solve.
+                        My work includes supply chain, finance, forecasting, reporting automation,
+                        inventory analysis, and data validation.
                     </p>
                 </Reveal>
 

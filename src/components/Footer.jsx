@@ -15,7 +15,7 @@ export default function Footer() {
                             Work with me
                         </p>
                         <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter text-navy md:text-5xl">
-                            Let&apos;s find the signal in the noise.
+                            Let&apos;s solve a practical problem.
                         </h2>
                     </div>
                     <div className="flex gap-4">

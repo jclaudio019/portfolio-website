@@ -46,7 +46,8 @@ test("marks only the warehouse market-expansion project as in progress", () => {
     ]);
 
     const warehouse = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
-    expect(warehouse.metrics.find(({ label }) => label === "Project status")?.value).toBe("In progress");
+    expect(warehouse.status).toBe("In progress");
+    expect(warehouse.metrics).toBeUndefined();
 });
 
 test("presents the R time-series final project through its implemented analysis", () => {
@@ -59,5 +60,5 @@ test("presents the R time-series final project through its implemented analysis"
         { label: "Forecast horizon", value: "24 months" },
     ]);
     expect(project.gallery).toBeUndefined();
-    expect(project.conclusionParagraphs.join(" ")).toContain("supporting coursework notebooks");
+    expect(project.conclusionParagraphs.join(" ")).toContain("six coursework notebooks");
 });

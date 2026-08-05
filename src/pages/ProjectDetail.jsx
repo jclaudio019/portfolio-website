@@ -151,7 +151,7 @@ export default function ProjectDetail() {
                     {isInProgress ? (
                         <Section label="In progress">
                             <p className="leading-relaxed">
-                                This project is in progress. This page will be updated as the research and analysis develop.
+                                This project is in progress. I’ll update this page as the work develops.
                             </p>
                         </Section>
                     ) : (

@@ -78,7 +78,7 @@ test("shows in-progress status on the warehouse detail route", () => {
 
     const page = container.querySelector("[data-testid='project-detail-page']");
     expect(page.textContent).toContain("Business Problem");
-    expect(page.textContent).toContain("This project is in progress. This page will be updated as the research and analysis develop.");
+    expect(page.textContent).toContain("This project is in progress. I’ll update this page as the work develops.");
     expect(page.textContent).not.toContain("Data policy");
     expect(page.textContent).not.toContain("Project status");
     expect(page.textContent).not.toContain("Solution");

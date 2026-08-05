@@ -9,12 +9,11 @@ export default function Projects() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Projects</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Detailed case studies, from problem to business impact.
+                        Projects built around real business questions.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        Each project follows the same thread — a real business problem, the data and
-                        methods used to attack it, what the analysis found, and what changed as a
-                        result.
+                        Each project explains the problem, what I built, what I found, and why it
+                        matters. Full code and supporting work are available on GitHub.
                     </p>
                 </Reveal>
 
