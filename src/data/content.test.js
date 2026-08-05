@@ -33,3 +33,17 @@ test("marks only the warehouse market-expansion project as in progress", () => {
     const warehouse = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
     expect(warehouse.metrics.find(({ label }) => label === "Project status")?.value).toBe("In progress");
 });
+
+test("presents the R time-series final project through its implemented analysis", () => {
+    const project = projects.find(({ slug }) => slug === "time-series-analysis-r");
+
+    expect(project.title).toBe("Time-Series Analysis & Forecasting in R");
+    expect(project.metrics).toEqual([
+        { label: "Time-series behaviors simulated", value: "6" },
+        { label: "Real-world series forecasted", value: "2" },
+        { label: "Forecast horizon", value: "24 months" },
+    ]);
+    expect(project.gallery).toHaveLength(3);
+    expect(project.gallery.every(({ src }) => src.includes("/images/time-series-") && src.endsWith(".png"))).toBe(true);
+    expect(project.conclusionParagraphs.join(" ")).toContain("supporting coursework notebooks");
+});

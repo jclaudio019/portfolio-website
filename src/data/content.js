@@ -391,54 +391,67 @@ export const projects = [
     },
     {
         slug: "time-series-analysis-r",
-        title: "Time-Series Analysis in R",
+        title: "Time-Series Analysis & Forecasting in R",
         category: "Applied Statistics",
         summary:
-            "Curated graduate coursework demonstrating how R can be used to diagnose, model, and interpret time-dependent data—from stationarity and autocorrelation through ARIMA forecasting and spectral analysis.",
+            "From stochastic-process simulations to 24-month forecasts of U.S. unemployment and the S&P 500, this graduate final project connects time-series theory with applied modeling in R.",
         image: `${process.env.PUBLIC_URL}/images/time-series-analysis-r-hero.png`,
         imageCaption:
             "A conceptual time-series ribbon moves from repeating historical structure into multiple possible future paths, representing seasonality, lag dependence, and forecast uncertainty.",
-        tech: ["R", "Jupyter", "TSA", "ARIMA", "Forecasting"],
+        tech: ["R", "Jupyter", "astsa", "ARIMA", "Forecasting"],
         github: "https://github.com/jclaudio019/time_series_analysis",
         metrics: [
-            { label: "Executed notebooks", value: "7" },
-            { label: "Coursework modules", value: "6" },
-            { label: "Primary language", value: "R" },
+            { label: "Time-series behaviors simulated", value: "6" },
+            { label: "Real-world series forecasted", value: "2" },
+            { label: "Forecast horizon", value: "24 months" },
         ],
         metricsNote:
-            "Selected work from graduate Applied Statistics coursework at Purdue University, reorganized and lightly edited for portfolio presentation.",
+            "Graduate final project completed in R as part of the M.S. in Applied Statistics program at Purdue University. Educational analysis; not an economic or investment recommendation.",
         problem:
-            "Time-dependent observations cannot be treated like independent rows in a conventional dataset. Trend, seasonality, changing variance, lag dependence, and nonstationarity can distort conclusions unless they are identified and modeled explicitly. The analytical challenge is to recognize those structures, select a defensible model, test whether residual dependence remains, and communicate what a forecast can and cannot support.",
+            "Economic and financial observations are ordered through time, so trend, persistence, shocks, and nonstationarity can make conventional independent-data methods misleading. The final project asks how stochastic simulations, correlation structure, differencing, and ARIMA models can reveal those behaviors and support transparent forecasts for two real-world series.",
         solutionParagraphs: [
-            "This repository organizes six graduate-coursework notebooks and a final project into a reproducible R learning sequence. The notebooks move from transformations and stationarity through ACF/PACF interpretation, ARIMA estimation, residual diagnostics, forecasting, and Fourier methods.",
-            "The featured final project connects those foundations in one workflow. It simulates stochastic processes, analyzes U.S. unemployment, and evaluates an S&P 500 series before producing and interpreting 24-month ARIMA forecasts.",
-            "Each retained notebook runs from top to bottom with its results preserved. Descriptive filenames, project introductions, and a repository guide make the work easier for recruiters and reviewers to navigate without presenting graduate exercises as production forecasting claims.",
+            "The first section builds intuition by simulating Gaussian noise and a random walk, a Poisson process, a two-dimensional Brownian bridge, AR(1), MA(1), and integrated ARIMA behavior. The resulting paths and correlation patterns show how different data-generating processes leave different analytical signatures.",
+            "The applied sections fit ARIMA(1,1,1) models to monthly U.S. unemployment and S&P 500 series, then extend each model through a 24-month forecast. The work emphasizes what the model is implementing and how uncertainty expands beyond the observed data.",
         ],
         dataset:
-            "Most coursework examples use datasets distributed with the R TSA and astsa packages. The final project also retains two original S&P 500 workbook inputs beside the notebook so its relative file paths remain reproducible. The repository identifies the work as selected graduate coursework rather than official course material or an answer key.",
+            "The applied analysis uses the monthly U.S. unemployment-rate series provided by the R astsa package and two S&P 500 workbook inputs retained with the final project. Simulated series use a fixed seed for reproducibility, with 500 observations in the core stochastic-process exercises.",
         methodologySummary:
-            "Inspect the series, stabilize its behavior where necessary, use correlation structure to identify candidate models, estimate parsimonious ARIMA specifications, test residuals, and interpret forecasts with explicit educational limitations.",
+            "The project moves from controlled simulations to applied forecasting: generate known processes, examine their ACF/PACF structure, difference integrated behavior, fit ARIMA models, and compare observed histories with 24-month forecast paths.",
         methodology: [
-            "Visualized level, trend, seasonality, variance, and unusual observations before specifying a model.",
-            "Applied logarithmic, Box-Cox, and differencing transformations where the original series was nonstationary or heteroskedastic.",
-            "Used ACF and PACF patterns to distinguish tentative autoregressive and moving-average structures.",
-            "Estimated AR, MA, and ARIMA models and compared candidate specifications using coefficients, uncertainty, and AIC.",
-            "Evaluated residual autocorrelation and Ljung-Box results before interpreting forecasts.",
-            "Extended the analysis to stochastic-process simulation and Fourier regression to connect time-domain and frequency-domain concepts.",
+            "Simulated Gaussian, Poisson, Brownian-bridge, autoregressive, moving-average, and integrated time-series behavior in R.",
+            "Compared ACF and PACF patterns to identify persistence, moving-average cutoff, and the effect of differencing.",
+            "Visualized the monthly U.S. unemployment series and summarized its historical level and variance.",
+            "Fit an ARIMA(1,1,1) model and generated a 24-month unemployment forecast.",
+            "Loaded and inspected the retained S&P 500 level and percentage-change workbooks, including a regenerated cumulative index.",
+            "Fit a second ARIMA(1,1,1) model and generated a 24-month S&P 500 forecast.",
         ],
         findings:
-            "The coursework shows that model choice follows the structure of the series: transformations and differencing address changing level or variance, ACF/PACF patterns narrow candidate AR and MA forms, and residual checks determine whether meaningful dependence remains. The final project demonstrates those ideas across simulations and two applied forecasting examples without treating a single ARIMA specification as universally optimal.",
+            "The simulations make the distinction between stationary and integrated behavior visible: white noise fluctuates around a stable level, a random walk accumulates shocks, the AR(1) ACF decays, and the MA(1) ACF cuts off quickly. In the applied models, both point forecasts remain close to the latest observed level while their uncertainty widens over the 24-month horizon—a useful reminder that the forecast range is as important as the center line.",
+        gallery: [
+            {
+                src: `${process.env.PUBLIC_URL}/images/time-series-brownian-bridge.png`,
+                caption: "A two-dimensional Brownian bridge demonstrates a random path constrained to return to its endpoint.",
+            },
+            {
+                src: `${process.env.PUBLIC_URL}/images/time-series-unemployment-forecast.png`,
+                caption: "The unemployment ARIMA forecast stays near the latest observation as uncertainty expands across 24 months.",
+            },
+            {
+                src: `${process.env.PUBLIC_URL}/images/time-series-sp500-forecast.png`,
+                caption: "The S&P 500 model extends the observed index path while making the widening 24-month forecast interval explicit.",
+            },
+        ],
         implications:
-            "For analytical work, the key lesson is procedural rather than model-specific: understand the time structure before forecasting, preserve chronological logic, diagnose what the model leaves behind, and separate an educational forecast from an operational decision rule. The repository also provides direct public evidence of R, Jupyter, time-series, and applied-statistics skills.",
+            "The project demonstrates an end-to-end R workflow for connecting theoretical process behavior to practical economic and financial forecasting. It also shows why forecasts should be communicated as uncertain model-based scenarios rather than guaranteed future values.",
         conclusionParagraphs: [
-            "Time-series analysis is not simply fitting a curve through historical observations. It requires explicit reasoning about dependence, stationarity, transformations, model adequacy, and uncertainty.",
-            "This collection documents that reasoning across a progression of graduate exercises and a final project. It is a foundation for future forecasting work, not a claim that the included fixed specifications are production-ready or economically actionable.",
+            "This final project connects stochastic-process foundations, model identification, differencing, ARIMA estimation, and forecast interpretation in one reproducible R analysis.",
+            "The public GitHub repository also includes six supporting coursework notebooks for reviewers who want to explore the broader progression in stationarity, autocorrelation, model diagnostics, forecasting, and spectral analysis.",
         ],
         limitations: [
-            "The notebooks are selected graduate coursework and should be interpreted as evidence of learning, not production deployment.",
-            "Several exercises use fixed or limited candidate specifications rather than exhaustive model selection and rolling-origin validation.",
-            "The final-project forecasts are educational and do not support employment, economic-policy, trading, or investment decisions.",
-            "The retained S&P 500 workbook inputs do not include a full external data-provenance pipeline.",
+            "The applied sections use fixed ARIMA(1,1,1) specifications rather than an exhaustive model-selection process.",
+            "The project does not include rolling-origin validation or comparison against multiple forecasting benchmarks.",
+            "The retained S&P 500 inputs do not include a complete external data-provenance pipeline or calendar-date field.",
+            "The forecasts are educational and should not be used for economic-policy, employment, trading, or investment decisions.",
         ],
     },
 ];
