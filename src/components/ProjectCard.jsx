@@ -12,6 +12,14 @@ export default function ProjectCard({ project, index }) {
                 <span className="absolute left-4 top-4 z-10 bg-cream px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-navy">
                     {String(index + 1).padStart(2, "0")} / {project.category}
                 </span>
+                {project.status && (
+                    <span
+                        data-testid="project-status"
+                        className="absolute right-4 top-4 z-10 bg-teal px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-cream"
+                    >
+                        {project.status}
+                    </span>
+                )}
                 <div className="aspect-[4/3] overflow-hidden">
                     <img
                         src={project.image}
