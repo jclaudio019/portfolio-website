@@ -8,7 +8,7 @@ export default function About() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">About</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        From finance and operations toward applied statistics.
+                        Where finance, operations, and applied statistics meet.
                     </h1>
                 </Reveal>
 

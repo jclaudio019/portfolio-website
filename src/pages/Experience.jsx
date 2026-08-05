@@ -1,8 +1,5 @@
-import { TrendingUp, Workflow, Boxes } from "lucide-react";
-import { experience } from "../data/content";
+import { earlierExperience, professionalExperience } from "../data/content";
 import { Reveal } from "../components/Reveal";
-
-const icons = { "trending-up": TrendingUp, workflow: Workflow, boxes: Boxes };
 
 export default function Experience() {
     return (
@@ -11,51 +8,71 @@ export default function Experience() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Experience</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Experience across analytics and operations.
+                        Experience across analytics, finance, and operations.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My work includes supply chain, finance, forecasting, reporting automation,
-                        inventory analysis, and data validation.
+                        My work has focused on forecasting, inventory and working-capital analysis,
+                        financial reporting, process automation, and data validation. The timeline
+                        below shows how those capabilities developed across roles.
                     </p>
                 </Reveal>
 
                 <div className="mt-16 space-y-px border-t border-navy/10">
-                    {experience.map((exp, i) => {
-                        const Icon = icons[exp.icon] || TrendingUp;
-                        return (
-                            <Reveal key={exp.theme} delay={i * 0.08}>
-                                <div className="grid gap-6 border-b border-navy/10 py-10 md:grid-cols-[auto_1fr] md:gap-12">
-                                    <div className="flex items-start gap-5 md:w-80">
-                                        <span className="border border-navy/15 bg-surface p-3 text-teal">
-                                            <Icon size={22} />
-                                        </span>
-                                        <div>
-                                            <span className="font-mono text-xs text-navy/40">
-                                                {String(i + 1).padStart(2, "0")}
-                                            </span>
-                                            <h3 className="mt-1 font-display text-2xl font-bold leading-tight text-navy">
-                                                {exp.theme}
-                                            </h3>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p className="text-lg leading-relaxed text-navy/80">
-                                            {exp.blurb}
-                                        </p>
-                                        <ul className="mt-5 space-y-3">
-                                            {exp.points.map((pt, j) => (
-                                                <li key={j} className="flex gap-3 text-navy/70">
-                                                    <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
-                                                    <span className="leading-relaxed">{pt}</span>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
+                    {professionalExperience.map((role, i) => (
+                        <Reveal key={role.company + role.title} delay={i * 0.08}>
+                            <article
+                                className="grid gap-6 border-b border-navy/10 py-10 md:grid-cols-[20rem_1fr] md:gap-12"
+                                data-testid="experience-role"
+                            >
+                                <div>
+                                    <span className="font-mono text-xs text-navy/40">
+                                        {String(i + 1).padStart(2, "0")}
+                                    </span>
+                                    <p className="mt-3 font-mono text-xs uppercase tracking-widest text-teal">
+                                        {role.company}
+                                    </p>
+                                    <h2 className="mt-2 font-display text-2xl font-bold leading-tight text-navy">
+                                        {role.title}
+                                    </h2>
+                                    <p className="mt-3 text-sm text-navy/60">{role.dates}</p>
                                 </div>
-                            </Reveal>
-                        );
-                    })}
+                                <div>
+                                    <p className="text-lg leading-relaxed text-navy/80">
+                                        {role.summary}
+                                    </p>
+                                    <ul className="mt-5 space-y-3">
+                                        {role.bullets.map((bullet) => (
+                                            <li key={bullet} className="flex gap-3 text-navy/70">
+                                                <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
+                                                <span className="leading-relaxed">{bullet}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </article>
+                        </Reveal>
+                    ))}
                 </div>
+
+                <Reveal className="mt-12 border-b border-navy/10 pb-10">
+                    <div className="grid gap-6 md:grid-cols-[20rem_1fr] md:gap-12">
+                        <div>
+                            <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                                Earlier experience
+                            </p>
+                        </div>
+                        <div>
+                            <ul className="space-y-2 text-navy/80">
+                                {earlierExperience.roles.map((role) => (
+                                    <li key={role}>{role}</li>
+                                ))}
+                            </ul>
+                            <p className="mt-4 max-w-3xl leading-relaxed text-navy/65">
+                                {earlierExperience.summary}
+                            </p>
+                        </div>
+                    </div>
+                </Reveal>
             </div>
         </div>
     );
