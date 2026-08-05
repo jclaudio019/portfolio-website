@@ -59,6 +59,7 @@ export default function ProjectDetail() {
 
     // Only offer a "next project" when another case study actually exists
     const next = projects.length > 1 ? projects[(index + 1) % projects.length] : null;
+    const isInProgress = project.status === "In progress";
 
     return (
         <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-40" data-testid="project-detail-page">
@@ -118,23 +119,27 @@ export default function ProjectDetail() {
                     )}
                 </Reveal>
 
-                {/* Metrics */}
-                <Reveal className="mt-12 grid grid-cols-1 gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
-                    {project.metrics.map((m) => (
-                        <div key={m.label} className="bg-surface p-6">
-                            <p className="font-display text-4xl font-extrabold tracking-tighter text-teal">
-                                {m.value}
+                {!isInProgress && (
+                    <>
+                        {/* Metrics */}
+                        <Reveal className="mt-12 grid grid-cols-1 gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
+                            {project.metrics.map((m) => (
+                                <div key={m.label} className="bg-surface p-6">
+                                    <p className="font-display text-4xl font-extrabold tracking-tighter text-teal">
+                                        {m.value}
+                                    </p>
+                                    <p className="mt-2 font-mono text-xs uppercase tracking-wider text-navy/60">
+                                        {m.label}
+                                    </p>
+                                </div>
+                            ))}
+                        </Reveal>
+                        {project.metricsNote && (
+                            <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-wide text-navy/45">
+                                {project.metricsNote}
                             </p>
-                            <p className="mt-2 font-mono text-xs uppercase tracking-wider text-navy/60">
-                                {m.label}
-                            </p>
-                        </div>
-                    ))}
-                </Reveal>
-                {project.metricsNote && (
-                    <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-wide text-navy/45">
-                        {project.metricsNote}
-                    </p>
+                        )}
+                    </>
                 )}
 
                 {/* Story sections */}
@@ -142,6 +147,14 @@ export default function ProjectDetail() {
                     <Section label="Business Problem">
                         <p className="leading-relaxed">{project.problem}</p>
                     </Section>
+                    {isInProgress ? (
+                        <Section label="In progress">
+                            <p className="leading-relaxed">
+                                This project is in progress. This page will be updated as the research and analysis develop.
+                            </p>
+                        </Section>
+                    ) : (
+                        <>
                     {(project.solutionParagraphs || project.solution) && (
                         <Section label="Solution">
                             {project.solutionParagraphs ? (
@@ -360,10 +373,12 @@ export default function ProjectDetail() {
                             ))}
                         </div>
                     </Section>
+                        </>
+                    )}
                 </div>
 
                 {/* Next project */}
-                {next && (
+                {next && !isInProgress && (
                     <Reveal className="mt-8 border-t border-navy/10 pt-10">
                         <Link
                             to={`/projects/${next.slug}`}
