@@ -19,4 +19,7 @@ test("marks only the warehouse market-expansion project as in progress", () => {
             status: "In progress",
         }),
     ]);
+
+    const warehouse = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
+    expect(warehouse.metrics.find(({ label }) => label === "Project status")?.value).toBe("In progress");
 });
