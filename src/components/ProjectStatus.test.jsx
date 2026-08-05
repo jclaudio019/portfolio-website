@@ -17,6 +17,12 @@ beforeEach(() => {
         unobserve() {}
         disconnect() {}
     };
+    global.ResizeObserver = class {
+        constructor(callback) { this.callback = callback; }
+        observe() { this.callback([{ contentRect: { width: 800, height: 416 } }]); }
+        unobserve() {}
+        disconnect() {}
+    };
     container = document.createElement("div");
     document.body.appendChild(container);
     root = createRoot(container);
@@ -29,7 +35,7 @@ afterEach(() => {
 
 const render = (element) => act(() => root.render(element));
 
-const renderDetail = (slug) => render(
+const detailRoute = (slug) => (
     <MemoryRouter
         initialEntries={[`/projects/${slug}`]}
         future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
@@ -39,6 +45,8 @@ const renderDetail = (slug) => render(
         </Routes>
     </MemoryRouter>
 );
+
+const renderDetail = (slug) => render(detailRoute(slug));
 
 test("shows in-progress status on the warehouse card", () => {
     const project = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
@@ -82,4 +90,26 @@ test("shows in-progress status on the warehouse detail route", () => {
     expect(page.textContent).not.toContain("Limitations");
     expect(page.textContent).not.toContain("Technologies");
     expect(container.querySelector("[data-testid='next-project']")).toBeNull();
+});
+
+test("links project 04 to the in-progress warehouse project 05", async () => {
+    await act(async () => root.render(detailRoute("time-series-analysis-r")));
+
+    const next = container.querySelector("[data-testid='next-project']");
+    expect(next.textContent).toContain("Warehouse Club Market Expansion");
+    expect(next.getAttribute("href")).toBe("/projects/warehouse-club-market-expansion");
+});
+
+test("stops project navigation after warehouse project 05", () => {
+    renderDetail("warehouse-club-market-expansion");
+
+    expect(container.querySelector("[data-testid='next-project']")).toBeNull();
+});
+
+test("uses the fluid site shell on project pages", () => {
+    renderDetail("retail-allocation-simulator");
+
+    const page = container.querySelector("[data-testid='project-detail-page']");
+    expect(page.firstElementChild.classList.contains("site-shell")).toBe(true);
+    expect(page.querySelector("h1").classList.contains("fluid-page-title")).toBe(true);
 });

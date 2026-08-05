@@ -13,7 +13,7 @@ export default function Home() {
             {/* HERO */}
             <section className="relative flex min-h-screen items-center overflow-hidden px-6 pb-16 pt-24 lg:px-12">
                 <SkillSphere className="pointer-events-none absolute inset-0 h-full w-full" />
-                <div className="relative z-10 mx-auto w-full max-w-[1400px]">
+                <div className="site-shell relative z-10 w-full">
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -25,7 +25,7 @@ export default function Home() {
                     </motion.p>
 
                     <h1
-                        className="font-display text-4xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-5xl md:text-6xl lg:text-7xl"
+                        className="fluid-hero-title font-display font-extrabold leading-[0.92] tracking-tighter text-navy"
                         data-testid="hero-headline"
                     >
                         <MaskedLines lines={["In a world full of answers."]} />
@@ -96,7 +96,7 @@ export default function Home() {
 
             {/* SELECTED WORK */}
             <section className="px-6 py-24 lg:px-12 lg:py-32" data-testid="home-projects">
-                <div className="mx-auto max-w-[1400px]">
+                <div className="site-shell">
                     <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
                         <div>
                             <p className="font-mono text-xs uppercase tracking-widest text-teal">
@@ -127,7 +127,7 @@ export default function Home() {
 
             {/* CTA STRIP */}
             <section className="px-6 pb-24 lg:px-12" data-testid="home-cta">
-                <Reveal className="mx-auto max-w-[1400px] border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
+                <Reveal className="site-shell border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
                     <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                         <h2 className="max-w-2xl font-display text-3xl font-extrabold tracking-tight md:text-4xl">
                             Looking to bring order to chaotic data? Let&apos;s turn complexity into opportunity.

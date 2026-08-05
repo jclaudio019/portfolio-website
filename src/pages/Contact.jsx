@@ -47,10 +47,10 @@ export default function Contact() {
 
     return (
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="contact-page">
-            <div className="mx-auto max-w-[1400px]">
+            <div className="site-shell">
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Contact</p>
-                    <h1 className="mt-4 max-w-4xl font-display text-4xl font-extrabold leading-[0.95] tracking-tighter text-navy sm:text-5xl md:text-6xl">
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
                         Let’s talk about your data problem.
                     </h1>
                 </Reveal>
