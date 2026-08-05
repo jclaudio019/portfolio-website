@@ -15,7 +15,7 @@ export default function Skills() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Skills</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        A toolkit spanning statistics, code, and business context.
+                        Tools and methods I use.
                     </h1>
                 </Reveal>
 

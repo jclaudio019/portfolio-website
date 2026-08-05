@@ -28,7 +28,7 @@ export default function Home() {
                         className="fluid-hero-title font-display font-extrabold leading-[0.92] tracking-tighter text-navy"
                         data-testid="hero-headline"
                     >
-                        <MaskedLines lines={["In a world full of answers."]} />
+                        <MaskedLines lines={["I use data to solve"]} />
                         <span className="block overflow-hidden">
                             <motion.span
                                 className="block text-teal"
@@ -36,7 +36,7 @@ export default function Home() {
                                 animate={{ y: "0%" }}
                                 transition={{ duration: 0.9, delay: 0.39, ease: [0.22, 1, 0.36, 1] }}
                             >
-                                Clarity begins with the right question
+                                practical business problems
                             </motion.span>
                         </span>
                     </h1>
@@ -103,7 +103,7 @@ export default function Home() {
                                 Selected Work
                             </p>
                             <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-navy md:text-5xl">
-                                Case studies in impact
+                                Selected projects
                             </h2>
                         </div>
                         <Link
@@ -130,7 +130,7 @@ export default function Home() {
                 <Reveal className="site-shell border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
                     <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                         <h2 className="max-w-2xl font-display text-3xl font-extrabold tracking-tight md:text-4xl">
-                            Looking to bring order to chaotic data? Let&apos;s turn complexity into opportunity.
+                            Have a business problem worth exploring? Let&apos;s talk.
                         </h2>
                         <Link
                             to="/contact"

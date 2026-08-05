@@ -143,7 +143,7 @@ export default function CreditRiskScoreExplorer() {
             </div>
             <div className="p-5 sm:p-6">
                 <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-sm leading-relaxed text-navy/80">
-                    Educational historical-model demonstration. Not a lending decision, approval recommendation, or calibrated production PD.
+                    Educational example based on historical data. It is not a lending decision or a production credit score.
                 </p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                     {primary.map((family) => <Field key={family.id} family={family} value={inputs[family.id]} error={errors[family.id]} onChange={updateInput} />)}
@@ -166,14 +166,14 @@ export default function CreditRiskScoreExplorer() {
                 {result && (
                     <div ref={resultsRef} tabIndex={-1} data-testid="score-results" className="mt-6 border border-navy/15 outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2">
                         <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-                            {stale ? "Results are stale. Calculate again to refresh." : "Results calculated."}
+                            {stale ? "Inputs changed. Calculate again to update the result." : "Results calculated."}
                         </p>
-                        {stale && <p className="border-b border-teal/40 bg-navy/90 px-4 py-3 text-sm text-cream">Results are stale. Calculate again to refresh.</p>}
+                        {stale && <p className="border-b border-teal/40 bg-navy/90 px-4 py-3 text-sm text-cream">Inputs changed. Calculate again to update the result.</p>}
                         <div className="grid gap-px bg-navy/10 sm:grid-cols-2 lg:grid-cols-4">
                             <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative score:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{Math.round(result.score)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">P(good):</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Probability of repayment:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
                             <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Probability of default:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pd)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Display-only band:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{scoreBand(result.score)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative risk band:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{scoreBand(result.score)}</p></div>
                         </div>
                         <div className="p-4">
                             <p className="font-mono text-[11px] uppercase tracking-widest text-teal">Top three contributions</p>

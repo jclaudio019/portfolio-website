@@ -50,18 +50,6 @@ export default function Resume() {
                         <Mail size={16} /> Request Resume
                     </a>
                 </Reveal>
-
-                <Reveal className="mt-8 border border-navy/10 bg-surface p-8 text-navy/70">
-                    <p className="leading-relaxed">
-                        When a PDF resume is added to this site, it will be available as{" "}
-                        <span className="font-mono text-sm text-navy">Jose_Claudio_Analytics_Resume.pdf</span>.
-                        Until then, please use the request button above or contact me directly at{" "}
-                        <a href={`mailto:${profile.email}`} className="text-teal underline">
-                            {profile.email}
-                        </a>
-                        .
-                    </p>
-                </Reveal>
             </div>
         </div>
     );

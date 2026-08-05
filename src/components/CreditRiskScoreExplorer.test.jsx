@@ -32,7 +32,7 @@ const change = (label, value) => {
 test("keeps results hidden until Calculate and shows the historical-model notice", () => {
     renderExplorer();
 
-    expect(container.textContent).toContain("Educational historical-model demonstration. Not a lending decision, approval recommendation, or calibrated production PD.");
+    expect(container.textContent).toContain("Educational example based on historical data. It is not a lending decision or a production credit score.");
     expect(container.textContent).not.toContain("Illustrative score:");
 });
 
@@ -42,9 +42,9 @@ test("calculates the specified default profile", () => {
     act(() => container.querySelector("button").click());
 
     expect(container.textContent).toContain("Illustrative score:");
-    expect(container.textContent).toContain("P(good):");
+    expect(container.textContent).toContain("Probability of repayment:");
     expect(container.textContent).toContain("Probability of default:");
-    expect(container.textContent).toContain("Display-only band:Middle");
+    expect(container.textContent).toContain("Illustrative risk band:Middle");
     expect(container.querySelectorAll("[data-testid='contribution-row']")).toHaveLength(3);
 });
 
@@ -54,7 +54,7 @@ test("marks a calculated result stale when an input changes", () => {
 
     change("Annual income", "70000");
 
-    expect(container.textContent).toContain("Results are stale. Calculate again to refresh.");
+    expect(container.textContent).toContain("Inputs changed. Calculate again to update the result.");
     expect(container.textContent).toContain("Illustrative score:");
 });
 
@@ -77,7 +77,7 @@ test("announces calculated and stale results without changing the visible layout
     expect(container.querySelector("[role='status']").textContent).toBe("Results calculated.");
 
     change("Annual income", "70000");
-    expect(container.querySelector("[role='status']").textContent).toBe("Results are stale. Calculate again to refresh.");
+    expect(container.querySelector("[role='status']").textContent).toBe("Inputs changed. Calculate again to update the result.");
 });
 
 test("moves focus to results after a successful calculation", () => {

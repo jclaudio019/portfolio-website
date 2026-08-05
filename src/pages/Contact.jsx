@@ -23,13 +23,13 @@ export default function Contact() {
         try {
             const result = await sendContactMessage(form);
             if (result?.via === "mailto") {
-                toast.success("Opening your email client…");
+                toast.success("Opening your email app…");
             } else {
-                toast.success("Message sent — thank you! I'll get back to you soon.");
+                toast.success("Message sent. Thank you — I'll get back to you soon.");
             }
             setForm(initial);
         } catch (err) {
-            toast.error("Something went wrong. Please try again or email directly.");
+            toast.error("I couldn't send your message. Please try again or email me directly.");
         } finally {
             setSubmitting(false);
         }
@@ -51,7 +51,7 @@ export default function Contact() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Contact</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Let’s talk about your data problem.
+                        Let’s talk about the problem you’re trying to solve.
                     </h1>
                 </Reveal>
 
