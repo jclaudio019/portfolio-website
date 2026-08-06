@@ -5,11 +5,12 @@ import {
     professionalContext,
     profile,
     projects,
+    publishedProjects,
     resumeHighlights,
     skillGroups,
 } from "./content";
 
-test("publishes five distinct portfolio projects with local covers and repository links", () => {
+test("retains five project records while publishing four complete case studies", () => {
     expect(projects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
@@ -18,8 +19,14 @@ test("publishes five distinct portfolio projects with local covers and repositor
         "warehouse-club-market-expansion",
     ]);
     expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 5);
-    expect(projects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);
-    expect(projects.every(({ github }) => github.startsWith("https://github.com/jclaudio019/"))).toBe(true);
+    expect(publishedProjects.map(({ slug }) => slug)).toEqual([
+        "retail-demand-forecasting",
+        "credit-risk-pd-model",
+        "retail-allocation-simulator",
+        "time-series-analysis-r",
+    ]);
+    expect(publishedProjects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);
+    expect(publishedProjects.every(({ github }) => github.startsWith("https://github.com/jclaudio019/"))).toBe(true);
 });
 
 test("publishes five skill groups with verified project evidence", () => {
@@ -43,7 +50,7 @@ test("publishes five skill groups with verified project evidence", () => {
         "Accounting", "Public Data",
     ]));
 
-    const slugs = new Set(projects.map(({ slug }) => slug));
+    const slugs = new Set(publishedProjects.map(({ slug }) => slug));
     skills.flatMap(({ projectSlugs = [] }) => projectSlugs).forEach((slug) => {
         expect(slugs.has(slug)).toBe(true);
     });
@@ -59,8 +66,9 @@ test("positions Jose as an experienced applied analytics professional", () => {
             "Open to remote, hybrid, and on-site opportunities",
             "Willing to relocate for the right opportunity",
         ],
-        heroIntro: "I bring 5+ years of experience across finance, supply chain, inventory planning, and analytics, using Python, SQL, statistical modeling, forecasting, and automation to support practical business decisions.",
-        heroSupport: "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused projects that connect rigorous analytical methods with operational and financial questions.",
+        heroIntro: "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
+        heroSupport: "I am currently pursuing an M.S. in Applied Statistics at Purdue University to deepen my understanding of modeling, uncertainty, and the questions behind the data.",
+        education: "M.S. Applied Statistics — Purdue University (2027 Expected)",
     }));
 });
 
@@ -71,7 +79,8 @@ test("keeps the About story concise and education accurate", () => {
         "Why Applied Statistics",
         "What I Build Now",
     ]);
-    expect(aboutChapters.every(({ paragraphs }) => paragraphs.length === 2)).toBe(true);
+    expect(aboutChapters.map(({ paragraphs }) => paragraphs.length)).toEqual([2, 1, 2, 2]);
+    expect(aboutChapters.flatMap(({ paragraphs }) => paragraphs).join(" ")).not.toContain("market-expansion");
     expect(educationEntries[0].coursework).toEqual([
         "Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis",
     ]);
@@ -91,6 +100,14 @@ test("organizes experience around impact areas with compact employer context", (
         "retail-allocation-simulator",
         "time-series-analysis-r",
     ]);
+    expect(experienceImpactAreas[0].description).not.toContain("working-capital");
+    expect(experienceImpactAreas[1].professionalEvidence).toContain(
+        "Designed and implemented an allocation and reporting workflow used by my current team."
+    );
+    expect(experienceImpactAreas[2].portfolioEvidence).toHaveLength(2);
+    expect(experienceImpactAreas[2].projectSlugs).toEqual([
+        "credit-risk-pd-model", "time-series-analysis-r",
+    ]);
     expect(professionalContext.entries).toEqual([
         "EssilorLuxottica — Supply Chain Analyst",
         "Rexel USA — Financial & Accounting Analyst",
@@ -101,23 +118,18 @@ test("organizes experience around impact areas with compact employer context", (
 test("publishes the requested resume highlights", () => {
     expect(resumeHighlights).toEqual([
         { label: "Location", value: "Orange City, Florida · Open to relocation" },
-        { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
+        { label: "Education", value: "M.S. Applied Statistics, Purdue University — 2027 Expected" },
         { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
         { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
     ]);
 });
 
-test("marks only the warehouse market-expansion project as in progress", () => {
-    expect(projects.filter(({ status }) => status)).toEqual([
-        expect.objectContaining({
-            slug: "warehouse-club-market-expansion",
-            status: "In progress",
-        }),
-    ]);
-
+test("keeps the warehouse project data unpublished and reversible", () => {
     const warehouse = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
+    expect(warehouse.published).toBe(false);
     expect(warehouse.status).toBe("In progress");
     expect(warehouse.metrics).toBeUndefined();
+    expect(publishedProjects).not.toContain(warehouse);
 });
 
 test("presents the R time-series final project through its implemented analysis", () => {

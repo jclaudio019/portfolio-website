@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { useEffect, lazy, Suspense } from "react";
 import { ArrowLeft, Github, ArrowUpRight, ChevronDown } from "lucide-react";
-import { projects } from "../data/content";
+import { publishedProjects } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
@@ -40,8 +40,8 @@ const Disclosure = ({ summary, children }) => (
 
 export default function ProjectDetail() {
     const { slug } = useParams();
-    const project = projects.find((p) => p.slug === slug);
-    const index = projects.findIndex((p) => p.slug === slug);
+    const project = publishedProjects.find((p) => p.slug === slug);
+    const index = publishedProjects.findIndex((p) => p.slug === slug);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -52,14 +52,14 @@ export default function ProjectDetail() {
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-6" data-testid="project-not-found">
                 <p className="font-display text-3xl font-bold text-navy">Project not found</p>
                 <Link to="/projects" className="mt-6 nav-underline font-mono text-xs uppercase tracking-widest text-teal">
-                    ← Back to projects
+                    ← Back to portfolio
                 </Link>
             </div>
         );
     }
 
     // Only offer a "next project" when another case study actually exists
-    const next = projects[index + 1] ?? null;
+    const next = publishedProjects[index + 1] ?? null;
     const isInProgress = project.status === "In progress";
 
     return (
@@ -70,7 +70,7 @@ export default function ProjectDetail() {
                     data-testid="back-to-projects"
                     className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-navy/60 transition-colors hover:text-navy"
                 >
-                    <ArrowLeft size={14} /> All Projects
+                    <ArrowLeft size={14} /> All Case Studies
                 </Link>
 
                 <Reveal>
@@ -398,7 +398,7 @@ export default function ProjectDetail() {
                             className="group flex items-center justify-between gap-6"
                         >
                             <div>
-                                <p className="font-mono text-xs uppercase tracking-widest text-navy/50">Next project</p>
+                                <p className="font-mono text-xs uppercase tracking-widest text-navy/50">Next case study</p>
                                 <p className="mt-2 font-display text-2xl font-bold text-navy md:text-3xl">{next.title}</p>
                             </div>
                             <ArrowUpRight size={32} className="shrink-0 text-navy/40 transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-teal" />

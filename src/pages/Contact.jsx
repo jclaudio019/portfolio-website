@@ -51,7 +51,7 @@ export default function Contact() {
                 <Reveal>
                     <p className="font-mono text-xs uppercase tracking-widest text-teal">Contact</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
-                        Let’s talk about the problem you’re trying to solve.
+                        Let’s discuss analytics, forecasting, or modeling.
                     </h1>
                 </Reveal>
 
@@ -129,7 +129,7 @@ export default function Contact() {
                                     value={form.subject}
                                     onChange={update}
                                     data-testid="contact-input-subject"
-                                    placeholder="What's this about?"
+                                    placeholder="What would you like to discuss?"
                                     className={`mt-2 ${inputClass}`}
                                 />
                             </div>
@@ -141,7 +141,7 @@ export default function Contact() {
                                     onChange={update}
                                     data-testid="contact-input-message"
                                     rows={5}
-                                    placeholder="Tell me about the problem you're trying to solve…"
+                                    placeholder="Share a little context for your message…"
                                     className={`mt-2 resize-none ${inputClass}`}
                                 />
                             </div>

@@ -17,11 +17,11 @@ export const profile = {
     resumeAvailableOnRequest: true,
     // TODO: add Jose_Claudio_Analytics_Resume.pdf to public/ when ready
     resumeUrl: null,
-    education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
+    education: "M.S. Applied Statistics — Purdue University (2027 Expected)",
     heroIntro:
-        "I bring 5+ years of experience across finance, supply chain, inventory planning, and analytics, using Python, SQL, statistical modeling, forecasting, and automation to support practical business decisions.",
+        "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
     heroSupport:
-        "Currently pursuing an M.S. in Applied Statistics at Purdue University, I build decision-focused projects that connect rigorous analytical methods with operational and financial questions.",
+        "I am currently pursuing an M.S. in Applied Statistics at Purdue University to deepen my understanding of modeling, uncertainty, and the questions behind the data.",
 };
 
 export const marqueeItems = [
@@ -52,8 +52,7 @@ export const aboutChapters = [
         n: "02",
         title: "Professional Application",
         paragraphs: [
-            "Since graduating, I have built more than five years of experience across finance, accounting, supply chain, inventory planning, and analytics. That combination has taught me to examine both the numbers and the business process behind them.",
-            "In my current work, I develop POS-driven forecasts and allocation analyses for retail accounts within a $40M+ product portfolio. I use Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support inventory and working-capital decisions. I also led a $1M+ inventory-validation initiative that improved data accuracy by 15%.",
+            "In my current work, I develop POS-driven forecasts and allocation analyses for retail accounts within a $40M+ product portfolio. I use Python, Excel, VBA, and Power Query to automate reporting, validate data, analyze performance, and support inventory and planning decisions. I also led a $1M+ inventory-validation initiative that improved data accuracy by 15%.",
         ],
     },
     {
@@ -68,7 +67,7 @@ export const aboutChapters = [
         n: "04",
         title: "What I Build Now",
         paragraphs: [
-            "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, allocation logic, and market-expansion research.",
+            "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, and allocation logic.",
             "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. My goal is to build analytical solutions that are technically sound, explainable, and useful to the people making the decision.",
         ],
     },
@@ -79,7 +78,7 @@ export const educationEntries = [
         school: "Purdue University",
         location: "West Lafayette, Indiana",
         degree: "M.S. in Applied Statistics",
-        date: "Expected May 2027",
+        date: "2027 Expected",
         coursework: ["Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis"],
     },
     {
@@ -370,6 +369,7 @@ export const projects = [
     },
     {
         slug: "warehouse-club-market-expansion",
+        published: false,
         title: "Warehouse Club Market Expansion",
         category: "Market Strategy",
         status: "In progress",
@@ -385,16 +385,18 @@ export const projects = [
     },
 ];
 
+export const publishedProjects = projects.filter((project) => project.published !== false);
+
 export const experienceImpactAreas = [
     {
         theme: "Forecasting, Inventory & Decision Support",
         icon: "boxes",
         description:
-            "Develop POS-driven forecasts and allocation analyses that connect demand, inventory, revenue, and working-capital considerations.",
+            "Develop POS-driven forecasts and allocation analyses that support inventory planning, product availability, and practical business decisions.",
         professionalEvidence: [
             "Support assigned retail accounts within a $40M+ product portfolio.",
-            "Analyze store- and SKU-level demand, sales, and inventory behavior to support forecasting and allocation decisions.",
-            "Translate unit-level forecasts and inventory signals into revenue, performance, and working-capital views.",
+            "Analyze store- and SKU-level demand, sales, and inventory patterns to inform forecasting and allocation decisions.",
+            "Translate unit-level forecasts and inventory signals into revenue and performance views for planning.",
             "Partner across sales, merchandising, planning, finance, and operations to support product availability and business planning.",
         ],
         projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator", "time-series-analysis-r"],
@@ -403,12 +405,12 @@ export const experienceImpactAreas = [
         theme: "Automation, Reporting & Data Validation",
         icon: "workflow",
         description:
-            "Build repeatable analytical workflows that reduce manual work, improve data reliability, and make recurring decisions easier to support.",
+            "Build repeatable analytical workflows that reduce manual effort, improve data reliability, and make recurring decisions easier to support.",
         professionalEvidence: [
-            "Automate recurring reporting, analytical checks, and validation workflows using Python, Excel, VBA, and Power Query.",
+            "Automate recurring reports, analytical checks, and validation workflows using Python, Excel, VBA, and Power Query.",
             "Consolidate KPIs and large operational datasets into information stakeholders can review and use.",
             "Led a validation initiative involving more than $1 million in inventory that improved data accuracy by 15%.",
-            "Contributed to allocation and reporting processes used across the organization.",
+            "Designed and implemented an allocation and reporting workflow used by my current team.",
         ],
         projectSlugs: ["retail-allocation-simulator", "retail-demand-forecasting", "credit-risk-pd-model"],
     },
@@ -416,9 +418,9 @@ export const experienceImpactAreas = [
         theme: "Finance, Modeling & Performance Analysis",
         icon: "trending-up",
         description:
-            "Combine financial analysis, statistical modeling, and business context to identify performance drivers, evaluate scenarios, and communicate implications.",
+            "Combine financial analysis, statistical modeling, and business context to understand performance drivers, evaluate scenarios, and communicate implications.",
         professionalEvidence: [
-            "Perform forecast-versus-actual and variance analysis across operational and financial contexts.",
+            "Analyze forecast-versus-actual performance and the operational drivers behind changes in demand, inventory, and sales.",
             "Translate volume, inventory, and pricing changes into financial and performance implications.",
             "Modeled financial outcomes based on commodity-price and supplier-pricing changes while working in finance.",
             "Supported financial reporting, reconciliations, KPI reviews, and leadership presentations.",
@@ -426,9 +428,8 @@ export const experienceImpactAreas = [
         portfolioEvidence: [
             "Built an interpretable probability-of-default model and 300–850 scorecard using logistic regression, WoE and Information Value, and ROC-AUC evaluation.",
             "Applied regression, time-series analysis, forecast validation, and machine-learning methods across public portfolio projects.",
-            "Developing a public-data market-expansion case study for a fictional warehouse-club business.",
         ],
-        projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r", "warehouse-club-market-expansion"],
+        projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"],
     },
 ];
 
@@ -449,10 +450,9 @@ export const skillGroups = [
             { label: "Forecasting", projectSlugs: ["retail-demand-forecasting", "time-series-analysis-r"] },
             "Variance Analysis",
             { label: "Inventory Analysis", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
-            "Working Capital Analysis",
             { label: "KPI Reporting", projectSlugs: ["retail-demand-forecasting"] },
             { label: "Data Validation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
-            { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r", "warehouse-club-market-expansion"] },
+            { label: "Decision Support", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator", "time-series-analysis-r"] },
             { label: "Reporting Automation", projectSlugs: ["retail-allocation-simulator"] },
         ],
     },
@@ -509,15 +509,13 @@ export const skillGroups = [
             { label: "Retail Operations", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
             { label: "Inventory & Allocation", projectSlugs: ["retail-demand-forecasting", "retail-allocation-simulator"] },
             "Financial Planning & Analysis",
-            { label: "Market Research", projectSlugs: ["warehouse-club-market-expansion"] },
-            { label: "Business Strategy", projectSlugs: ["warehouse-club-market-expansion"] },
         ],
     },
 ];
 
 export const resumeHighlights = [
     { label: "Location", value: "Orange City, Florida · Open to relocation" },
-    { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
+    { label: "Education", value: "M.S. Applied Statistics, Purdue University — 2027 Expected" },
     { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
     { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
 ];
