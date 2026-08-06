@@ -158,7 +158,7 @@ export const projects = [
                 { category: "HOUSEHOLD", model: "Linear Regression (Full)", underUnits: "132,093", missedValue: "$0.52M", overUnits: "119,754", excessValue: "$0.46M" },
             ],
             takeaway:
-                "Naive forecasts create much more excess-inventory exposure in every category. Better models reduce that amount but can increase under-forecast exposure, so model comparisons should consider both sides instead of WAPE alone. For HOBBIES, ETS and XGBoost are close. For HOUSEHOLD, linear regression produces a better balance than ETS.",
+                "Naive forecasts create much more over-forecast retail-value exposure in every category. Better models reduce that amount but can increase under-forecast retail-value exposure, so model comparisons should consider both sides instead of WAPE alone. For HOBBIES, ETS and XGBoost are close. For HOUSEHOLD, linear regression produces a better balance than ETS.",
             priorityIntro:
                 "Average selling price helps put error into business context (it is not a margin measure). Categories differ in volume, retail value, and where deeper work is worth the effort:",
             priorityRows: [
@@ -189,7 +189,7 @@ export const projects = [
             "Forecast accuracy is only part of the decision. Under-forecasts can mean missed demand, while over-forecasts can leave excess product on the shelf. A production decision should compare those costs by category and use different buffers when running short is more expensive than carrying extra inventory.",
         conclusionParagraphs: [
             "Historical sales can forecast category demand more accurately than simply using recent sales, but the best method depends on the category.",
-            "The project compares simple and advanced models, evaluates them on separate test data, and translates errors into potential retail exposure so operations and finance can discuss the same result.",
+            "The project compares baseline, statistical, and machine-learning models, evaluates them on separate test data, and translates errors into potential retail exposure so operations and finance can discuss the same result.",
             "The practical next step is to keep simpler models when results are close, review HOUSEHOLD in more detail, and set category buffers based on the cost of stockouts versus excess inventory.",
         ],
         nextSteps: [

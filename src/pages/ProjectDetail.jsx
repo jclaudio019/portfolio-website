@@ -264,8 +264,8 @@ export default function ProjectDetail() {
                                             <tr>
                                                 <th className="px-3 py-3">Category</th>
                                                 <th className="px-3 py-3">Model</th>
-                                                <th className="px-3 py-3">Missed-sales retail value</th>
-                                                <th className="px-3 py-3">Excess-inventory retail value</th>
+                                                <th className="px-3 py-3">Under-forecast retail-value exposure</th>
+                                                <th className="px-3 py-3">Over-forecast retail-value exposure</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -288,9 +288,9 @@ export default function ProjectDetail() {
                                                     <th className="px-3 py-3">Category</th>
                                                     <th className="px-3 py-3">Model</th>
                                                     <th className="px-3 py-3">Under-forecast units</th>
-                                                    <th className="px-3 py-3">Missed-sales retail value</th>
+                                                    <th className="px-3 py-3">Under-forecast retail-value exposure</th>
                                                     <th className="px-3 py-3">Over-forecast units</th>
-                                                    <th className="px-3 py-3">Excess-inventory retail value</th>
+                                                    <th className="px-3 py-3">Over-forecast retail-value exposure</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
