@@ -40,7 +40,7 @@ test("renders impact-first experience and compact professional context", () => {
     expect(container.textContent).toContain("Organized by the problems I solve, not job titles.");
     expect(container.textContent).toContain("Professional Context");
     expect(container.textContent).toContain("Related public case studies");
-    expect(container.textContent).toContain("Designed and implemented an allocation and reporting workflow used by my current team.");
+    expect(container.textContent).toContain("Designed the allocation logic and validation rules, then led the implementation of a workflow used by my current team.");
     expect(container.textContent).not.toContain("working-capital");
     expect(container.textContent).not.toContain("Warehouse Club Market Expansion");
     expect(container.textContent).toContain("EssilorLuxottica — Supply Chain Analyst");
