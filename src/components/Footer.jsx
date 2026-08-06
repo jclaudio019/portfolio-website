@@ -12,10 +12,10 @@ export default function Footer() {
                 <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
                     <div>
                         <p className="font-mono text-xs uppercase tracking-widest text-teal">
-                            Work with me
+                            Let’s connect
                         </p>
                         <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter text-navy md:text-5xl">
-                            Let&apos;s solve a practical problem.
+                            Interested in discussing analytics, forecasting, or modeling?
                         </h2>
                     </div>
                     <div className="flex gap-4">
@@ -53,7 +53,7 @@ export default function Footer() {
                 <div className="mt-14 flex flex-col justify-between gap-4 border-t border-navy/10 pt-8 font-mono text-xs uppercase tracking-widest text-navy/60 md:flex-row">
                     <span>© {new Date().getFullYear()} {profile.name}</span>
                     <div className="flex flex-wrap gap-6">
-                        <Link to="/projects" className="hover:text-navy">Projects</Link>
+                        <Link to="/projects" className="hover:text-navy">Portfolio</Link>
                         <Link to="/contact" className="hover:text-navy">Contact</Link>
                     </div>
                 </div>

@@ -52,8 +52,8 @@ test("reveals project choices for a multi-project skill", () => {
         "Credit Risk Probability of Default",
         "Retail Allocation Simulator",
         "Time-Series Analysis & Forecasting in R",
-        "Warehouse Club Market Expansion",
     ]);
+    expect(container.textContent).not.toContain("Warehouse Club Market Expansion");
 });
 
 test("keeps experience-only skills non-interactive", () => {

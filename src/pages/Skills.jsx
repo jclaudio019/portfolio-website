@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { projects, skillGroups } from "../data/content";
+import { publishedProjects, skillGroups } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 export default function Skills() {
     const [expandedSkill, setExpandedSkill] = useState(null);
     const relatedProjects = (slugs = []) => slugs
-        .map((slug) => projects.find((project) => project.slug === slug))
+        .map((slug) => publishedProjects.find((project) => project.slug === slug))
         .filter(Boolean);
 
     return (
@@ -49,7 +49,7 @@ export default function Skills() {
                                             <Link
                                                 key={skill.label}
                                                 to={`/projects/${related[0].slug}`}
-                                                aria-label={`${skill.label} — view project evidence`}
+                                                aria-label={`${skill.label} — view case study evidence`}
                                                 className={className}
                                             >
                                                 {skill.label}

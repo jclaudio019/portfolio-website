@@ -1,9 +1,8 @@
 import { act } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import ProjectCard from "./ProjectCard";
 import ProjectDetail from "../pages/ProjectDetail";
-import { projects } from "../data/content";
+import { publishedProjects } from "../data/content";
 
 global.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -48,18 +47,9 @@ const detailRoute = (slug) => (
 
 const renderDetail = (slug) => render(detailRoute(slug));
 
-test("shows in-progress status on the warehouse card", () => {
-    const project = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
-
-    render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><ProjectCard project={project} index={3} /></MemoryRouter>);
-
-    expect(container.querySelector("[data-testid='project-status']").textContent).toBe("In progress");
-});
-
-test("does not add a status badge to completed project cards", () => {
-    render(<MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}><ProjectCard project={projects[0]} index={0} /></MemoryRouter>);
-
-    expect(container.querySelector("[data-testid='project-status']")).toBeNull();
+test("publishes only completed project records", () => {
+    expect(publishedProjects).toHaveLength(4);
+    expect(publishedProjects.every(({ status }) => status !== "In progress")).toBe(true);
 });
 
 test("resolves the allocation detail route without an in-progress label", () => {
@@ -70,38 +60,17 @@ test("resolves the allocation detail route without an in-progress label", () => 
     expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("Methodology");
 });
 
-test("shows in-progress status on the warehouse detail route", () => {
+test("does not render the unpublished warehouse detail route", () => {
     renderDetail("warehouse-club-market-expansion");
 
-    expect(container.querySelector("[data-testid='project-status']").textContent).toBe("In progress");
-    expect(container.querySelector("img").getAttribute("alt")).toBe("Warehouse Club Market Expansion project overview");
-
-    const page = container.querySelector("[data-testid='project-detail-page']");
-    expect(page.textContent).toContain("Business Problem");
-    expect(page.textContent).toContain("This project is in progress. I’ll update this page as the work develops.");
-    expect(page.textContent).not.toContain("Data policy");
-    expect(page.textContent).not.toContain("Project status");
-    expect(page.textContent).not.toContain("Solution");
-    expect(page.textContent).not.toContain("Dataset");
-    expect(page.textContent).not.toContain("Methodology");
-    expect(page.textContent).not.toContain("Findings");
-    expect(page.textContent).not.toContain("Business Implications");
-    expect(page.textContent).not.toContain("Conclusion");
-    expect(page.textContent).not.toContain("Limitations");
-    expect(page.textContent).not.toContain("Technologies");
+    expect(container.querySelector("[data-testid='project-not-found']").textContent).toContain("Project not found");
+    expect(container.querySelector("[data-testid='project-detail-page']")).toBeNull();
+    expect(container.textContent).not.toContain("Warehouse Club Market Expansion");
     expect(container.querySelector("[data-testid='next-project']")).toBeNull();
 });
 
-test("links project 04 to the in-progress warehouse project 05", async () => {
+test("stops project navigation after the fourth published case study", async () => {
     await act(async () => root.render(detailRoute("time-series-analysis-r")));
-
-    const next = container.querySelector("[data-testid='next-project']");
-    expect(next.textContent).toContain("Warehouse Club Market Expansion");
-    expect(next.getAttribute("href")).toBe("/projects/warehouse-club-market-expansion");
-});
-
-test("stops project navigation after warehouse project 05", () => {
-    renderDetail("warehouse-club-market-expansion");
 
     expect(container.querySelector("[data-testid='next-project']")).toBeNull();
 });

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Boxes, TrendingUp, Workflow } from "lucide-react";
-import { experienceImpactAreas, professionalContext, profile, projects } from "../data/content";
+import { experienceImpactAreas, professionalContext, profile, publishedProjects } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 const icons = {
@@ -19,10 +19,9 @@ export default function Experience() {
                         Organized by the problems I solve, not job titles.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My experience spans forecasting, inventory and working-capital analysis,
-                        financial reporting, process automation, and data validation. Rather than
-                        repeat my resume, this page highlights the kinds of problems I solve and the
-                        evidence behind that work.
+                        My experience spans forecasting, inventory analysis, financial reporting,
+                        process automation, and data validation. Rather than repeat my resume, this
+                        page highlights the problems I solve and the evidence behind that work.
                     </p>
                 </Reveal>
 
@@ -30,7 +29,7 @@ export default function Experience() {
                     {experienceImpactAreas.map((area, i) => {
                         const Icon = icons[area.icon];
                         const relatedProjects = area.projectSlugs
-                            .map((slug) => projects.find((project) => project.slug === slug))
+                            .map((slug) => publishedProjects.find((project) => project.slug === slug))
                             .filter(Boolean);
 
                         return <Reveal key={area.theme} delay={i * 0.08}>
@@ -76,7 +75,7 @@ export default function Experience() {
                                     )}
                                     <div className="mt-7 border-t border-navy/10 pt-5">
                                         <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">
-                                            Related public project evidence
+                                            Related public case studies
                                         </p>
                                         <div className="mt-3 flex flex-wrap gap-2">
                                             {relatedProjects.map((project) => (
