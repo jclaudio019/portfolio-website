@@ -187,6 +187,15 @@ export default function ProjectDetail() {
                             </ul>
                         </Disclosure>
                     </Section>
+                    {project.aiAssistedDevelopment && (
+                        <Section label="AI-Assisted Development">
+                            <div className="space-y-4">
+                                {project.aiAssistedDevelopment.paragraphs.map((paragraph, i) => (
+                                    <p key={i} className="leading-relaxed">{paragraph}</p>
+                                ))}
+                            </div>
+                        </Section>
+                    )}
                     <Section label="Findings" wide>
                         <p className="leading-relaxed">{project.findings}</p>
                         {project.gallery?.length > 0 && (

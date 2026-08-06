@@ -37,6 +37,18 @@ test("opens a single-project skill directly", () => {
     expect(logisticRegression.getAttribute("href")).toBe("/projects/credit-risk-pd-model");
 });
 
+test("links AI-assisted product development to the allocation case study", () => {
+    renderSkills();
+
+    const skill = [...container.querySelectorAll("a")].find(({ textContent }) =>
+        textContent.includes("AI-Assisted Product Development")
+    );
+
+    expect(skill.getAttribute("href")).toBe("/projects/retail-allocation-simulator");
+    expect(skill.textContent).toContain("Use generative AI to turn business requirements");
+    expect(skill.textContent).toContain("Codex · Claude Code · Antigravity IDE · CLI workflows");
+});
+
 test("reveals project choices for a multi-project skill", () => {
     renderSkills();
 

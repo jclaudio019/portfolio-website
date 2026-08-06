@@ -45,6 +45,23 @@ export default function Skills() {
                                         const related = relatedProjects(skill.projectSlugs);
                                         const className = "border border-navy/15 px-3 py-1.5 font-mono text-xs text-navy/70 transition-colors hover:border-teal hover:text-teal";
 
+                                        if (skill.description && related.length === 1) return (
+                                            <Link
+                                                key={skill.label}
+                                                to={`/projects/${related[0].slug}`}
+                                                aria-label={`${skill.label} — view case study evidence`}
+                                                className={`${className} w-full`}
+                                            >
+                                                <span className="block text-navy">{skill.label}</span>
+                                                <span className="mt-2 block font-sans text-sm normal-case leading-relaxed tracking-normal text-navy/60">
+                                                    {skill.description}
+                                                </span>
+                                                <span className="mt-2 block text-[10px] uppercase tracking-wider text-teal">
+                                                    {skill.tools.join(" · ")}
+                                                </span>
+                                            </Link>
+                                        );
+
                                         if (related.length === 1) return (
                                             <Link
                                                 key={skill.label}

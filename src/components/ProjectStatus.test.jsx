@@ -58,6 +58,10 @@ test("resolves the allocation detail route without an in-progress label", () => 
     expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("Retail Allocation Simulator");
     expect(container.querySelector("[data-testid='project-status']")).toBeNull();
     expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("Methodology");
+    expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain("AI-Assisted Development");
+    expect(container.querySelector("[data-testid='project-detail-page']").textContent).toContain(
+        "The simulator remains a rule-based analytical workflow"
+    );
 });
 
 test("does not render the unpublished warehouse detail route", () => {

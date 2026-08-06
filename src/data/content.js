@@ -17,7 +17,7 @@ export const profile = {
     resumeAvailableOnRequest: true,
     // TODO: add Jose_Claudio_Analytics_Resume.pdf to public/ when ready
     resumeUrl: null,
-    education: "M.S. Applied Statistics — Purdue University (2027 Expected)",
+    education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
     heroIntro:
         "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
     heroSupport:
@@ -59,7 +59,7 @@ export const aboutChapters = [
         n: "03",
         title: "Why Applied Statistics",
         paragraphs: [
-            "As my analytical work became more advanced, I wanted a deeper understanding of the methods behind the models—not only how to use them, but when they are appropriate, which assumptions matter, and how to evaluate their results.",
+            "As my work became more analytical, I wanted to better understand why different methods work, when to use them, and how to evaluate their results.",
             "I am now pursuing an M.S. in Applied Statistics at Purdue University. My graduate work in regression, probability, statistical inference, and time-series analysis is strengthening how I approach forecasting, model evaluation, uncertainty, and analytical communication.",
         ],
     },
@@ -68,7 +68,7 @@ export const aboutChapters = [
         title: "What I Build Now",
         paragraphs: [
             "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, and allocation logic.",
-            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. My goal is to build analytical solutions that are technically sound, explainable, and useful to the people making the decision.",
+            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. My goal is to build solutions that are clear, explainable, and useful to the people making the decision.",
         ],
     },
 ];
@@ -78,7 +78,7 @@ export const educationEntries = [
         school: "Purdue University",
         location: "West Lafayette, Indiana",
         degree: "M.S. in Applied Statistics",
-        date: "2027 Expected",
+        date: "Expected May 2027",
         coursework: ["Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis"],
     },
     {
@@ -95,7 +95,7 @@ export const projects = [
         title: "Retail Demand Forecasting",
         category: "Forecasting",
         summary:
-            "Compared forecasting methods for daily retail demand and translated errors into potential missed demand and excess inventory.",
+            "Compared forecasting methods for daily retail demand and translated under- and over-forecast errors into retail-value exposure.",
         image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero-v2.png`,
         imageCaption:
             "Portfolio overview from the project data: headline metrics, category demand over time, and Friday–Sunday seasonality.",
@@ -113,13 +113,13 @@ export const projects = [
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
             { label: "Best test WAPE", value: "7.05%" },
-            { label: "Naive excess inventory*", value: "$3.01M" },
+            { label: "Naive over-forecast retail value*", value: "$3.01M" },
             { label: "Untouched test period", value: "365 days" },
         ],
         metricsNote:
             "*Retail-value exposure for FOODS under a Naive inventory-constrained scenario (sales-weighted sell_price). Not realized P&L, cash, or profit.",
         problem:
-            "Retail teams need a reliable view of daily demand to plan staffing and inventory. Recent sales alone can miss weekly patterns, changes in demand, and calendar events such as Christmas closures. Forecast accuracy also needs to be connected to the different costs of running short and carrying too much product.",
+            "Retail teams need a reliable view of daily demand to plan staffing and inventory. Recent sales alone can miss weekly patterns, changes in demand, and calendar events such as Christmas closures. Forecast accuracy also needs to be understood through the operational effects of under- and over-forecasting.",
         solutionParagraphs: [
             "I forecast daily unit sales for FOODS, HOBBIES, and HOUSEHOLD at the category level. This keeps weekly and holiday patterns visible without adding store-item allocation complexity.",
             "I compared simple baselines, linear regression, Prophet, and XGBoost. Models were selected through expanding-window validation and evaluated once on a separate 365-day test period.",
@@ -213,7 +213,7 @@ export const projects = [
         title: "Credit Risk Probability of Default",
         category: "Credit Risk Modeling",
         summary:
-            "Built an interpretable model that uses historical Lending Club outcomes to compare repayment risk and show how borrower inputs affect a credit score.",
+            "Built an interpretable historical risk-ranking model and illustrative scorecard using Lending Club loan outcomes.",
         image: `${process.env.PUBLIC_URL}/images/credit-risk-pd-model-hero-v2.png`,
         imageCaption:
             "The balance between repayment strength and default risk determines the illustrative score.",
@@ -231,7 +231,7 @@ export const projects = [
         solutionParagraphs: [
             "I built an interpretable historical risk-ranking model. Data preparation and category groupings were learned from the training data and then applied unchanged to the test data.",
             "Weight of Evidence and Information Value were used to study risk patterns. The final logistic regression uses grouped categories so the direction and contribution of each input remain explainable.",
-            "The model estimates the probability of repayment and converts it into probability of default. AUC, Gini, and KS measure how well the model ranks risk, while an illustrative 300–850 score makes the relationship easier to understand. The score is not an approval or pricing rule.",
+            "The model estimates P(good) under a simplified historical loan-status target and derives probability of default as 1 − P(good). AUC, Gini, and KS measure how well the model ranks risk, while an illustrative 300–850 score makes the relationship easier to understand. The score is not an approval or pricing rule.",
         ],
         dataset:
             "The analysis reviewed 466,285 historical Lending Club loan records. A stratified 80/20 split produced 373,028 training rows and 93,257 held-out rows. The historical good_bad target labels specified charge-off, default, and late-status outcomes as bad (0), with the remaining observed statuses labelled good standing (1).",
@@ -247,7 +247,7 @@ export const projects = [
             "Translated fitted log-odds into an illustrative 300-850 scorecard so relative historical risk could be discussed on a familiar scale without implying a decision rule.",
         ],
         findings:
-            "The model achieved an AUC of 0.699, Gini of 0.399, and KS of 0.292 on the test data. This supports relative risk ranking, but it does not cleanly separate good and bad outcomes. At the displayed 50% repayment threshold, the model detected only 10 of 10,194 bad loans. The main lesson is that useful risk ranking does not automatically create a useful decision cutoff.",
+            "The model achieved an AUC of 0.699, Gini of 0.399, and KS of 0.292 on the test data. This supports relative risk ranking, but it does not cleanly separate good and bad outcomes. At the displayed 0.5 P(good) threshold, the model detected only 10 of 10,194 bad loans. The main lesson is that useful risk ranking does not automatically create a useful decision cutoff.",
         implications:
             "The model can support risk segmentation and threshold analysis, but it cannot set approval or pricing rules by itself. A real credit policy would need to compare the costs of missed defaults and rejected good borrowers and add calibration, monitoring, fairness review, and governance.",
         conclusionParagraphs: [
@@ -301,6 +301,12 @@ export const projects = [
             "Add eligible units only while store capacity, item availability, line limits, minimum-shipment requirements, and target controls permit them.",
             "Write the final recommendation, availability checks, approval flags, and allocation summaries to an ordered 13-tab workbook for review.",
         ],
+        aiAssistedDevelopment: {
+            paragraphs: [
+                "I defined the business problem, allocation logic, requirements, decision rules, validation criteria, and weekly scenarios. I used generative AI through Codex, Claude Code, Antigravity IDE, and CLI-based workflows to help translate those specifications into code, tests, and documentation.",
+                "The simulator remains a rule-based analytical workflow, not a generative-AI product or AI model. I reviewed and validated the implementation, business rules, and outputs.",
+            ],
+        },
         findings:
             "The simulator shows that weekly allocation can be handled with visible business rules and checked from input to final recommendation. The examples cover shortages, extra availability, capacity limits, shipment minimums, targets, validation, and approval flags. They demonstrate how the process works rather than claiming a measured sales or inventory improvement.",
         implications:
@@ -410,7 +416,7 @@ export const experienceImpactAreas = [
             "Automate recurring reports, analytical checks, and validation workflows using Python, Excel, VBA, and Power Query.",
             "Consolidate KPIs and large operational datasets into information stakeholders can review and use.",
             "Led a validation initiative involving more than $1 million in inventory that improved data accuracy by 15%.",
-            "Designed and implemented an allocation and reporting workflow used by my current team.",
+            "Designed the allocation logic and validation rules, then led the implementation of a workflow used by my current team.",
         ],
         projectSlugs: ["retail-allocation-simulator", "retail-demand-forecasting", "credit-risk-pd-model"],
     },
@@ -438,7 +444,7 @@ export const professionalContext = {
         "My analytical experience has developed across EssilorLuxottica, Rexel USA, and FGX International in supply-chain analytics, financial reporting, inventory planning, forecasting, and decision support.",
     entries: [
         "EssilorLuxottica — Supply Chain Analyst",
-        "Rexel USA — Financial & Accounting Analyst",
+        "Rexel USA — Financial Analyst and Corporate Accounting Analyst",
         "FGX International — Vendor Managed Inventory Analyst",
     ],
 };
@@ -468,6 +474,13 @@ export const skillGroups = [
             "VBA",
             "Power Query",
             "Git & GitHub",
+            {
+                label: "AI-Assisted Product Development",
+                description:
+                    "Use generative AI to turn business requirements, decision rules, and validation criteria into functional analytical workflows, tests, and documentation.",
+                tools: ["Codex", "Claude Code", "Antigravity IDE", "CLI workflows"],
+                projectSlugs: ["retail-allocation-simulator"],
+            },
             { label: "Jupyter", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "pytest", projectSlugs: ["retail-allocation-simulator"] },
         ],
@@ -515,7 +528,7 @@ export const skillGroups = [
 
 export const resumeHighlights = [
     { label: "Location", value: "Orange City, Florida · Open to relocation" },
-    { label: "Education", value: "M.S. Applied Statistics, Purdue University — 2027 Expected" },
+    { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
     { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
     { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
 ];
