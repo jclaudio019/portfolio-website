@@ -171,7 +171,7 @@ export default function CreditRiskScoreExplorer() {
                         {stale && <p className="border-b border-teal/40 bg-navy/90 px-4 py-3 text-sm text-cream">Inputs changed. Calculate again to update the result.</p>}
                         <div className="grid gap-px bg-navy/10 sm:grid-cols-2 lg:grid-cols-4">
                             <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative score:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{Math.round(result.score)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Probability of repayment:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Historical P(good):</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
                             <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Probability of default:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pd)}</p></div>
                             <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative risk band:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{scoreBand(result.score)}</p></div>
                         </div>

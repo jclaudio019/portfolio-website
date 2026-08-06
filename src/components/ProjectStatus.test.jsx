@@ -64,6 +64,16 @@ test("resolves the allocation detail route without an in-progress label", () => 
     );
 });
 
+test("labels forecasting values as exposure rather than realized outcomes", () => {
+    renderDetail("retail-demand-forecasting");
+
+    const text = container.querySelector("[data-testid='project-detail-page']").textContent;
+    expect(text).toContain("Under-forecast retail-value exposure");
+    expect(text).toContain("Over-forecast retail-value exposure");
+    expect(text).not.toContain("Missed-sales retail value");
+    expect(text).not.toContain("Excess-inventory retail value");
+});
+
 test("does not render the unpublished warehouse detail route", () => {
     renderDetail("warehouse-club-market-expansion");
 

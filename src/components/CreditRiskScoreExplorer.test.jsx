@@ -42,7 +42,8 @@ test("calculates the specified default profile", () => {
     act(() => container.querySelector("button").click());
 
     expect(container.textContent).toContain("Illustrative score:");
-    expect(container.textContent).toContain("Probability of repayment:");
+    expect(container.textContent).toContain("Historical P(good):");
+    expect(container.textContent).not.toContain("Probability of repayment:");
     expect(container.textContent).toContain("Probability of default:");
     expect(container.textContent).toContain("Illustrative risk band:Middle");
     expect(container.querySelectorAll("[data-testid='contribution-row']")).toHaveLength(3);
