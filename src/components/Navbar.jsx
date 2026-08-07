@@ -47,7 +47,7 @@ export default function Navbar() {
                             to={l.to}
                             data-testid={`nav-${l.label.toLowerCase()}`}
                             className={({ isActive }) =>
-                                `nav-underline font-mono text-xs uppercase tracking-widest text-navy/80 transition-colors hover:text-navy ${
+                                `nav-underline font-mono text-sm uppercase tracking-wider text-navy/80 transition-colors hover:text-navy ${
                                     isActive ? "is-active text-navy" : ""
                                 }`
                             }
@@ -58,17 +58,19 @@ export default function Navbar() {
                     <Link
                         to="/resume"
                         data-testid="nav-resume-download"
-                        className="border border-navy bg-navy px-4 py-2 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal hover:border-teal"
+                        className="border border-navy bg-navy px-4 py-2 font-mono text-sm uppercase tracking-wider text-cream transition-colors hover:bg-teal hover:border-teal"
                     >
                         Resume
                     </Link>
                 </div>
 
                 <button
-                    className="md:hidden text-navy"
+                    className="-m-2.5 p-2.5 text-navy md:hidden"
                     onClick={() => setOpen((v) => !v)}
                     data-testid="nav-mobile-toggle"
                     aria-label="Toggle menu"
+                    aria-expanded={open}
+                    aria-controls="mobile-menu"
                 >
                     {open ? <X size={24} /> : <Menu size={24} />}
                 </button>
@@ -76,6 +78,7 @@ export default function Navbar() {
 
             {open && (
                 <div
+                    id="mobile-menu"
                     className="border-t border-navy/10 bg-cream/95 backdrop-blur-xl md:hidden"
                     data-testid="mobile-menu"
                 >

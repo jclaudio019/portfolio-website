@@ -8,8 +8,8 @@
 :root {
     --bg: #0a0a0f;
     --fg: #ececf1;
-    --accent: #a855f7;
-    --accent-hover: #9333ea;
+    --accent: #c084fc;
+    --accent-hover: #d8b4fe;
     --muted-text: #a1a1aa;
     --border: rgba(236, 236, 241, 0.12);
 }
@@ -28,13 +28,13 @@
         --secondary-foreground: 260 15% 92%;
         --muted: 240 12% 16%;
         --muted-foreground: 240 5% 65%;
-        --accent: 271 91% 65%;
-        --accent-foreground: 0 0% 100%;
+        --accent: 269 97% 75%;
+        --accent-foreground: 240 20% 5%;
         --destructive: 0 72% 51%;
         --destructive-foreground: 0 0% 98%;
         --border: 240 12% 20%;
         --input: 240 12% 20%;
-        --ring: 271 91% 65%;
+        --ring: 269 97% 75%;
         --radius: 0.25rem;
     }
 }
@@ -50,11 +50,32 @@
         font-family: "Satoshi", "Inter", system-ui, sans-serif;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
+        font-kerning: normal;
+        line-height: 1.6;
     }
     ::selection {
         background: var(--accent);
-        color: #fff;
+        color: var(--bg);
     }
+    :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+    }
+}
+
+.skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    transform: translateY(-200%);
+    background: var(--fg);
+    color: var(--bg);
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+}
+.skip-link:focus {
+    transform: translateY(0);
 }
 
 .font-display {
@@ -96,6 +117,15 @@
 .animate-marquee {
     animation: marquee 32s linear infinite;
     will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-marquee {
+        animation-play-state: paused;
+    }
+    html:focus-within {
+        scroll-behavior: auto;
+    }
 }
 
 /* Link underline animation */

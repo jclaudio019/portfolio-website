@@ -12,20 +12,20 @@ export default function Home() {
         <div data-testid="home-page">
             {/* HERO */}
             <section className="relative flex min-h-screen items-center overflow-hidden px-6 pb-16 pt-24 lg:px-12">
-                <SkillSphere className="pointer-events-none absolute inset-0 h-full w-full" />
+                <SkillSphere className="pointer-events-none absolute inset-0 h-full w-full opacity-20 md:opacity-70 lg:opacity-100" />
                 <div className="site-shell relative z-10 w-full">
                     <motion.p
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 0.1, duration: 0.6 }}
-                        className="mb-8 font-mono text-xs uppercase tracking-widest text-teal"
+                        className="mb-8 font-mono text-sm uppercase tracking-wider text-teal"
                         data-testid="hero-eyebrow"
                     >
                         {profile.roleShort}
                     </motion.p>
 
                     <h1
-                        className="font-display text-4xl font-extrabold leading-[0.92] tracking-tighter text-navy sm:text-5xl md:text-6xl lg:text-7xl"
+                        className="font-display text-4xl font-extrabold leading-[1.02] tracking-[-0.035em] text-navy sm:text-5xl md:text-6xl md:leading-[0.95] lg:text-7xl"
                         data-testid="hero-headline"
                     >
                         <MaskedLines lines={["In a world full of answers,"]} />
@@ -100,7 +100,7 @@ export default function Home() {
                 <div className="site-shell">
                     <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
                         <div>
-                            <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                            <p className="font-mono text-sm uppercase tracking-wider text-teal">
                                 Portfolio
                             </p>
                             <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-navy md:text-5xl">
@@ -110,7 +110,7 @@ export default function Home() {
                         <Link
                             to="/projects"
                             data-testid="home-all-projects"
-                            className="nav-underline font-mono text-xs uppercase tracking-widest text-navy"
+                            className="nav-underline font-mono text-sm uppercase tracking-wider text-navy"
                         >
                             View all case studies →
                         </Link>
@@ -136,7 +136,7 @@ export default function Home() {
                         <Link
                             to="/contact"
                             data-testid="home-cta-contact"
-                            className="flex shrink-0 items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-white transition-colors hover:bg-teal-hover hover:border-teal-hover"
+                            className="flex shrink-0 items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal-hover hover:border-teal-hover"
                         >
                             Get in touch <ArrowRight size={16} />
                         </Link>

@@ -11,10 +11,10 @@ export default function Marquee() {
                 {items.map((item, i) => (
                     <span
                         key={i}
-                        className="mx-8 flex items-center gap-8 font-mono text-sm uppercase tracking-widest text-white/90"
+                        className="mx-8 flex items-center gap-8 font-mono text-sm uppercase tracking-widest text-cream"
                     >
                         {item}
-                        <span className="text-white">✳</span>
+                        <span className="text-cream">✳</span>
                     </span>
                 ))}
             </div>

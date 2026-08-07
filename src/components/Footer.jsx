@@ -11,10 +11,10 @@ export default function Footer() {
             <div className="site-shell px-6 py-16 lg:px-12">
                 <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
                     <div>
-                        <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                        <p className="font-mono text-sm uppercase tracking-wider text-teal">
                             Let’s connect
                         </p>
-                        <h2 className="mt-3 font-display text-4xl font-extrabold tracking-tighter text-navy md:text-5xl">
+                        <h2 className="mt-3 font-display text-4xl font-extrabold tracking-[-0.035em] text-navy md:text-5xl">
                             Interested in discussing analytics, forecasting, or modeling?
                         </h2>
                     </div>

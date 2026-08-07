@@ -8,8 +8,8 @@ module.exports = {
       colors: {
         navy: "#ececf1",
         cream: "#0a0a0f",
-        teal: "#a855f7",
-        "teal-hover": "#9333ea",
+        teal: "#c084fc",
+        "teal-hover": "#d8b4fe",
         surface: "#15151c",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

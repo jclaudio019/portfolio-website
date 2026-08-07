@@ -21,7 +21,7 @@ const ComparisonCard = ({ row }) => (
     <div className="border border-navy/15 bg-surface p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-3">
             <h4 className="font-display text-xl font-extrabold text-navy">{row.label}</h4>
-            <span className="font-mono text-xs uppercase tracking-widest text-teal">{percent(row.volatility)}</span>
+            <span className="font-mono text-sm uppercase tracking-wider text-teal">{percent(row.volatility)}</span>
         </div>
         <dl className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -35,7 +35,7 @@ const ComparisonCard = ({ row }) => (
                 ["Hedge adjustment", row.hedgeAdjustment === null ? "First refresh" : `${number(row.hedgeAdjustment, 2)} shares`],
             ].map(([label, value]) => (
                 <div key={label}>
-                    <dt className="font-mono text-[10px] uppercase tracking-widest text-navy/50">{label}</dt>
+                    <dt className="font-mono text-xs uppercase tracking-widest text-navy/50">{label}</dt>
                     <dd className="mt-1 font-display text-lg font-bold text-navy">{value}</dd>
                 </div>
             ))}
@@ -141,40 +141,40 @@ export default function OptionsHedgeExplorer() {
     return (
         <div className="mt-8 border border-navy/15 bg-cream/40 p-5 sm:p-7" data-testid="options-explorer">
             <div className="max-w-3xl">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-teal">Interactive extension</p>
+                <p className="font-mono text-sm uppercase tracking-wider text-teal">Interactive extension</p>
                 <h3 className="mt-2 font-display text-2xl font-extrabold text-navy">Options pricing & hedge explorer</h3>
-                <p className="mt-3 text-sm leading-relaxed text-navy/70">
+                <p className="mt-3 text-base leading-relaxed text-navy/70">
                     Compare the same listed option under market-implied and one-day GARCH volatility. Data refreshes only when requested.
                 </p>
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <label className="grid gap-2 text-sm text-navy/70">Symbol
+                <label className="grid gap-2 text-base text-navy/70">Symbol
                     <select aria-label="Symbol" value={symbol} onChange={change(setSymbol)} className="border border-navy/20 bg-surface px-3 py-3 text-navy">
                         {['AAPL', 'MSFT', 'SPY'].map((value) => <option key={value}>{value}</option>)}
                     </select>
                 </label>
-                <label className="grid gap-2 text-sm text-navy/70">Option type
+                <label className="grid gap-2 text-base text-navy/70">Option type
                     <select aria-label="Option type" value={optionType} onChange={change(setOptionType)} className="border border-navy/20 bg-surface px-3 py-3 text-navy">
                         <option value="call">Call</option><option value="put">Put</option>
                     </select>
                 </label>
-                <label className="grid gap-2 text-sm text-navy/70">Expiration
+                <label className="grid gap-2 text-base text-navy/70">Expiration
                     <select aria-label="Expiration" value={expiration} onChange={change(setExpiration)} disabled={!expirations.length} className="border border-navy/20 bg-surface px-3 py-3 text-navy disabled:opacity-50">
                         {expirations.map((value) => <option key={value}>{value}</option>)}
                     </select>
                 </label>
-                <label className="grid gap-2 text-sm text-navy/70">Strike
+                <label className="grid gap-2 text-base text-navy/70">Strike
                     <select aria-label="Strike" value={strike} onChange={change(setStrike)} disabled={!strikes.length} className="border border-navy/20 bg-surface px-3 py-3 text-navy disabled:opacity-50">
                         {strikes.map((value) => <option key={value} value={value}>${value}</option>)}
                     </select>
                 </label>
-                <label className="grid gap-2 text-sm text-navy/70">Position
+                <label className="grid gap-2 text-base text-navy/70">Position
                     <select aria-label="Position" value={position} onChange={change(setPosition)} className="border border-navy/20 bg-surface px-3 py-3 text-navy">
                         <option value="long">Long</option><option value="short">Short</option>
                     </select>
                 </label>
-                <label className="grid gap-2 text-sm text-navy/70">Contract count
+                <label className="grid gap-2 text-base text-navy/70">Contract count
                     <input aria-label="Contract count" type="number" min="1" step="1" value={contracts} onChange={change((value) => setContracts(Number(value)))} className="border border-navy/20 bg-surface px-3 py-3 text-navy" />
                 </label>
             </div>
@@ -187,7 +187,7 @@ export default function OptionsHedgeExplorer() {
 
             {result && (
                 <div className={`mt-7 ${stale ? "opacity-55" : ""}`} data-testid="options-results">
-                    <div className="grid gap-3 border border-navy/15 bg-surface p-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-3 border border-navy/15 bg-surface p-4 text-base sm:grid-cols-2 lg:grid-cols-4">
                         <p><span className="text-navy/50">Stock price</span><br /><strong>{money(result.market.stockPrice)}</strong></p>
                         <p><span className="text-navy/50">Market option price</span><br /><strong>{money(result.market.marketPrice)}</strong></p>
                         <p><span className="text-navy/50">Bid / ask</span><br /><strong>{money(result.market.bid)} / {money(result.market.ask)}</strong></p>
@@ -197,12 +197,12 @@ export default function OptionsHedgeExplorer() {
                         <p><span className="text-navy/50">Days to expiration</span><br /><strong>{result.market.daysToExpiration}</strong></p>
                         <p><span className="text-navy/50">Yahoo last trade</span><br /><strong>{timestamp(result.market.lastTradeAt)}</strong></p>
                     </div>
-                    <p className="mt-3 font-mono text-[10px] uppercase tracking-widest text-navy/45">Request completed {timestamp(result.market.retrievedAt)}</p>
+                    <p className="mt-3 font-mono text-xs uppercase tracking-widest text-navy/60">Request completed {timestamp(result.market.retrievedAt)}</p>
                     <div className="mt-5 grid gap-4">{result.rows.map((row) => <ComparisonCard key={row.label} row={row} />)}</div>
                 </div>
             )}
 
-            <div className="mt-7 space-y-3 border-t border-navy/15 pt-5 text-sm leading-relaxed text-navy/65">
+            <div className="mt-7 space-y-3 border-t border-navy/15 pt-5 text-base leading-relaxed text-navy/65">
                 <p><strong className="text-navy">Delta</strong> estimates immediate directional exposure. <strong className="text-navy">Gamma</strong> shows how quickly Delta—and the share hedge—changes for an approximately $1 stock move.</p>
                 <p><strong className="text-navy">Educational modeling tool.</strong> Yahoo data may be delayed or incomplete. This is not a trading recommendation, production pricing system, or brokerage connection.</p>
                 <p>The market-data, GARCH, and interactive extension was developed after the course with AI-assisted coding and reviewed and tested separately.</p>

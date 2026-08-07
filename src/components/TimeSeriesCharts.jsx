@@ -23,7 +23,7 @@ const scale = (value, min, max, start, end) =>
 
 const axisStyle = {
     fill: CHART.inkMuted,
-    fontSize: 10,
+    fontSize: 12,
     fontFamily: "JetBrains Mono, monospace",
 };
 
@@ -33,12 +33,12 @@ const ForecastTooltip = ({ active, payload, label }) => {
     const value = row.observed ?? row.forecast;
     return (
         <div className="border border-white/10 bg-[#15151c] px-3 py-2 shadow-xl">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-white/45">{row.label || label}</p>
+            <p className="font-mono text-xs uppercase tracking-wider text-white/70">{row.label || label}</p>
             <p className="mt-1 font-mono text-xs text-white/80">
                 {row.observed == null ? "Forecast" : "Observed"}: {value?.toLocaleString(undefined, { maximumFractionDigits: 2 })}
             </p>
             {row.lower != null && (
-                <p className="font-mono text-[10px] text-white/50">
+                <p className="font-mono text-xs text-white/70">
                     95% interval {row.lower.toFixed(2)}–{row.upper.toFixed(2)}
                 </p>
             )}
@@ -101,11 +101,11 @@ export default function TimeSeriesCharts() {
                 <figcaption className="flex flex-col gap-4 border-b border-white/10 px-5 py-5 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p className="font-mono text-xs uppercase tracking-widest text-purple-400">Brownian bridge simulation</p>
-                        <p className="mt-1 max-w-2xl text-sm leading-relaxed text-white/55">
+                        <p className="mt-1 max-w-2xl text-base leading-relaxed text-white/70">
                             A two-dimensional Brownian bridge wanders unpredictably, yet is constrained to return to its origin.
                         </p>
                     </div>
-                    <div className="font-mono text-[11px] uppercase tracking-wider text-white/45" data-testid="bridge-step">
+                    <div className="font-mono text-xs uppercase tracking-wider text-white/70" data-testid="bridge-step">
                         Step {step} / 500
                     </div>
                 </figcaption>
@@ -129,7 +129,7 @@ export default function TimeSeriesCharts() {
                         <circle cx={currentX} cy={currentY} r="11" fill="#a855f7" fillOpacity=".18" />
                         <circle cx={currentX} cy={currentY} r="4" fill="#fff" />
                     </svg>
-                    <div className="pointer-events-none absolute bottom-5 left-5 grid grid-cols-2 gap-4 font-mono text-[10px] uppercase tracking-wider text-white/45">
+                    <div className="pointer-events-none absolute bottom-5 left-5 grid grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wider text-white/70">
                         <span>x <strong className="text-white/80">{current.x.toFixed(2)}</strong></span>
                         <span>y <strong className="text-white/80">{current.y.toFixed(2)}</strong></span>
                     </div>
@@ -145,7 +145,7 @@ export default function TimeSeriesCharts() {
                         {playing ? <Pause size={14} /> : step === 500 ? <RotateCcw size={14} /> : <Play size={14} />}
                         {playing ? "Pause" : step === 500 ? "Replay" : "Play"}
                     </button>
-                    <label className="flex flex-1 items-center gap-3 font-mono text-[10px] uppercase tracking-wider text-white/40">
+                    <label className="flex flex-1 items-center gap-3 font-mono text-xs uppercase tracking-wider text-white/70">
                         Path progress
                         <input
                             type="range"
@@ -166,7 +166,7 @@ export default function TimeSeriesCharts() {
             <figure className="overflow-hidden border border-white/10 bg-[#0a0a0f] text-white">
                 <figcaption className="border-b border-white/10 px-5 py-5">
                     <p className="font-mono text-xs uppercase tracking-widest text-purple-400">Forecast explorer</p>
-                    <p className="mt-1 max-w-2xl text-sm leading-relaxed text-white/55">
+                    <p className="mt-1 max-w-2xl text-base leading-relaxed text-white/70">
                         Observed history, the 24-month ARIMA forecast, and its widening 95% uncertainty interval.
                     </p>
                     <div className="mt-4 flex gap-2" role="tablist" aria-label="Forecast series">
@@ -178,7 +178,7 @@ export default function TimeSeriesCharts() {
                                 aria-selected={forecastKey === key}
                                 onClick={() => setForecastKey(key)}
                                 data-testid={`forecast-tab-${key}`}
-                                className={`border px-3 py-2 font-mono text-[11px] uppercase tracking-wider transition-colors ${forecastKey === key ? "border-purple-400/50 bg-purple-400/10 text-purple-300" : "border-white/10 text-white/45 hover:text-white/75"}`}
+                                className={`border px-3 py-2 font-mono text-xs uppercase tracking-wider transition-colors ${forecastKey === key ? "border-purple-400/50 bg-purple-400/10 text-purple-300" : "border-white/10 text-white/70 hover:text-white/75"}`}
                             >
                                 {item.title}
                             </button>
@@ -189,7 +189,7 @@ export default function TimeSeriesCharts() {
                 <div className="p-3 sm:p-5">
                     <div className="mb-3 flex items-center justify-between gap-4">
                         <p className="font-display text-xl font-bold text-white">{forecast.title}</p>
-                        <p className="font-mono text-[10px] uppercase tracking-wider text-white/40">{forecast.xLabel}</p>
+                        <p className="font-mono text-xs uppercase tracking-wider text-white/70">{forecast.xLabel}</p>
                     </div>
                     <div className="h-[26rem] w-full">
                         <ResponsiveContainer width="100%" height="100%">
@@ -205,7 +205,7 @@ export default function TimeSeriesCharts() {
                             </ComposedChart>
                         </ResponsiveContainer>
                     </div>
-                    <p className="mt-2 font-mono text-[10px] uppercase tracking-wider text-white/40">
+                    <p className="mt-2 font-mono text-xs uppercase tracking-wider text-white/70">
                         {forecast.yLabel} · dashed line marks the forecast boundary
                     </p>
                 </div>

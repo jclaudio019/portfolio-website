@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
+import { MotionConfig } from "framer-motion";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -25,25 +26,28 @@ function ScrollToTop() {
 function App() {
     return (
         <div className="App grain">
-            <BrowserRouter basename={process.env.PUBLIC_URL}>
-                <SmoothScroll>
-                    <ScrollToTop />
-                    <Navbar />
-                    <main className="relative z-[2] min-h-screen">
-                        <Routes>
-                            <Route path="/" element={<Home />} />
-                            <Route path="/about" element={<About />} />
-                            <Route path="/projects" element={<Projects />} />
-                            <Route path="/projects/:slug" element={<ProjectDetail />} />
-                            <Route path="/experience" element={<Experience />} />
-                            <Route path="/skills" element={<Skills />} />
-                            <Route path="/resume" element={<Resume />} />
-                            <Route path="/contact" element={<Contact />} />
-                        </Routes>
-                    </main>
-                    <Footer />
-                </SmoothScroll>
-            </BrowserRouter>
+            <MotionConfig reducedMotion="user">
+                <BrowserRouter basename={process.env.PUBLIC_URL}>
+                    <a href="#main-content" className="skip-link">Skip to main content</a>
+                    <SmoothScroll>
+                        <ScrollToTop />
+                        <Navbar />
+                        <main id="main-content" tabIndex={-1} className="relative z-[2] min-h-screen">
+                            <Routes>
+                                <Route path="/" element={<Home />} />
+                                <Route path="/about" element={<About />} />
+                                <Route path="/projects" element={<Projects />} />
+                                <Route path="/projects/:slug" element={<ProjectDetail />} />
+                                <Route path="/experience" element={<Experience />} />
+                                <Route path="/skills" element={<Skills />} />
+                                <Route path="/resume" element={<Resume />} />
+                                <Route path="/contact" element={<Contact />} />
+                            </Routes>
+                        </main>
+                        <Footer />
+                    </SmoothScroll>
+                </BrowserRouter>
+            </MotionConfig>
             <Toaster position="top-right" richColors />
         </div>
     );

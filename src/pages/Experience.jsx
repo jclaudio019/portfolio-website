@@ -14,8 +14,8 @@ export default function Experience() {
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="experience-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-xs uppercase tracking-widest text-teal">Experience</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Experience</p>
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Organized by the problems I solve, not job titles.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
@@ -39,7 +39,7 @@ export default function Experience() {
                             >
                                 <div>
                                     <Icon size={24} className="text-teal" aria-hidden="true" />
-                                    <span className="mt-5 block font-mono text-xs text-navy/40">
+                                    <span className="mt-5 block font-mono text-xs text-navy/60">
                                         {String(i + 1).padStart(2, "0")}
                                     </span>
                                     <h2 className="mt-3 font-display text-2xl font-bold leading-tight text-navy">
@@ -60,7 +60,7 @@ export default function Experience() {
                                     </ul>
                                     {area.portfolioEvidence && (
                                         <div className="mt-7 border-t border-navy/10 pt-5">
-                                            <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">
+                                            <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
                                                 Portfolio evidence
                                             </p>
                                             <ul className="mt-3 space-y-3">
@@ -74,7 +74,7 @@ export default function Experience() {
                                         </div>
                                     )}
                                     <div className="mt-7 border-t border-navy/10 pt-5">
-                                        <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">
+                                        <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
                                             Related public case studies
                                         </p>
                                         <div className="mt-3 flex flex-wrap gap-2">
@@ -99,7 +99,7 @@ export default function Experience() {
                 <Reveal className="mt-12 border border-navy/10 bg-surface p-8">
                     <div className="grid gap-6 md:grid-cols-[20rem_1fr] md:gap-12">
                         <div>
-                            <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                            <p className="font-mono text-sm uppercase tracking-wider text-teal">
                                 Professional Context
                             </p>
                         </div>

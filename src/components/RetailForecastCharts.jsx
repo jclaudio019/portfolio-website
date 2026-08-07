@@ -26,8 +26,8 @@ const KPI = [
 const ChartShell = ({ title, caption, children, className = "" }) => (
     <figure className={`mt-6 overflow-hidden border border-navy/10 bg-surface/80 ${className}`}>
         <figcaption className="border-b border-navy/10 px-4 py-4 sm:px-6">
-            <p className="font-mono text-xs uppercase tracking-widest text-teal">{title}</p>
-            <p className="mt-1 text-sm leading-relaxed text-navy/60">{caption}</p>
+            <p className="font-mono text-sm uppercase tracking-wider text-teal">{title}</p>
+            <p className="mt-1 text-base leading-relaxed text-navy/60">{caption}</p>
         </figcaption>
         <div className="p-3 sm:p-5">{children}</div>
     </figure>
@@ -41,7 +41,7 @@ const DarkTooltip = ({ active, payload, label, valueLabel = "Value" }) => {
             style={{ background: CHART.tooltipBg, borderColor: CHART.tooltipBorder }}
         >
             {label && (
-                <p className="mb-1.5 font-mono text-[10px] uppercase tracking-wider text-navy/50">{label}</p>
+                <p className="mb-1.5 font-mono text-xs uppercase tracking-wider text-navy/50">{label}</p>
             )}
             {payload.map((entry) => (
                 <p key={entry.name} className="font-mono text-xs" style={{ color: entry.color || CHART.inkSecondary }}>
@@ -157,8 +157,8 @@ export default function RetailForecastCharts() {
         }));
     }, []);
 
-    const axisStyle = { fill: CHART.inkMuted, fontSize: 11, fontFamily: "JetBrains Mono, monospace" };
-    const axisStyleSm = { fill: CHART.inkMuted, fontSize: 10, fontFamily: "JetBrains Mono, monospace" };
+    const axisStyle = { fill: CHART.inkMuted, fontSize: 12, fontFamily: "JetBrains Mono, monospace" };
+    const axisStyleSm = { fill: CHART.inkMuted, fontSize: 12, fontFamily: "JetBrains Mono, monospace" };
     const gridProps = { stroke: CHART.grid, vertical: false };
 
     return (
@@ -172,8 +172,8 @@ export default function RetailForecastCharts() {
                         </div>
                         <div>
                             <p className="font-display text-2xl font-extrabold tracking-tight text-teal sm:text-3xl">{value}</p>
-                            <p className="mt-1 font-mono text-[11px] uppercase tracking-wider text-navy/70">{label}</p>
-                            <p className="mt-0.5 text-xs text-navy/45">{note}</p>
+                            <p className="mt-1 font-mono text-xs uppercase tracking-wider text-navy/70">{label}</p>
+                            <p className="mt-0.5 text-xs text-navy/60">{note}</p>
                         </div>
                     </div>
                 ))}
@@ -215,7 +215,7 @@ export default function RetailForecastCharts() {
                                     ) : null
                                 }
                             />
-                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }} />
+                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
                             {CATS.map((c) => (
                                 <Line
                                     key={c}
@@ -283,7 +283,7 @@ export default function RetailForecastCharts() {
                                     ) : null
                                 }
                             />
-                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }} />
+                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
                             {CATS.map((c) => (
                                 <Line key={c} type="monotone" dataKey={c} stroke={CAT_COLOR[c]} strokeWidth={2} dot={{ r: 4, strokeWidth: 0, fill: CAT_COLOR[c] }} activeDot={{ r: 6 }} />
                             ))}
@@ -323,7 +323,7 @@ export default function RetailForecastCharts() {
                             }
                         />
                         <Legend
-                            wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }}
+                            wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }}
                             formatter={(v) => (v === "actual" ? "True demand" : "Forecast")}
                         />
                         <Area type="monotone" dataKey="actual" stroke={color} strokeWidth={2} fill={`url(#demandGrad-${cat})`} dot={false} />
@@ -354,7 +354,7 @@ export default function RetailForecastCharts() {
                                 ) : null
                             }
                         />
-                        <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 11, color: CHART.inkSecondary }} />
+                        <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
                         {CATS.map((c) => (
                             <Bar key={c} dataKey={c} fill={CAT_COLOR[c]} radius={[3, 3, 0, 0]} maxBarSize={28} />
                         ))}
@@ -362,7 +362,7 @@ export default function RetailForecastCharts() {
                 </ResponsiveContainer>
             </ChartShell>
 
-            <p className="mt-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-navy/35">
+            <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-navy/60">
                 <TrendingUp size={12} className="text-teal/60" />
                 Hover charts for values · category tabs filter accuracy and forecast views
             </p>

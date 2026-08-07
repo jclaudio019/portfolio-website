@@ -7,8 +7,8 @@ export default function Projects() {
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="projects-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-xs uppercase tracking-widest text-teal">Portfolio</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Portfolio</p>
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Case Studies
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
