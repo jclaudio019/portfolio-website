@@ -9,13 +9,13 @@ export default function ProjectCard({ project, index }) {
             className="group flex flex-col border border-navy/10 bg-surface transition-colors hover:border-navy"
         >
             <div className="relative overflow-hidden">
-                <span className="absolute left-4 top-4 z-10 bg-cream px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-navy">
+                <span className="absolute left-4 top-4 z-10 bg-cream px-2 py-1 font-mono text-xs uppercase tracking-widest text-navy">
                     {String(index + 1).padStart(2, "0")} / {project.category}
                 </span>
                 {project.status && (
                     <span
                         data-testid="project-status"
-                        className="absolute right-4 top-4 z-10 bg-teal px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-cream"
+                        className="absolute right-4 top-4 z-10 bg-teal px-2 py-1 font-mono text-xs uppercase tracking-widest text-cream"
                     >
                         {project.status}
                     </span>
@@ -36,17 +36,17 @@ export default function ProjectCard({ project, index }) {
                     </h3>
                     <ArrowUpRight
                         size={22}
-                        className="mt-1 shrink-0 text-navy/40 transition-[color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-teal"
+                        className="mt-1 shrink-0 text-navy/60 transition-[color,transform] duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-teal"
                     />
                 </div>
-                <p className="mt-3 flex-1 text-sm leading-relaxed text-navy/70">
+                <p className="mt-3 flex-1 text-base leading-relaxed text-navy/70">
                     {project.summary}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
                     {project.tech.slice(0, 4).map((t) => (
                         <span
                             key={t}
-                            className="border border-navy/15 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-navy/60"
+                            className="border border-navy/15 px-2 py-1 font-mono text-xs uppercase tracking-wider text-navy/60"
                         >
                             {t}
                         </span>

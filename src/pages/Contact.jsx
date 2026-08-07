@@ -43,14 +43,14 @@ export default function Contact() {
     ];
 
     const inputClass =
-        "w-full border border-navy/15 bg-surface px-4 py-3 text-navy placeholder-navy/40 outline-none transition-colors focus:border-teal";
+        "w-full border border-navy/15 bg-surface px-4 py-3 text-navy placeholder-navy/60 outline-none transition-colors focus:border-teal";
 
     return (
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="contact-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-xs uppercase tracking-widest text-teal">Contact</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Contact</p>
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Let’s discuss analytics, forecasting, or modeling.
                     </h1>
                 </Reveal>
@@ -67,7 +67,7 @@ export default function Contact() {
                                             <Icon size={22} />
                                         </span>
                                         <div>
-                                            <p className="font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                            <p className="font-mono text-xs uppercase tracking-widest text-navy/50">
                                                 {c.label}
                                             </p>
                                             <p className="mt-1 font-display text-lg font-bold text-navy">

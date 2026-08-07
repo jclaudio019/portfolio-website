@@ -13,8 +13,8 @@ export default function Skills() {
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="skills-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-xs uppercase tracking-widest text-teal">Skills</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Skills</p>
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Tools and methods I use.
                     </h1>
                 </Reveal>
@@ -35,7 +35,7 @@ export default function Skills() {
                                     <h3 className="font-display text-xl font-bold text-navy">
                                         {group.title}
                                     </h3>
-                                    <span className="font-mono text-xs text-navy/30">
+                                    <span className="font-mono text-xs text-navy/60">
                                         {String(i + 1).padStart(2, "0")}
                                     </span>
                                 </div>
@@ -53,10 +53,10 @@ export default function Skills() {
                                                 className={`${className} w-full`}
                                             >
                                                 <span className="block text-navy">{skill.label}</span>
-                                                <span className="mt-2 block font-sans text-sm normal-case leading-relaxed tracking-normal text-navy/60">
+                                                <span className="mt-2 block font-sans text-base normal-case leading-relaxed tracking-normal text-navy/60">
                                                     {skill.description}
                                                 </span>
-                                                <span className="mt-2 block text-[10px] uppercase tracking-wider text-teal">
+                                                <span className="mt-2 block text-xs uppercase tracking-wider text-teal">
                                                     {skill.tools.join(" · ")}
                                                 </span>
                                             </Link>
@@ -90,7 +90,7 @@ export default function Skills() {
                                 </div>
                                 {activeProjects.length > 1 && (
                                     <div className="mt-5 border-t border-navy/10 pt-4" aria-live="polite">
-                                        <p className="font-mono text-[10px] uppercase tracking-widest text-navy/45">Used in</p>
+                                        <p className="font-mono text-xs uppercase tracking-widest text-navy/60">Used in</p>
                                         <div className="mt-2 grid gap-2">
                                             {activeProjects.map((project) => (
                                                 <Link

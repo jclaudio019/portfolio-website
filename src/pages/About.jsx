@@ -6,8 +6,8 @@ export default function About() {
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="about-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-xs uppercase tracking-widest text-teal">About</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">About</p>
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Where finance, operations, and applied statistics meet.
                     </h1>
                 </Reveal>
@@ -16,7 +16,7 @@ export default function About() {
                     <Reveal>
                         <div className="sticky top-28 space-y-4">
                             <div className="border border-navy/10 bg-surface p-5">
-                                <p className="font-mono text-[11px] uppercase tracking-widest text-navy/60">
+                                <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
                                     Based in
                                 </p>
                                 <p className="mt-2 font-display text-lg font-bold text-navy">
@@ -25,10 +25,10 @@ export default function About() {
                             </div>
 
                             <div className="border border-navy/10 bg-surface p-5">
-                                <p className="font-mono text-[11px] uppercase tracking-widest text-navy/60">
+                                <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
                                     Availability
                                 </p>
-                                <ul className="mt-3 space-y-2 text-sm leading-relaxed text-navy/80">
+                                <ul className="mt-3 space-y-2 text-base leading-relaxed text-navy/80">
                                     {profile.availability.map((item) => (
                                         <li key={item} className="flex gap-2">
                                             <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
@@ -43,31 +43,31 @@ export default function About() {
                                     key={entry.school + entry.degree}
                                     className="border border-navy/10 bg-surface p-5"
                                 >
-                                    <p className="font-mono text-[11px] uppercase tracking-widest text-navy/60">
+                                    <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
                                         {entry.school}
                                     </p>
                                     <p className="mt-2 font-display text-lg font-bold text-navy">
                                         {entry.degree}
                                     </p>
                                     {entry.location && (
-                                        <p className="mt-1 text-sm text-navy/60">{entry.location}</p>
+                                        <p className="mt-1 text-base text-navy/60">{entry.location}</p>
                                     )}
                                     {entry.details && (
-                                        <p className="mt-1 text-sm text-navy/70">{entry.details}</p>
+                                        <p className="mt-1 text-base text-navy/70">{entry.details}</p>
                                     )}
                                     {entry.note && (
-                                        <p className="mt-1 text-sm italic text-navy/60">{entry.note}</p>
+                                        <p className="mt-1 text-base italic text-navy/60">{entry.note}</p>
                                     )}
-                                    <p className="mt-2 font-mono text-xs uppercase tracking-widest text-teal">
+                                    <p className="mt-2 font-mono text-sm uppercase tracking-wider text-teal">
                                         {entry.date}
                                     </p>
                                     {entry.coursework && (
-                                        <p className="mt-3 text-sm text-navy/70">
+                                        <p className="mt-3 text-base text-navy/70">
                                             Coursework: {entry.coursework.join(" · ")}
                                         </p>
                                     )}
                                     {entry.topics && (
-                                        <p className="mt-3 text-sm text-navy/70">
+                                        <p className="mt-3 text-base text-navy/70">
                                             Topics: {entry.topics.join(" · ")}
                                         </p>
                                     )}

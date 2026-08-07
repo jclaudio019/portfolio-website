@@ -73,7 +73,7 @@ function Field({ family, value, error, onChange }) {
 
     return (
         <div>
-            <label htmlFor={inputId} className="mb-1.5 block font-mono text-[11px] uppercase tracking-widest text-navy/60">
+            <label htmlFor={inputId} className="mb-1.5 block font-mono text-xs uppercase tracking-widest text-navy/60">
                 {label}
             </label>
             {family.options ? (
@@ -83,7 +83,7 @@ function Field({ family, value, error, onChange }) {
                     onChange={(event) => onChange(family.id, event.target.value)}
                     aria-describedby={error ? errorId : undefined}
                     aria-invalid={Boolean(error)}
-                    className="w-full border border-navy/20 bg-surface px-3 py-2.5 text-sm text-navy outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+                    className="w-full border border-navy/20 bg-surface px-3 py-2.5 text-base text-navy outline-none focus:border-teal focus:ring-1 focus:ring-teal"
                 >
                     {family.missingCategory && <option value="">Not provided</option>}
                     {familyValues(family).map((option) => <option key={option} value={option}>{option}</option>)}
@@ -98,7 +98,7 @@ function Field({ family, value, error, onChange }) {
                     onChange={(event) => onChange(family.id, event.target.value === "" ? null : event.target.value)}
                     aria-describedby={error ? errorId : undefined}
                     aria-invalid={Boolean(error)}
-                    className="w-full border border-navy/20 bg-surface px-3 py-2.5 text-sm text-navy outline-none focus:border-teal focus:ring-1 focus:ring-teal"
+                    className="w-full border border-navy/20 bg-surface px-3 py-2.5 text-base text-navy outline-none focus:border-teal focus:ring-1 focus:ring-teal"
                 />
             )}
             {error && <p id={errorId} className="mt-1 border border-red-300/40 bg-navy/90 px-2 py-1 text-xs text-cream">{error}</p>}
@@ -138,18 +138,18 @@ export default function CreditRiskScoreExplorer() {
     return (
         <div className="mt-8 border border-navy bg-surface" data-testid="credit-risk-score-explorer">
             <div className="border-b border-navy bg-navy px-5 py-5 text-cream sm:px-6">
-                <p className="font-mono text-[11px] uppercase tracking-widest text-teal">Interactive scorecard</p>
+                <p className="font-mono text-sm uppercase tracking-wider text-purple-700">Interactive scorecard</p>
                 <h3 className="mt-2 font-display text-2xl font-extrabold tracking-tight">Credit risk score explorer</h3>
             </div>
             <div className="p-5 sm:p-6">
-                <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-sm leading-relaxed text-navy/80">
+                <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-base leading-relaxed text-navy/80">
                     Educational example based on historical data. It is not a lending decision or a production credit score.
                 </p>
                 <div className="mt-6 grid gap-4 md:grid-cols-2">
                     {primary.map((family) => <Field key={family.id} family={family} value={inputs[family.id]} error={errors[family.id]} onChange={updateInput} />)}
                 </div>
                 <details className="mt-5 border border-navy/15">
-                    <summary className="cursor-pointer px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal">
+                    <summary className="cursor-pointer px-4 py-3 font-mono text-xs uppercase tracking-widest text-navy/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal">
                         Advanced historical fields
                     </summary>
                     <div className="grid gap-4 border-t border-navy/15 p-4 md:grid-cols-2">
@@ -170,18 +170,18 @@ export default function CreditRiskScoreExplorer() {
                         </p>
                         {stale && <p className="border-b border-teal/40 bg-navy/90 px-4 py-3 text-sm text-cream">Inputs changed. Calculate again to update the result.</p>}
                         <div className="grid gap-px bg-navy/10 sm:grid-cols-2 lg:grid-cols-4">
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative score:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{Math.round(result.score)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Historical P(good):</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Probability of default:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pd)}</p></div>
-                            <div className="bg-surface p-4"><p className="font-mono text-[10px] uppercase tracking-widest text-navy/50">Illustrative risk band:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{scoreBand(result.score)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-xs uppercase tracking-widest text-navy/50">Illustrative score:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{Math.round(result.score)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-xs uppercase tracking-widest text-navy/50">Historical P(good):</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pGood)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-xs uppercase tracking-widest text-navy/50">Probability of default:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{percentage(result.pd)}</p></div>
+                            <div className="bg-surface p-4"><p className="font-mono text-xs uppercase tracking-widest text-navy/50">Illustrative risk band:</p><p className="mt-2 font-display text-3xl font-extrabold text-teal">{scoreBand(result.score)}</p></div>
                         </div>
                         <div className="p-4">
-                            <p className="font-mono text-[11px] uppercase tracking-widest text-teal">Top three contributions</p>
+                            <p className="font-mono text-sm uppercase tracking-wider text-teal">Top three contributions</p>
                             <ul className="mt-3 grid gap-2 sm:grid-cols-3">
                                 {result.strongestContributions.map((item) => <li key={item.family} data-testid="contribution-row" className="border border-navy/15 px-3 py-2 text-sm text-navy/75"><span className="font-medium text-navy">{LABELS[item.family]}:</span> {item.category} ({item.points >= 0 ? "+" : ""}{item.points} pts)</li>)}
                             </ul>
                             <details className="mt-4 border border-navy/15">
-                                <summary className="cursor-pointer px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-navy/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal">Full family breakdown</summary>
+                                <summary className="cursor-pointer px-3 py-2 font-mono text-xs uppercase tracking-widest text-navy/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-teal">Full family breakdown</summary>
                                 <ul className="divide-y divide-navy/10 border-t border-navy/15">
                                     {result.contributions.map((item) => <li key={item.family} className="flex justify-between gap-4 px-3 py-2 text-sm"><span>{LABELS[item.family]}: {item.category}</span><span className="font-mono text-navy/60">{item.points >= 0 ? "+" : ""}{item.points} pts</span></li>)}
                                 </ul>

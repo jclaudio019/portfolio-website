@@ -11,8 +11,8 @@ const OptionsHedgeExplorer = lazy(() => import("../components/OptionsHedgeExplor
 
 const Section = ({ label, children, wide = false }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
-        <h2 className="font-mono text-xs uppercase tracking-widest text-teal">{label}</h2>
-        <div className={`min-w-0 text-navy/80 ${wide ? "" : "max-w-4xl"}`}>{children}</div>
+        <h2 className="font-mono text-sm uppercase tracking-wider text-teal">{label}</h2>
+        <div className={`min-w-0 text-navy/80 ${wide ? "" : "max-w-[70ch]"}`}>{children}</div>
     </Reveal>
 );
 
@@ -31,7 +31,7 @@ const compactExposure = (rows = []) => {
 /** Progressive disclosure so the page stays scannable; detail stays one click away. */
 const Disclosure = ({ summary, children }) => (
     <details className="group mt-4 border border-navy/10 bg-surface/40">
-        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/60 transition-colors hover:text-navy">
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-4 py-3 font-mono text-xs uppercase tracking-widest text-navy/60 transition-colors hover:text-navy">
             {summary}
             <ChevronDown size={14} className="shrink-0 transition-transform group-open:rotate-180" />
         </summary>
@@ -52,7 +52,7 @@ export default function ProjectDetail() {
         return (
             <div className="flex min-h-[60vh] flex-col items-center justify-center px-6" data-testid="project-not-found">
                 <p className="font-display text-3xl font-bold text-navy">Project not found</p>
-                <Link to="/projects" className="mt-6 nav-underline font-mono text-xs uppercase tracking-widest text-teal">
+                <Link to="/projects" className="mt-6 nav-underline font-mono text-sm uppercase tracking-wider text-teal">
                     ← Back to portfolio
                 </Link>
             </div>
@@ -76,19 +76,19 @@ export default function ProjectDetail() {
 
                 <Reveal>
                     <div className="mt-10 flex flex-wrap items-center gap-3">
-                        <p className="font-mono text-xs uppercase tracking-widest text-teal">
+                        <p className="font-mono text-sm uppercase tracking-wider text-teal">
                             {String(index + 1).padStart(2, "0")} — {project.category}
                         </p>
                         {project.status && (
                             <span
                                 data-testid="project-status"
-                                className="bg-teal px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-cream"
+                                className="bg-teal px-2 py-1 font-mono text-xs uppercase tracking-widest text-cream"
                             >
                                 {project.status}
                             </span>
                         )}
                     </div>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-tighter text-navy">
+                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         {project.title}
                     </h1>
                     <p className="mt-6 max-w-2xl text-lg leading-relaxed text-navy/70">
@@ -115,7 +115,7 @@ export default function ProjectDetail() {
                         />
                     </div>
                     {project.imageCaption && (
-                        <p className="mt-2 font-mono text-[11px] uppercase tracking-widest text-navy/40">
+                        <p className="mt-2 font-mono text-xs uppercase tracking-widest text-navy/60">
                             {project.imageCaption}
                         </p>
                     )}
@@ -127,7 +127,7 @@ export default function ProjectDetail() {
                         <Reveal className="mt-12 grid grid-cols-1 gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
                             {project.metrics.map((m) => (
                                 <div key={m.label} className="bg-surface p-6">
-                                    <p className="font-display text-4xl font-extrabold tracking-tighter text-teal">
+                                    <p className="font-display text-4xl font-extrabold tracking-[-0.035em] text-teal">
                                         {m.value}
                                     </p>
                                     <p className="mt-2 font-mono text-xs uppercase tracking-wider text-navy/60">
@@ -137,7 +137,7 @@ export default function ProjectDetail() {
                             ))}
                         </Reveal>
                         {project.metricsNote && (
-                            <p className="mt-3 font-mono text-[11px] leading-relaxed tracking-wide text-navy/45">
+                            <p className="mt-3 font-mono text-xs leading-relaxed tracking-wide text-navy/60">
                                 {project.metricsNote}
                             </p>
                         )}
@@ -211,7 +211,7 @@ export default function ProjectDetail() {
                                                 loading="lazy"
                                             />
                                         </div>
-                                        <figcaption className="border-t border-navy/10 px-4 py-3 font-mono text-[11px] uppercase tracking-widest text-navy/40">
+                                        <figcaption className="border-t border-navy/10 px-4 py-3 font-mono text-xs uppercase tracking-widest text-navy/60">
                                             {item.caption}
                                         </figcaption>
                                     </figure>
@@ -222,7 +222,7 @@ export default function ProjectDetail() {
                             <Suspense
                                 fallback={
                                     <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading charts…</span>
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/60">Loading charts…</span>
                                     </div>
                                 }
                             >
@@ -233,7 +233,7 @@ export default function ProjectDetail() {
                             <Suspense
                                 fallback={
                                     <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading score explorer…</span>
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/60">Loading score explorer…</span>
                                     </div>
                                 }
                             >
@@ -244,7 +244,7 @@ export default function ProjectDetail() {
                             <Suspense
                                 fallback={
                                     <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/40">Loading time-series explorer…</span>
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/60">Loading time-series explorer…</span>
                                     </div>
                                 }
                             >
@@ -255,7 +255,7 @@ export default function ProjectDetail() {
                             <Suspense
                                 fallback={
                                     <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
-                                        <span className="font-mono text-[11px] uppercase tracking-widest text-navy/45">Loading explorer…</span>
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/60">Loading explorer…</span>
                                     </div>
                                 }
                             >
@@ -267,12 +267,12 @@ export default function ProjectDetail() {
                         <Section label="Operations & Finance" wide>
                             <div className="space-y-4">
                                 <p className="leading-relaxed">{project.financialInterpretation.intro}</p>
-                                <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-sm leading-relaxed text-navy/80">
+                                <p className="border border-teal/30 bg-teal/5 px-4 py-3 text-base leading-relaxed text-navy/80">
                                     {project.financialInterpretation.caveat}
                                 </p>
                                 <div className="overflow-x-auto border border-navy/10">
                                     <table className="min-w-full text-left text-sm">
-                                        <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                        <thead className="bg-surface font-mono text-xs uppercase tracking-widest text-navy/50">
                                             <tr>
                                                 <th className="px-3 py-3">Category</th>
                                                 <th className="px-3 py-3">Model</th>
@@ -295,7 +295,7 @@ export default function ProjectDetail() {
                                 <Disclosure summary="Full exposure detail · all models and unit counts">
                                     <div className="overflow-x-auto border border-navy/10">
                                         <table className="min-w-full text-left text-sm">
-                                            <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                            <thead className="bg-surface font-mono text-xs uppercase tracking-widest text-navy/50">
                                                 <tr>
                                                     <th className="px-3 py-3">Category</th>
                                                     <th className="px-3 py-3">Model</th>
@@ -323,7 +323,7 @@ export default function ProjectDetail() {
                                         href={project.github}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-teal hover:text-teal-hover"
+                                        className="mt-4 inline-flex items-center gap-2 font-mono text-sm uppercase tracking-wider text-teal hover:text-teal-hover"
                                     >
                                         Full report and code <ArrowUpRight size={13} />
                                     </a>
@@ -332,7 +332,7 @@ export default function ProjectDetail() {
                                 <p className="leading-relaxed">{project.financialInterpretation.priorityIntro}</p>
                                 <div className="overflow-x-auto border border-navy/10">
                                     <table className="min-w-full text-left text-sm">
-                                        <thead className="bg-surface font-mono text-[11px] uppercase tracking-widest text-navy/50">
+                                        <thead className="bg-surface font-mono text-xs uppercase tracking-widest text-navy/50">
                                             <tr>
                                                 <th className="px-3 py-3">Category</th>
                                                 <th className="px-3 py-3">Test units</th>
@@ -422,7 +422,7 @@ export default function ProjectDetail() {
                                 <p className="font-mono text-xs uppercase tracking-widest text-navy/50">Next case study</p>
                                 <p className="mt-2 font-display text-2xl font-bold text-navy md:text-3xl">{next.title}</p>
                             </div>
-                            <ArrowUpRight size={32} className="shrink-0 text-navy/40 transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-teal" />
+                            <ArrowUpRight size={32} className="shrink-0 text-navy/60 transition-[color,transform] group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-teal" />
                         </Link>
                     </Reveal>
                 )}

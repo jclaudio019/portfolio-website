@@ -114,7 +114,7 @@ export default function SkillSphere({ className }) {
                 ctx.closePath();
                 ctx.stroke();
 
-                ctx.font = "10px 'JetBrains Mono', monospace";
+                ctx.font = "12px 'JetBrains Mono', monospace";
                 labelIdx.forEach((idx, k) => {
                     const [x, y, z] = proj[idx];
                     const da = (0.35 + (z + 1) * 0.325) * la;
@@ -138,5 +138,5 @@ export default function SkillSphere({ className }) {
         };
     }, []);
 
-    return <canvas ref={canvasRef} className={className} data-testid="skill-sphere" />;
+    return <canvas ref={canvasRef} className={className} data-testid="skill-sphere" aria-hidden="true" />;
 }
