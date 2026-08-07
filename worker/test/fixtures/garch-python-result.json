@@ -1,0 +1,5 @@
+{
+  "generator": "r_i = 0.0003 + (0.006 + 0.008 * sin(i / 19)^2) * sin(i * 1.731), i = 0..599; prices = 100 * exp(cumulative sum(r))",
+  "pythonArchAnnualizedVolatility": 0.08094355793901437,
+  "relativeTolerance": 0.12
+}

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "homepage": "https://joseoclaudio.com",
+  "proxy": "http://localhost:8787",
   "dependencies": {
     "@craco/craco": "^7.1.0",
     "@tanstack/react-query": "^5.0.0",

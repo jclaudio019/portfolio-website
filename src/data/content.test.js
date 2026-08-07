@@ -10,20 +10,23 @@ import {
     skillGroups,
 } from "./content";
 
-test("retains five project records while publishing four complete case studies", () => {
+test("publishes five completed case studies and one in-progress case study", () => {
     expect(projects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
         "time-series-analysis-r",
+        "black-scholes-options-modeling",
         "warehouse-club-market-expansion",
     ]);
-    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 5);
+    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 6);
     expect(publishedProjects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
         "time-series-analysis-r",
+        "black-scholes-options-modeling",
+        "warehouse-club-market-expansion",
     ]);
     expect(publishedProjects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);
     expect(publishedProjects.every(({ github }) => github.startsWith("https://github.com/jclaudio019/"))).toBe(true);
@@ -142,12 +145,26 @@ test("publishes the requested resume highlights", () => {
     ]);
 });
 
-test("keeps the warehouse project data unpublished and reversible", () => {
+test("publishes the warehouse project as an in-progress case study without unsupported results", () => {
     const warehouse = projects.find(({ slug }) => slug === "warehouse-club-market-expansion");
-    expect(warehouse.published).toBe(false);
     expect(warehouse.status).toBe("In progress");
     expect(warehouse.metrics).toBeUndefined();
-    expect(publishedProjects).not.toContain(warehouse);
+    expect(warehouse.solution).toBeUndefined();
+    expect(warehouse.methodology).toBeUndefined();
+    expect(warehouse.findings).toBeUndefined();
+    expect(publishedProjects).toContain(warehouse);
+});
+
+test("presents Black-Scholes coursework and its post-course interactive extension truthfully", () => {
+    const project = projects.find(({ slug }) => slug === "black-scholes-options-modeling");
+
+    expect(project.title).toBe("Black-Scholes Options Modeling");
+    expect(project.status).toBeUndefined();
+    expect(project.github).toBe("https://github.com/jclaudio019/black-scholes-options-modeling");
+    expect(project.solutionParagraphs.join(" ")).toContain("graduate final project");
+    expect(project.aiAssistedDevelopment.paragraphs.join(" ")).toContain("developed after the course");
+    expect(project.limitations.join(" ")).toContain("not a trading recommendation");
+    expect(JSON.stringify(project)).not.toContain("FM 5151");
 });
 
 test("presents the R time-series final project through its implemented analysis", () => {

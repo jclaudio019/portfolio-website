@@ -1,0 +1,9 @@
+{
+  "name": "portfolio-options-api",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-06",
+  "workers_dev": true,
+  "observability": {
+    "enabled": true
+  }
+}

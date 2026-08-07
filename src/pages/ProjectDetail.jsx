@@ -7,6 +7,7 @@ import { Reveal } from "../components/Reveal";
 const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
 const CreditRiskScoreExplorer = lazy(() => import("../components/CreditRiskScoreExplorer"));
 const TimeSeriesCharts = lazy(() => import("../components/TimeSeriesCharts"));
+const OptionsHedgeExplorer = lazy(() => import("../components/OptionsHedgeExplorer"));
 
 const Section = ({ label, children, wide = false }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
@@ -248,6 +249,17 @@ export default function ProjectDetail() {
                                 }
                             >
                                 <TimeSeriesCharts />
+                            </Suspense>
+                        ) : null}
+                        {project.slug === "black-scholes-options-modeling" ? (
+                            <Suspense
+                                fallback={
+                                    <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                        <span className="font-mono text-[11px] uppercase tracking-widest text-navy/45">Loading explorer…</span>
+                                    </div>
+                                }
+                            >
+                                <OptionsHedgeExplorer />
                             </Suspense>
                         ) : null}
                     </Section>
