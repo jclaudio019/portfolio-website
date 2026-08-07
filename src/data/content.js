@@ -374,8 +374,65 @@ export const projects = [
         ],
     },
     {
+        slug: "black-scholes-options-modeling",
+        title: "Black-Scholes Options Modeling",
+        category: "Financial Modeling",
+        summary:
+            "Extended a graduate Black-Scholes options-modeling project with live market inputs, GARCH volatility, and an interactive Delta-hedge comparison.",
+        image: `${process.env.PUBLIC_URL}/images/black-scholes-options-modeling-hero.png`,
+        imageCaption:
+            "Option value and hedge exposure respond to the underlying price, time to expiration, and volatility assumption.",
+        tech: ["JavaScript", "Python", "Cloudflare Workers", "GARCH"],
+        github: "https://github.com/jclaudio019/black-scholes-options-modeling",
+        metrics: [
+            { label: "Supported underlyings", value: "3" },
+            { label: "Volatility estimates", value: "2" },
+            { label: "Shares per contract", value: "100" },
+        ],
+        metricsNote:
+            "Educational scope: AAPL, MSFT, and SPY. Live values depend on the selected listed option and Yahoo data availability.",
+        problem:
+            "An option price and its hedge depend on assumptions that change with the market. A useful learning tool should show how the same contract looks under different volatility estimates, connect Delta and Gamma to position exposure, and make the hedge calculation visible without presenting it as a trade recommendation.",
+        solutionParagraphs: [
+            "The original graduate final project established the foundation: European call and put pricing, option Greeks, simulated price paths, and Delta- and Gamma-hedging experiments under the Black-Scholes assumptions.",
+            "After the course, I added a portfolio extension that retrieves current contract inputs for AAPL, MSFT, and SPY, compares market-implied volatility with a one-day GARCH(1,1) forecast, and translates both model views into position Delta, Gamma, and a theoretical share hedge.",
+            "The interface refreshes only when requested, identifies stale results when inputs change, and keeps the prior hedge target only for the current browser session so a second refresh can show the estimated hedge adjustment.",
+        ],
+        dataset:
+            "The preserved coursework uses simulated paths and the inputs retained in the original notebook. The post-course explorer requests current Yahoo option chains, two years of adjusted daily price history, dividend information, and the ^IRX Treasury-bill yield proxy. Market data may be delayed, incomplete, or temporarily unavailable.",
+        methodologySummary:
+            "The project combines the retained Black-Scholes formulas with a button-driven market-data request, a one-day GARCH(1,1) volatility estimate, and position-level Delta and Gamma scaling for standard 100-share option contracts.",
+        methodology: [
+            "Preserved the original executed coursework notebook and Black-Scholes pricing implementation unchanged.",
+            "Validated the selected listed option and normalized its bid, ask, last price, implied volatility, expiration, dividend yield, and risk-free-rate proxy.",
+            "Estimated a one-day GARCH(1,1) variance forecast from at least 252 adjusted daily returns and annualized the result using 252 trading days.",
+            "Calculated Black-Scholes price, Delta, and Gamma separately under market-implied and GARCH volatility.",
+            "Scaled Delta and Gamma by 100 shares and the signed contract count, then calculated the theoretical Delta-neutral stock target.",
+            "Compared the new target with the preceding successful refresh for the same position while keeping all state inside the current browser session.",
+        ],
+        aiAssistedDevelopment: {
+            paragraphs: [
+                "The original coursework notebook and Black-Scholes pricing implementation are preserved unchanged. The previously empty time-series module, market-data integration, GARCH comparison, and interactive interface were developed after the course with AI-assisted coding and were reviewed and tested as a separate portfolio enhancement.",
+            ],
+        },
+        findings:
+            "The explorer makes the model sensitivity visible: changing the volatility estimate changes the theoretical option price, Delta, Gamma, and the share hedge derived from them. The implied and GARCH views answer different questions, so the comparison is more useful than treating either estimate as a guaranteed future value.",
+        implications:
+            "Delta provides a current estimate of directional exposure, while Gamma helps explain how quickly that exposure—and the associated share hedge—can change when the stock moves. In practice, transaction costs, liquidity, discrete rebalancing, and model limitations would also affect a hedging decision.",
+        conclusionParagraphs: [
+            "The completed project connects financial-modeling coursework with a small analytical product that makes assumptions, market inputs, and hedge arithmetic inspectable.",
+            "It is an educational comparison, not a production pricing system, risk platform, or trading recommendation.",
+        ],
+        limitations: [
+            "Black-Scholes assumes European exercise, continuous trading, stable volatility and rates, and frictionless markets.",
+            "Yahoo data may be delayed, incomplete, or temporarily unavailable; ^IRX is used only as a disclosed rate proxy.",
+            "The GARCH comparison uses one normal-residual GARCH(1,1) specification rather than multiple tuned volatility models.",
+            "The share hedge excludes transaction costs, market impact, discrete execution, and brokerage constraints.",
+            "This is an educational modeling tool and not a trading recommendation or production risk-management system.",
+        ],
+    },
+    {
         slug: "warehouse-club-market-expansion",
-        published: false,
         title: "Warehouse Club Market Expansion",
         category: "Market Strategy",
         status: "In progress",
