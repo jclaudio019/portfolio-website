@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { blackScholes, positionHedge } from "../lib/blackScholes";
 
+const API_BASE_URL = process.env.NODE_ENV === "production"
+    ? "https://portfolio-options-api.joseo-claudio19.workers.dev"
+    : "";
+
 const requestJson = async (url, options) => {
-    const response = await fetch(url, options);
+    const response = await fetch(`${API_BASE_URL}${url}`, options);
     const body = await response.json();
     if (!response.ok) throw new Error(body.error || "Market data request failed");
     return body;

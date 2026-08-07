@@ -1,12 +1,16 @@
 import { fetchCalculation, fetchExpirations, fetchStrikes } from "./yahoo.js";
 
-const response = (body, status = 200, cacheSeconds = 0) => Response.json(body, {
-    status,
-    headers: {
+const response = (body, status = 200, cacheSeconds = 0) => {
+    const headers = {
         "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Cache-Control": cacheSeconds ? `public, max-age=${cacheSeconds}` : "no-store",
-    },
-});
+    };
+    return status === 204
+        ? new Response(null, { status, headers })
+        : Response.json(body, { status, headers });
+};
 
 const errorResponse = (error) => response({ error: error.message || "Request failed" }, 400);
 
