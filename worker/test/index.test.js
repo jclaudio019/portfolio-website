@@ -2,6 +2,17 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import worker from "../src/index.js";
 
+test("allows browser preflight requests from the portfolio", async () => {
+    const response = await worker.fetch(new Request("https://example.com/api/options/calculate", {
+        method: "OPTIONS",
+    }));
+
+    assert.equal(response.status, 204);
+    assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+    assert.equal(response.headers.get("Access-Control-Allow-Headers"), "Content-Type");
+    assert.match(response.headers.get("Access-Control-Allow-Methods"), /POST/);
+});
+
 test("rejects unsupported symbols before contacting Yahoo", async () => {
     const response = await worker.fetch(
         new Request("https://example.com/api/options/expirations?symbol=TSLA")
