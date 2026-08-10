@@ -10,26 +10,48 @@ import {
     skillGroups,
 } from "./content";
 
-test("publishes five completed case studies and one in-progress case study", () => {
+test("publishes six completed case studies and one in-progress case study", () => {
     expect(projects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
         "time-series-analysis-r",
         "black-scholes-options-modeling",
+        "backtesting-system",
         "warehouse-club-market-expansion",
     ]);
-    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 6);
+    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 7);
     expect(publishedProjects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
         "time-series-analysis-r",
         "black-scholes-options-modeling",
+        "backtesting-system",
         "warehouse-club-market-expansion",
     ]);
     expect(publishedProjects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);
     expect(publishedProjects.every(({ github }) => github.startsWith("https://github.com/jclaudio019/"))).toBe(true);
+});
+
+test("presents the Backtesting System architecture without unsupported trading claims", () => {
+    const project = projects.find(({ slug }) => slug === "backtesting-system");
+
+    expect(project.title).toBe("Backtesting System");
+    expect(project.status).toBeUndefined();
+    expect(project.github).toBe("https://github.com/jclaudio019/backtesting-system");
+    expect(project.metrics).toEqual([
+        { label: "Strategy demonstrated", value: "1" },
+        { label: "Docker services", value: "4" },
+        { label: "QuestDB tables", value: "2" },
+        { label: "Related coursework assignments", value: "2" },
+    ]);
+    const copy = JSON.stringify(project);
+    expect(copy).toContain("graduate coursework");
+    expect(copy).toContain("EMA crossover");
+    expect(copy).not.toContain("FM 5151");
+    expect(copy.toLowerCase()).not.toContain("profitable");
+    expect(copy.toLowerCase()).not.toContain("production-ready");
 });
 
 test("publishes five skill groups with verified project evidence", () => {
