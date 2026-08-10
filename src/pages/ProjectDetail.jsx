@@ -8,6 +8,7 @@ const RetailForecastCharts = lazy(() => import("../components/RetailForecastChar
 const CreditRiskScoreExplorer = lazy(() => import("../components/CreditRiskScoreExplorer"));
 const TimeSeriesCharts = lazy(() => import("../components/TimeSeriesCharts"));
 const OptionsHedgeExplorer = lazy(() => import("../components/OptionsHedgeExplorer"));
+const BacktestingArchitecture = lazy(() => import("../components/BacktestingArchitecture"));
 
 const Section = ({ label, children, wide = false }) => (
     <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
@@ -260,6 +261,17 @@ export default function ProjectDetail() {
                                 }
                             >
                                 <OptionsHedgeExplorer />
+                            </Suspense>
+                        ) : null}
+                        {project.slug === "backtesting-system" ? (
+                            <Suspense
+                                fallback={
+                                    <div className="mt-6 flex aspect-[16/6] items-center justify-center border border-dashed border-navy/20 bg-surface/50">
+                                        <span className="font-mono text-xs uppercase tracking-widest text-navy/60">Loading architecture…</span>
+                                    </div>
+                                }
+                            >
+                                <BacktestingArchitecture />
                             </Suspense>
                         ) : null}
                     </Section>
