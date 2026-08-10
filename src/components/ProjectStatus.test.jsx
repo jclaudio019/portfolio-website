@@ -47,9 +47,10 @@ const detailRoute = (slug) => (
 
 const renderDetail = (slug) => render(detailRoute(slug));
 
-test("publishes the warehouse project after the five completed case studies", () => {
-    expect(publishedProjects).toHaveLength(6);
-    expect(publishedProjects.at(-2).slug).toBe("black-scholes-options-modeling");
+test("publishes Backtesting before the in-progress warehouse project", () => {
+    expect(publishedProjects).toHaveLength(7);
+    expect(publishedProjects.at(-2).slug).toBe("backtesting-system");
+    expect(publishedProjects.at(-2).status).toBeUndefined();
     expect(publishedProjects.at(-1).slug).toBe("warehouse-club-market-expansion");
     expect(publishedProjects.at(-1).status).toBe("In progress");
 });
@@ -102,12 +103,19 @@ test("links project 04 to completed Black-Scholes project 05", async () => {
     expect(next.getAttribute("href")).toBe("/projects/black-scholes-options-modeling");
 });
 
-test("links completed Black-Scholes project 05 to in-progress Warehouse project 06", async () => {
+test("links completed Black-Scholes project 05 to Backtesting System project 06", async () => {
     await act(async () => root.render(detailRoute("black-scholes-options-modeling")));
 
+    const next = container.querySelector("[data-testid='next-project']");
+    expect(next.textContent).toContain("Backtesting System");
+    expect(next.getAttribute("href")).toBe("/projects/backtesting-system");
+});
+
+test("shows the Backtesting architecture and links project 06 to Warehouse project 07", async () => {
+    await act(async () => root.render(detailRoute("backtesting-system")));
     const page = container.querySelector("[data-testid='project-detail-page']");
-    expect(page.textContent).toContain("Black-Scholes Options Modeling");
-    expect(page.textContent).toContain("The original graduate final project");
+    expect(page.textContent).toContain("Backtesting System");
+    expect(page.textContent).toContain("System architecture");
     expect(page.textContent).not.toContain("FM 5151");
     const next = container.querySelector("[data-testid='next-project']");
     expect(next.textContent).toContain("Warehouse Club Market Expansion");
