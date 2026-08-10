@@ -76,7 +76,7 @@ test("presents the Backtesting System architecture without unsupported trading c
 Run:
 
 ```bash
-npm test -- --runInBand src/data/content.test.js
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/data/content.test.js
 ```
 
 Expected: FAIL because `backtesting-system` is absent.
@@ -146,7 +146,7 @@ Add this record to `src/data/content.js` immediately after Black-Scholes:
 Run:
 
 ```bash
-npm test -- --runInBand src/data/content.test.js
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/data/content.test.js
 ```
 
 Expected: PASS.
@@ -200,7 +200,7 @@ test("shows the historical and paper-trading lanes in order", () => {
 Run:
 
 ```bash
-npm test -- --runInBand src/components/BacktestingArchitecture.test.jsx
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/components/BacktestingArchitecture.test.jsx
 ```
 
 Expected: FAIL because `BacktestingArchitecture.jsx` does not exist.
@@ -261,7 +261,7 @@ The arrows are decorative; the ordered lists preserve meaning without them. The 
 Run:
 
 ```bash
-npm test -- --runInBand src/components/BacktestingArchitecture.test.jsx
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/components/BacktestingArchitecture.test.jsx
 ```
 
 Expected: PASS.
@@ -312,7 +312,7 @@ test("shows the Backtesting architecture and links project 06 to Warehouse proje
 Run:
 
 ```bash
-npm test -- --runInBand src/components/ProjectStatus.test.jsx
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/components/ProjectStatus.test.jsx
 ```
 
 Expected: FAIL because the architecture component is not rendered from `ProjectDetail`.
@@ -346,7 +346,7 @@ Next to the other project-specific Findings components, add:
 Run:
 
 ```bash
-npm test -- --runInBand src/components/ProjectStatus.test.jsx src/components/BacktestingArchitecture.test.jsx
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/components/ProjectStatus.test.jsx src/components/BacktestingArchitecture.test.jsx
 ```
 
 Expected: PASS, including the Warehouse in-progress section suppression and no-next-project behavior.
@@ -412,8 +412,8 @@ git commit -m "Add Backtesting System cover art"
 Run:
 
 ```bash
-npm test -- --runInBand src/data/content.test.js src/components/BacktestingArchitecture.test.jsx src/components/ProjectStatus.test.jsx
-npm test -- --runInBand
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false src/data/content.test.js src/components/BacktestingArchitecture.test.jsx src/components/ProjectStatus.test.jsx
+CI=true ./node_modules/.bin/react-scripts test --watchAll=false
 ```
 
 Expected: all tests pass.
