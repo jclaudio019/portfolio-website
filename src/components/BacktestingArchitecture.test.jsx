@@ -11,7 +11,9 @@ test("shows the historical and paper-trading lanes in order", () => {
     act(() => root.render(<BacktestingArchitecture />));
 
     const lanes = container.querySelectorAll("ol");
-    expect(container.querySelector("[data-testid='backtesting-architecture']")).not.toBeNull();
+    const architecture = container.querySelector("[data-testid='backtesting-architecture']");
+    expect(architecture).not.toBeNull();
+    expect(architecture.className).toMatch(/\bbg-surface\b.*\btext-navy\b/);
     expect(lanes).toHaveLength(2);
     expect(lanes[0].textContent).toContain("NotebookbacktestlibStrategy & portfolio review");
     expect(lanes[1].textContent).toContain("EMA crossoverAlpaca paper accountTrade listenerFastAPIQuestDB");
