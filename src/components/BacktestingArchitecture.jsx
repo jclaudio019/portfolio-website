@@ -3,11 +3,23 @@ import { ArrowRight } from "lucide-react";
 const lanes = [
     {
         label: "Historical backtesting",
-        nodes: ["Notebook", "backtestlib", "Strategy & portfolio review"],
+        nodes: [
+            "Historical price provider",
+            "Backtest event loop",
+            "Strategy callback",
+            "Portfolio order",
+            "Position and cash update",
+        ],
     },
     {
         label: "Paper-trading event flow",
-        nodes: ["EMA crossover", "Alpaca paper account", "Trade listener", "FastAPI", "QuestDB"],
+        nodes: [
+            "EMA crossover",
+            "Alpaca paper order",
+            "Trade-update listener",
+            "FastAPI",
+            "QuestDB trade_events table",
+        ],
     },
 ];
 
