@@ -432,6 +432,59 @@ export const projects = [
         ],
     },
     {
+        slug: "backtesting-system",
+        title: "Backtesting System",
+        category: "Financial Systems",
+        summary:
+            "Connected two graduate coursework assignments into a documented workflow spanning historical backtesting and a small paper-trading event pipeline.",
+        image: `${process.env.PUBLIC_URL}/images/backtesting-system-hero.png`,
+        imageCaption:
+            "Two analytical lanes connect historical strategy evaluation with a paper-trading event workflow.",
+        tech: ["Python", "FastAPI", "Docker", "QuestDB", "Alpaca"],
+        github: "https://github.com/jclaudio019/backtesting-system",
+        metrics: [
+            { label: "Strategy demonstrated", value: "1" },
+            { label: "Docker services", value: "4" },
+            { label: "QuestDB tables", value: "2" },
+            { label: "Related coursework assignments", value: "2" },
+        ],
+        metricsNote:
+            "Educational system using one EMA crossover strategy and Alpaca's paper-trading interface; no profitability or live-trading claim.",
+        problem:
+            "A strategy notebook can show historical behavior, but it does not explain how signals, orders, broker updates, and stored events connect in an operating workflow. This project examines both stages while keeping their purposes and limitations clear.",
+        solutionParagraphs: [
+            "The first graduate coursework assignment produced a reusable Python package for loading market data, defining strategies, running historical tests, and reviewing portfolio behavior.",
+            "The second assignment extended that learning into a small paper-trading architecture: one EMA crossover strategy sends paper orders through Alpaca, a listener receives broker updates, FastAPI provides a narrow data interface, and QuestDB stores engine runs and trade events.",
+            "After the coursework, I used AI-assisted development to repair package imports, align Docker service configuration, make the run identifier consistent across the event flow, add focused tests, and prepare the repository for public review.",
+        ],
+        dataset:
+            "The historical lane uses the sample market data retained with the coursework. The paper-trading lane is designed for Alpaca paper-account market data and trade updates; automated validation uses mocks and sample API records rather than live orders or credentials.",
+        methodologySummary:
+            "The case study follows a strategy from historical evaluation into an event-driven paper-trading workflow, with one shared identifier connecting the engine run, client order IDs, broker updates, and stored trade events.",
+        methodology: [
+            "Used the local backtestlib package to separate market data, strategy logic, backtest execution, and portfolio evaluation.",
+            "Applied one short- and long-period EMA crossover rule in the broker-connected coursework flow.",
+            "Separated QuestDB, FastAPI, crossover, and listener responsibilities into four Docker Compose services.",
+            "Encoded the strategy-run identifier in client order IDs so listener events can be traced to the matching engine run.",
+            "Stored run metadata and trade updates in two QuestDB tables through focused API endpoints.",
+            "Validated the repaired paths with isolated unit tests and a database/API smoke test that does not start the trading services.",
+        ],
+        findings:
+            "The main result is architectural rather than financial. Historical testing and broker-connected execution answer different questions, and a shared run identifier makes the relationship between strategy activity, order updates, and stored records inspectable.",
+        implications:
+            "The project demonstrates how analytical code can be organized into clearer service boundaries and validation points. That structure makes assumptions and event flow easier to explain, test, and review before considering broader strategy or infrastructure work.",
+        conclusionParagraphs: [
+            "The completed case study connects two pieces of graduate coursework into one documented view of historical testing and paper-trading system design.",
+            "It is an educational architecture demonstration, not evidence of strategy profitability, a production trading platform, or a recommendation to trade.",
+        ],
+        limitations: [
+            "The broker-connected flow demonstrates one EMA crossover strategy and does not compare multiple strategies.",
+            "Historical results do not establish future performance or profitability.",
+            "The paper-trading path requires the user's own Alpaca paper credentials and is not exercised during automated validation.",
+            "The system does not model transaction costs, market impact, production monitoring, or real-money execution.",
+        ],
+    },
+    {
         slug: "warehouse-club-market-expansion",
         title: "Warehouse Club Market Expansion",
         category: "Market Strategy",
