@@ -458,7 +458,7 @@ export const projects = [
             "After the coursework, I used AI-assisted development to repair package imports, align Docker service configuration, make the run identifier consistent across the event flow, add focused tests, and prepare the repository for public review.",
         ],
         dataset:
-            "The historical lane uses the sample market data retained with the coursework. The paper-trading lane is designed for Alpaca paper-account market data and trade updates; automated validation uses mocks and sample API records rather than live orders or credentials.",
+            "The historical notebook requests Yahoo Finance data for AAPL and MSFT for dates from December 1, 2020, through December 1, 2023 via YahooDataProvider; no fixed market-data snapshot is tracked. Retained notebook outputs are illustrative artifacts, not an immutable reproducible dataset. Paper-trading validation uses mocks and sample API records, not orders or credentials.",
         methodologySummary:
             "The case study follows a strategy from historical evaluation into an event-driven paper-trading workflow, with one shared identifier connecting the engine run, client order IDs, broker updates, and stored trade events.",
         methodology: [
@@ -467,7 +467,7 @@ export const projects = [
             "Separated QuestDB, FastAPI, crossover, and listener responsibilities into four Docker Compose services.",
             "Encoded the strategy-run identifier in client order IDs so listener events can be traced to the matching engine run.",
             "Stored run metadata and trade updates in two QuestDB tables through focused API endpoints.",
-            "Validated the repaired paths with isolated unit tests and a database/API smoke test that does not start the trading services.",
+            "Validated the repaired paths with isolated unit tests and static Docker Compose/configuration checks. The documented local QuestDB/API smoke procedure remains unverified because Docker was unavailable during final validation.",
         ],
         findings:
             "The main result is architectural rather than financial. Historical testing and broker-connected execution answer different questions, and a shared run identifier makes the relationship between strategy activity, order updates, and stored records inspectable.",
@@ -478,10 +478,17 @@ export const projects = [
             "It is an educational architecture demonstration, not evidence of strategy profitability, a production trading platform, or a recommendation to trade.",
         ],
         limitations: [
-            "The broker-connected flow demonstrates one EMA crossover strategy and does not compare multiple strategies.",
-            "Historical results do not establish future performance or profitability.",
-            "The paper-trading path requires the user's own Alpaca paper credentials and is not exercised during automated validation.",
-            "The system does not model transaction costs, market impact, production monitoring, or real-money execution.",
+            "This is an educational graduate-coursework project, not a production trading platform or investment recommendation.",
+            "The broker-connected flow uses Alpaca paper trading only.",
+            "It demonstrates one EMA crossover strategy.",
+            "The project provides no evidence of profitability.",
+            "Historical evaluation does not model transaction costs, slippage, or market impact.",
+            "The strategy has no out-of-sample validation or production execution controls.",
+            "The database and API are not publicly deployed.",
+            "No real credentials are tracked; the paper-trading workers require the user's own Alpaca paper credentials.",
+            "Public validation used mocks and sample API records and placed no live or paper orders.",
+            "Historical notebook outputs are illustrative artifacts rather than investment or reproducibility evidence.",
+            "QuestDB and FastAPI are intended for local Docker use only.",
         ],
     },
     {

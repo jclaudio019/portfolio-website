@@ -54,6 +54,34 @@ test("presents the Backtesting System architecture without unsupported trading c
     expect(copy.toLowerCase()).not.toContain("production-ready");
 });
 
+test("states the Backtesting System data, validation, and deployment boundaries", () => {
+    const project = projects.find(({ slug }) => slug === "backtesting-system");
+    const methodology = project.methodology.join(" ");
+
+    expect(project.dataset).toContain("Yahoo Finance data for AAPL and MSFT");
+    expect(project.dataset).toContain("December 1, 2020, through December 1, 2023");
+    expect(project.dataset).toContain("no fixed market-data snapshot is tracked");
+    expect(project.dataset).toContain("not an immutable reproducible dataset");
+    expect(project.dataset).toContain("mocks and sample API records, not orders or credentials");
+    expect(project.dataset).not.toContain("sample market data retained with the coursework");
+    expect(methodology).toContain("isolated unit tests and static Docker Compose/configuration checks");
+    expect(methodology).toContain("remains unverified because Docker was unavailable during final validation");
+    expect(methodology).not.toContain("database/API smoke test");
+    expect(project.limitations).toEqual([
+        "This is an educational graduate-coursework project, not a production trading platform or investment recommendation.",
+        "The broker-connected flow uses Alpaca paper trading only.",
+        "It demonstrates one EMA crossover strategy.",
+        "The project provides no evidence of profitability.",
+        "Historical evaluation does not model transaction costs, slippage, or market impact.",
+        "The strategy has no out-of-sample validation or production execution controls.",
+        "The database and API are not publicly deployed.",
+        "No real credentials are tracked; the paper-trading workers require the user's own Alpaca paper credentials.",
+        "Public validation used mocks and sample API records and placed no live or paper orders.",
+        "Historical notebook outputs are illustrative artifacts rather than investment or reproducibility evidence.",
+        "QuestDB and FastAPI are intended for local Docker use only.",
+    ]);
+});
+
 test("publishes five skill groups with verified project evidence", () => {
     expect(skillGroups.map(({ title }) => title)).toEqual([
         "Analytics & Decision Support",
