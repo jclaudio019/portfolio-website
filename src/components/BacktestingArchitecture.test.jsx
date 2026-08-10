@@ -15,8 +15,20 @@ test("shows the historical and paper-trading lanes in order", () => {
     expect(architecture).not.toBeNull();
     expect(architecture.className).toMatch(/\bbg-surface\b.*\btext-navy\b/);
     expect(lanes).toHaveLength(2);
-    expect(lanes[0].textContent).toContain("NotebookbacktestlibStrategy & portfolio review");
-    expect(lanes[1].textContent).toContain("EMA crossoverAlpaca paper accountTrade listenerFastAPIQuestDB");
+    expect(Array.from(lanes[0].children, (node) => node.textContent)).toEqual([
+        "Historical price provider",
+        "Backtest event loop",
+        "Strategy callback",
+        "Portfolio order",
+        "Position and cash update",
+    ]);
+    expect(Array.from(lanes[1].children, (node) => node.textContent)).toEqual([
+        "EMA crossover",
+        "Alpaca paper order",
+        "Trade-update listener",
+        "FastAPI",
+        "QuestDB trade_events table",
+    ]);
 
     act(() => root.unmount());
 });
