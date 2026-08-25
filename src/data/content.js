@@ -17,7 +17,7 @@ export const profile = {
     resumeAvailableOnRequest: true,
     // TODO: add Jose_Claudio_Analytics_Resume.pdf to public/ when ready
     resumeUrl: null,
-    education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
+    education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     heroIntro:
         "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
     heroSupport:
@@ -646,7 +646,7 @@ export const skillGroups = [
 
 export const resumeHighlights = [
     { label: "Location", value: "Orange City, Florida · Open to relocation" },
-    { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
+    { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected 2027" },
     { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
     { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
 ];

@@ -134,7 +134,7 @@ test("positions Jose as an experienced applied analytics professional", () => {
         ],
         heroIntro: "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
         heroSupport: "I am currently pursuing an M.S. in Applied Statistics at Purdue University to deepen my understanding of modeling, uncertainty, and the questions behind the data.",
-        education: "M.S. Applied Statistics — Purdue University (Expected May 2027)",
+        education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     }));
 });
 
@@ -203,7 +203,7 @@ test("organizes experience around impact areas with compact employer context", (
 test("publishes the requested resume highlights", () => {
     expect(resumeHighlights).toEqual([
         { label: "Location", value: "Orange City, Florida · Open to relocation" },
-        { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected May 2027" },
+        { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected 2027" },
         { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
         { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
     ]);
