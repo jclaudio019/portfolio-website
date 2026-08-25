@@ -14,9 +14,8 @@ export const profile = {
     email: "joseo.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
     linkedin: "https://www.linkedin.com/in/jclaudio019",
-    resumeAvailableOnRequest: true,
-    // TODO: add Jose_Claudio_Analytics_Resume.pdf to public/ when ready
-    resumeUrl: null,
+    resumeAvailableOnRequest: false,
+    resumeUrl: "/Jose_Claudio_Analytics_Resume.pdf",
     education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     heroIntro:
         "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",

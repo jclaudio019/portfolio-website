@@ -23,9 +23,11 @@ afterEach(() => {
     container.remove();
 });
 
-test("sends resume requests to the dedicated resume email", () => {
+test("downloads the published resume with the requested filename", () => {
     act(() => root.render(<Resume />));
 
-    const requestLink = container.querySelector("[data-testid='resume-download-btn']");
-    expect(requestLink.getAttribute("href")).toMatch(/^mailto:joseo\.claudio19@gmail\.com\?/);
+    const downloadLink = container.querySelector("[data-testid='resume-download-btn']");
+    expect(downloadLink.getAttribute("href")).toBe("/Jose_Claudio_Analytics_Resume.pdf");
+    expect(downloadLink.getAttribute("download")).toBe("Jose_Claudio_Analytics_Resume.pdf");
+    expect(downloadLink.textContent).toContain("Download Resume");
 });

@@ -50,5 +50,5 @@ test("renders impact-first experience and compact professional context", () => {
     const projectLinks = [...container.querySelectorAll("[data-testid='experience-project-link']")];
     expect(projectLinks.some(({ href }) => href.endsWith("/projects/credit-risk-pd-model"))).toBe(true);
     expect(container.querySelector("a[href='https://www.linkedin.com/in/jclaudio019']")).not.toBeNull();
-    expect(container.textContent).toContain("Resume available on request");
+    expect(container.textContent).toContain("View resume");
 });
