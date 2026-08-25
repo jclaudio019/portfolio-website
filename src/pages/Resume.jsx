@@ -1,9 +1,9 @@
-import { Mail, FileText } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { profile, resumeHighlights } from "../data/content";
 import { Reveal } from "../components/Reveal";
 
 export default function Resume() {
-    const resumeRequestMailto = `mailto:${profile.email}?subject=${encodeURIComponent("Resume request")}&body=${encodeURIComponent("Hi Jose,\n\nI would like to request a copy of your resume.\n\nThank you.")}`;
+    const downloadFilename = "Jose_Claudio_Analytics_Resume.pdf";
 
     return (
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="resume-page">
@@ -11,11 +11,11 @@ export default function Resume() {
                 <Reveal>
                     <p className="font-mono text-sm uppercase tracking-wider text-teal">Resume</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
-                        Available upon request.
+                        Download my resume.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        I am happy to share my resume directly. Send a request by email and I will
-                        follow up with the most current version.
+                        Download the latest PDF for a concise overview of my experience, education,
+                        analytical projects, and technical skills.
                     </p>
                 </Reveal>
 
@@ -38,16 +38,17 @@ export default function Resume() {
                         <div>
                             <p className="font-display text-xl font-bold">{profile.name} — Resume</p>
                             <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
-                                Available upon request
+                                PDF · Ready to download
                             </p>
                         </div>
                     </div>
                     <a
-                        href={resumeRequestMailto}
+                        href={profile.resumeUrl}
+                        download={downloadFilename}
                         data-testid="resume-download-btn"
                         className="flex items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal-hover hover:border-teal-hover"
                     >
-                        <Mail size={16} /> Request Resume
+                        <Download size={16} /> Download Resume
                     </a>
                 </Reveal>
             </div>

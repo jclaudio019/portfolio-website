@@ -126,6 +126,8 @@ test("positions Jose as an experienced applied analytics professional", () => {
     expect(profile).toEqual(expect.objectContaining({
         name: "Jose Claudio",
         email: "joseo.claudio19@gmail.com",
+        resumeAvailableOnRequest: false,
+        resumeUrl: "/Jose_Claudio_Analytics_Resume.pdf",
         role: "Applied Analytics | Forecasting, Statistical Modeling & Decision Support",
         roleShort: "Forecasting, Modeling, Automation & Business Decision Support",
         location: "Orange City, Florida",
