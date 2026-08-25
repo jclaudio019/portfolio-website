@@ -6,7 +6,7 @@ export default function About() {
         <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="about-page">
             <div className="site-shell">
                 <Reveal>
-                    <p className="font-mono text-sm uppercase tracking-wider text-teal">About</p>
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">About Me</p>
                     <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Where finance, operations, and applied statistics meet.
                     </h1>
