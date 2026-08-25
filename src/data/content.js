@@ -11,7 +11,7 @@ export const profile = {
         "Open to remote, hybrid, and on-site opportunities",
         "Willing to relocate for the right opportunity",
     ],
-    email: "removed-private-address@example.invalid",
+    email: "joseo.claudio19@gmail.com",
     github: "https://github.com/jclaudio019",
     linkedin: "https://www.linkedin.com/in/jclaudio019",
     resumeAvailableOnRequest: true,
