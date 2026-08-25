@@ -54,6 +54,19 @@ test("presents the Backtesting System architecture without unsupported trading c
     expect(copy.toLowerCase()).not.toContain("production-ready");
 });
 
+test("presents the updated Retail Allocation Simulator controls and validation flow", () => {
+    const project = projects.find(({ slug }) => slug === "retail-allocation-simulator");
+    const methodology = project.methodology.join(" ");
+    const copy = JSON.stringify(project);
+
+    expect(project.metrics).toContainEqual({ label: "Audit tabs", value: "14" });
+    expect(copy).toContain("item exclusions");
+    expect(copy).toContain("store holds");
+    expect(methodology).toContain("capacity-validation");
+    expect(methodology).toContain("original projected store-category inventory");
+    expect(methodology).toContain("14-tab Excel workbook");
+});
+
 test("states the Backtesting System data, validation, and deployment boundaries", () => {
     const project = projects.find(({ slug }) => slug === "backtesting-system");
     const methodology = project.methodology.join(" ");
@@ -143,6 +156,7 @@ test("keeps the About story concise and education accurate", () => {
     expect(educationEntries[0].coursework).toEqual([
         "Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis",
     ]);
+    expect(educationEntries[0].date).toBe("Expected 2027");
     expect(educationEntries.map(({ school }) => school)).toEqual([
         "Purdue University", "Bryant University",
     ]);

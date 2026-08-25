@@ -78,7 +78,7 @@ export const educationEntries = [
         school: "Purdue University",
         location: "West Lafayette, Indiana",
         degree: "M.S. in Applied Statistics",
-        date: "Expected May 2027",
+        date: "Expected 2027",
         coursework: ["Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis"],
     },
     {
@@ -279,27 +279,28 @@ export const projects = [
         metrics: [
             { label: "Store-item rows", value: "325K" },
             { label: "Fictional stores", value: "1,800" },
-            { label: "Audit tabs", value: "13" },
+            { label: "Audit tabs", value: "14" },
         ],
         metricsNote:
             "The included large example is independently generated fictional data; it does not reproduce employer records, identifiers, or proprietary materials.",
         problem:
             "When available inventory cannot satisfy every suggested store order, a retailer needs a repeatable way to decide which locations receive product. Manual reductions or additions can become inconsistent, difficult to review, and disconnected from store need, recent sales, shipment minimums, and inventory constraints.",
         solutionParagraphs: [
-            "The simulator evaluates one weekly allocation snapshot and classifies each item as balanced, short, or available for an increase. It then applies explicit rank, inventory, sales, capacity, line-limit, shipment, and optional dollar-target rules to produce a final recommendation.",
-            "The result is an Excel workbook with the final allocation, inventory checks, approval flags, and supporting tabs. Reviewers can see why units were added, reduced, retained, or excluded without relying on an unexplained score.",
+            "The simulator evaluates one weekly allocation snapshot, applies optional item exclusions and store holds, and classifies each item as balanced, short, or available for an increase. It then applies explicit rank, inventory, sales, capacity, line-limit, shipment, and optional dollar-target rules to produce a final recommendation.",
+            "The result is an Excel workbook with the final allocation, availability and capacity checks, approval flags, and supporting tabs. Reviewers can see why units were added, reduced, retained, excluded, or held without relying on an unexplained score.",
             "The project intentionally stops at allocation. It does not forecast demand, determine purchasing quantities, optimize transportation, or represent a production deployment.",
         ],
         dataset:
             "The included large weekly example contains 325,000 unique store-item rows across 1,800 fictional stores and 380 fictional items in two retail categories. Recent Item Sales is an illustrative year-to-date measure, and store ranks run from A1 through E. All values are independently generated for the portfolio.",
         methodologySummary:
-            "The simulator validates weekly inputs, classifies item availability, applies reduction or increase rules, checks operating limits, and records each decision in a 13-tab Excel workbook.",
+            "The simulator validates weekly inputs, applies exclusions and holds, classifies item availability, adjusts allocations, verifies store-category capacity, and records each decision in a 14-tab Excel workbook.",
         methodology: [
-            "Validate the control panel and store-item input for required fields, unique keys, numeric values, and supported operating modes.",
+            "Validate the control panel and store-item input for required fields, unique keys, numeric values, and supported operating modes; optional item-exclusion and store-hold tabs identify intentional zero allocations.",
             "Compare suggested orders with distribution-center availability to identify balanced items, shortages, and inventory that may be allocated.",
-            "Reduce short items using current inventory, store rank, and recent sales-based priority rather than arbitrary cuts.",
-            "Add eligible units only while store capacity, item availability, line limits, minimum-shipment requirements, and target controls permit them.",
-            "Write the final recommendation, availability checks, approval flags, and allocation summaries to an ordered 13-tab workbook for review.",
+            "Reduce short items using current inventory, store rank, and recent sales-based priority, while restoring capacity when units are removed.",
+            "Add eligible units one at a time only while remaining store-category capacity, item availability, line limits, minimum-shipment requirements, and target controls permit them.",
+            "Run a final capacity-validation check against the original projected store-category inventory, preserving documented exemptions and correcting non-exempt overages.",
+            "Write the final recommendation, capacity and availability checks, review flags, and allocation summaries to an ordered 14-tab Excel workbook.",
         ],
         aiAssistedDevelopment: {
             paragraphs: [
@@ -308,7 +309,7 @@ export const projects = [
             ],
         },
         findings:
-            "The simulator shows that weekly allocation can be handled with visible business rules and checked from input to final recommendation. The examples cover shortages, extra availability, capacity limits, shipment minimums, targets, validation, and approval flags. They demonstrate how the process works rather than claiming a measured sales or inventory improvement.",
+            "The simulator shows that weekly allocation can be handled with visible business rules and checked from input to final recommendation. The examples cover shortages, extra availability, item exclusions, store holds, capacity parity, shipment minimums, targets, validation, and review flags. They demonstrate how the process works rather than claiming a measured sales or inventory improvement.",
         implications:
             "Operations teams receive a consistent recommendation and a clear review trail before approval. Each allocation remains tied to defined inputs and limits, while exceptions stay visible.",
         conclusionParagraphs: [
