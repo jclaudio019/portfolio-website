@@ -108,15 +108,19 @@ export default function ProjectDetail() {
 
                 {/* Hero image */}
                 <Reveal className="mt-12">
-                    <div className="overflow-hidden border border-navy/10 bg-surface">
+                    <div
+                        data-testid="project-hero-frame"
+                        className="mx-auto flex max-w-5xl justify-center overflow-hidden border border-navy/10 bg-surface"
+                    >
                         <img
                             src={project.image}
                             alt={`${project.title} project overview`}
-                            className="h-full w-full object-contain object-top"
+                            data-testid="project-hero-image"
+                            className="max-h-[68vh] w-auto max-w-full object-contain object-center"
                         />
                     </div>
                     {project.imageCaption && (
-                        <p className="mt-2 font-mono text-xs uppercase tracking-widest text-navy/60">
+                        <p className="mx-auto mt-2 max-w-5xl font-mono text-xs uppercase tracking-widest text-navy/60">
                             {project.imageCaption}
                         </p>
                     )}

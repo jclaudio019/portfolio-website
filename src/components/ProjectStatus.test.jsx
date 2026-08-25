@@ -129,3 +129,16 @@ test("uses the fluid site shell on project pages", () => {
     expect(page.firstElementChild.classList.contains("site-shell")).toBe(true);
     expect(page.querySelector("h1").classList.contains("fluid-page-title")).toBe(true);
 });
+
+test("keeps the project hero image fully visible at a natural reading size", () => {
+    renderDetail("retail-allocation-simulator");
+
+    const frame = container.querySelector("[data-testid='project-hero-frame']");
+    const image = container.querySelector("[data-testid='project-hero-image']");
+
+    expect(frame.classList.contains("max-w-5xl")).toBe(true);
+    expect(frame.classList.contains("mx-auto")).toBe(true);
+    expect(image.classList.contains("max-h-[68vh]")).toBe(true);
+    expect(image.classList.contains("object-contain")).toBe(true);
+    expect(image.classList.contains("object-center")).toBe(true);
+});
