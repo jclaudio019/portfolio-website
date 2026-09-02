@@ -68,3 +68,9 @@ test("disables animation for reduced-motion users", () => {
     expect(container.querySelector("[data-testid='bridge-play']").textContent).toContain("Replay");
     expect(container.querySelector("[data-testid='bridge-slider']").value).toBe("500");
 });
+
+test("keeps the forecast chart compact enough to compare with nearby content", () => {
+    const frame = container.querySelector("[data-testid='forecast-chart-frame']");
+    expect(frame).not.toBeNull();
+    expect(frame.classList.contains("h-[20rem]")).toBe(true);
+});

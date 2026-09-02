@@ -12,7 +12,7 @@ const OptionsHedgeExplorer = lazy(() => import("../components/OptionsHedgeExplor
 const BacktestingArchitecture = lazy(() => import("../components/BacktestingArchitecture"));
 
 const Section = ({ label, children, wide = false }) => (
-    <Reveal className="grid gap-4 border-t border-navy/10 py-10 md:grid-cols-[220px_1fr] md:gap-12">
+    <Reveal className="grid gap-3 border-t border-navy/10 py-8 md:grid-cols-[180px_1fr] md:gap-8">
         <h2 className="font-mono text-sm uppercase tracking-wider text-teal">{label}</h2>
         <div className={`min-w-0 text-navy/80 ${wide ? "" : "max-w-[70ch]"}`}>{children}</div>
     </Reveal>
@@ -66,8 +66,8 @@ export default function ProjectDetail() {
     const isInProgress = project.status === "In progress";
 
     return (
-        <div className="px-6 pb-24 pt-28 lg:px-12 lg:pt-36" data-testid="project-detail-page">
-            <div className="site-shell">
+        <div className="project-detail-compact px-6 pb-16 pt-24 lg:px-12 lg:pt-28" data-testid="project-detail-page">
+            <div className="site-shell mx-auto max-w-7xl">
                 <Link
                     to="/projects"
                     data-testid="back-to-projects"
@@ -108,7 +108,7 @@ export default function ProjectDetail() {
                 </Reveal>
 
                 {/* Hero image */}
-                <Reveal className="mt-12">
+                <Reveal className="mt-10">
                     <div
                         data-testid="project-hero-frame"
                         className="mx-auto flex max-w-5xl justify-center overflow-hidden border border-navy/10 bg-surface"
@@ -125,10 +125,10 @@ export default function ProjectDetail() {
                 {!isInProgress && (
                     <>
                         {/* Metrics */}
-                        <Reveal className="mt-12 grid grid-cols-1 gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
+                        <Reveal className="mt-10 grid grid-cols-1 gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3">
                             {project.metrics.map((m) => (
-                                <div key={m.label} className="bg-surface p-6">
-                                    <p className="font-display text-4xl font-extrabold tracking-[-0.035em] text-teal">
+                                <div key={m.label} className="bg-surface p-5">
+                                    <p className="font-display text-3xl font-extrabold tracking-[-0.035em] text-teal">
                                         {m.value}
                                     </p>
                                     <p className="mt-2 font-mono text-xs uppercase tracking-wider text-navy/60">
@@ -146,7 +146,7 @@ export default function ProjectDetail() {
                 )}
 
                 {/* Story sections */}
-                <div className="mt-16">
+                <div className="mt-12">
                     <Section label="Business Problem">
                         <p className="leading-relaxed">{project.problem}</p>
                     </Section>
@@ -200,11 +200,11 @@ export default function ProjectDetail() {
                     )}
                     <Section label="Findings" wide>
                         <p className="leading-relaxed">{project.findings}</p>
-                        {project.gallery?.length > 0 && (
+                        {project.slug !== "retail-demand-forecasting" && project.gallery?.length > 0 && (
                             <div className="mt-8 space-y-8">
                                 {project.gallery.map((item) => (
                                     <figure key={item.src} className="border border-navy/10 bg-surface/50">
-                                        <div className="min-h-[28rem] bg-surface p-2 sm:min-h-[32rem] sm:p-4">
+                                        <div className="h-[20rem] bg-surface p-2 sm:h-[24rem] sm:p-4" data-testid="project-gallery-frame">
                                             <img
                                                 src={item.src}
                                                 alt={item.caption}
