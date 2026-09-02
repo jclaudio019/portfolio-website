@@ -1,12 +1,13 @@
 import { Download, FileText } from "lucide-react";
 import { profile, resumeHighlights } from "../data/content";
 import { Reveal } from "../components/Reveal";
+import ContactSection from "./Contact";
 
 export default function Resume() {
     const downloadFilename = "Jose_Claudio_Analytics_Resume.pdf";
 
     return (
-        <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="resume-page">
+        <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-36" data-testid="resume-page">
             <div className="site-shell">
                 <Reveal>
                     <p className="font-mono text-sm uppercase tracking-wider text-teal">Resume</p>
@@ -51,6 +52,8 @@ export default function Resume() {
                         <Download size={16} /> Download Resume
                     </a>
                 </Reveal>
+
+                <ContactSection />
             </div>
         </div>
     );

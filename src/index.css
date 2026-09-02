@@ -90,7 +90,18 @@
 }
 
 .fluid-page-title {
-    font-size: clamp(2.25rem, 4.5vw, 5.25rem);
+    font-size: clamp(2.25rem, 3.75vw, 4.5rem);
+}
+
+@keyframes project-cover-path {
+    from { stroke-dashoffset: 1; }
+    to { stroke-dashoffset: 0; }
+}
+
+.project-cover-path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: project-cover-path 7s ease-out forwards;
 }
 
 /* Editorial grain overlay */
@@ -120,6 +131,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+    .project-cover-path {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
     .animate-marquee {
         animation-play-state: paused;
     }

@@ -11,7 +11,7 @@ const icons = {
 
 export default function Experience() {
     return (
-        <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="experience-page">
+        <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-36" data-testid="experience-page">
             <div className="site-shell">
                 <Reveal>
                     <p className="font-mono text-sm uppercase tracking-wider text-teal">Experience</p>

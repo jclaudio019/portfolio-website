@@ -434,6 +434,7 @@ export const projects = [
     {
         slug: "backtesting-system",
         title: "Backtesting System",
+        published: false,
         category: "Financial Systems",
         summary:
             "Connected two graduate coursework assignments into a documented workflow spanning historical backtesting and a small paper-trading event pipeline.",
