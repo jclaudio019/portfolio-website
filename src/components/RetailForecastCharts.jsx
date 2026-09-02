@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-    Area,
     Bar,
     BarChart,
+    Brush,
     CartesianGrid,
     Cell,
     ComposedChart,
@@ -23,13 +23,13 @@ const KPI = [
     { icon: Calendar, value: "365", label: "Untouched test days", note: "No post-test tuning" },
 ];
 
-const ChartShell = ({ title, caption, children, className = "" }) => (
-    <figure className={`mt-6 overflow-hidden border border-navy/10 bg-surface/80 ${className}`}>
-        <figcaption className="border-b border-navy/10 px-4 py-4 sm:px-6">
+const ChartShell = ({ title, caption, children, className = "", testId }) => (
+    <figure data-testid={testId} className={`mt-6 overflow-hidden border border-navy/10 bg-surface/80 ${className}`}>
+        <figcaption className="border-b border-navy/10 px-4 py-3 sm:px-5">
             <p className="font-mono text-sm uppercase tracking-wider text-teal">{title}</p>
             <p className="mt-1 text-base leading-relaxed text-navy/60">{caption}</p>
         </figcaption>
-        <div className="p-3 sm:p-5">{children}</div>
+        <div className="p-3 sm:p-4">{children}</div>
     </figure>
 );
 
@@ -82,6 +82,24 @@ const tickYear = (ds) => {
     return "";
 };
 
+export const rollingAverage = (values, windowSize) => {
+    let total = 0;
+    return values.map((value, index) => {
+        total += value;
+        if (index >= windowSize) total -= values[index - windowSize];
+        return total / Math.min(index + 1, windowSize);
+    });
+};
+
+export const paddedDomain = (rows, keys) => {
+    const values = rows.flatMap((row) => keys.map((key) => row[key])).filter(Number.isFinite);
+    if (!values.length) return [0, 1];
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const padding = (max - min || Math.abs(max) || 1) * 0.1;
+    return [min - padding, max + padding];
+};
+
 const ChristmasGlow = (seriesColor) =>
     function ChristmasGlowMarker({ cx, cy, payload }) {
         if (!payload?.isChristmas || cx == null || cy == null) return null;
@@ -96,16 +114,17 @@ const ChristmasGlow = (seriesColor) =>
 
 export default function RetailForecastCharts() {
     const [cat, setCat] = useState("FOODS");
+    const [demandRange, setDemandRange] = useState({ startIndex: 0, endIndex: data.demandRolling.dates.length - 1 });
+    const [forecastRange, setForecastRange] = useState({ startIndex: 0, endIndex: data.errorRangeForecasts.FOODS.dates.length - 1 });
 
     const wape = data.testWape[cat];
-    const avf = data.actualVsForecast[cat];
+    const avf = data.errorRangeForecasts[cat];
     const color = CAT_COLOR[cat];
 
-    // The plotted series is the validation-selected model, which is not always the best test model.
-    const avfWape = useMemo(() => {
-        const match = wape.find((d) => d.model === avf.model);
-        return match ? `${match.wape.toFixed(2)}%` : "see accuracy chart";
-    }, [wape, avf.model]);
+    useEffect(() => {
+        setDemandRange({ startIndex: 0, endIndex: data.demandRolling.dates.length - 1 });
+        setForecastRange({ startIndex: 0, endIndex: avf.dates.length - 1 });
+    }, [cat, avf.dates.length]);
 
     const wapeRows = useMemo(() => {
         const best = Math.min(...wape.map((x) => x.wape));
@@ -115,14 +134,17 @@ export default function RetailForecastCharts() {
     }, [wape, color]);
 
     const avfRows = useMemo(() => {
+        const actualRolling = rollingAverage(avf.actual, 28);
+        const bestRolling = rollingAverage(avf.bestForecast, 28);
+        const worstRolling = rollingAverage(avf.worstForecast, 28);
         const rows = avf.dates.map((ds, i) => ({
             ds,
             label: fmtDate(ds),
-            actual: avf.actual[i],
-            forecast: avf.forecast[i],
+            actual: actualRolling[i],
+            best: bestRolling[i],
+            worst: worstRolling[i],
         }));
-        // Readable window for the main chart — full year available via smaller multiples later if needed
-        return rows.slice(0, 120);
+        return rows;
     }, [avf]);
 
     const weeklyRows = useMemo(
@@ -151,11 +173,18 @@ export default function RetailForecastCharts() {
             ds,
             tick: tickYear(ds),
             isChristmas: ds.endsWith("-12-25"),
-            FOODS: dr.FOODS[i],
-            HOBBIES: dr.HOBBIES[i],
-            HOUSEHOLD: dr.HOUSEHOLD[i],
+            demand: dr[cat][i],
         }));
-    }, []);
+    }, [cat]);
+
+    const demandDomain = useMemo(
+        () => paddedDomain(demandRows.slice(demandRange.startIndex, demandRange.endIndex + 1), ["demand"]),
+        [demandRows, demandRange]
+    );
+    const forecastDomain = useMemo(
+        () => paddedDomain(avfRows.slice(forecastRange.startIndex, forecastRange.endIndex + 1), ["actual", "best", "worst"]),
+        [avfRows, forecastRange]
+    );
 
     const axisStyle = { fill: CHART.inkMuted, fontSize: 12, fontFamily: "JetBrains Mono, monospace" };
     const axisStyleSm = { fill: CHART.inkMuted, fontSize: 12, fontFamily: "JetBrains Mono, monospace" };
@@ -183,11 +212,15 @@ export default function RetailForecastCharts() {
 
             {demandRows.length > 0 && (
                 <ChartShell
+                    testId="category-demand-chart"
                     title="Category demand (7-day rolling)"
-                    caption="Full history (2011–2016). Soft purple glow marks Dec 25 — demand collapses to near zero when stores close."
+                    caption={`${cat} · full history (2011–2016). Soft purple glow marks Dec 25 — demand collapses to near zero when stores close.`}
                     className="mt-4"
                 >
-                    <ResponsiveContainer width="100%" height={460}>
+                    <div className="flex justify-end px-3 pt-3 sm:px-4">
+                        <button type="button" onClick={() => setDemandRange({ startIndex: 0, endIndex: demandRows.length - 1 })} className="font-mono text-xs uppercase tracking-wider text-teal hover:text-navy">Reset zoom</button>
+                    </div>
+                    <ResponsiveContainer width="100%" height={320}>
                         <ComposedChart data={demandRows} margin={{ top: 16, right: 12, left: 4, bottom: 28 }}>
                             <CartesianGrid {...gridProps} />
                             <XAxis
@@ -199,7 +232,7 @@ export default function RetailForecastCharts() {
                                 tickLine={false}
                                 height={40}
                             />
-                            <YAxis tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={48} />
+                            <YAxis domain={demandDomain} tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={48} />
                             <Tooltip
                                 content={({ active, payload }) =>
                                     active && payload?.length ? (
@@ -215,29 +248,56 @@ export default function RetailForecastCharts() {
                                     ) : null
                                 }
                             />
-                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
-                            {CATS.map((c) => (
-                                <Line
-                                    key={c}
-                                    type="monotone"
-                                    dataKey={c}
-                                    stroke={CAT_COLOR[c]}
-                                    strokeWidth={2}
-                                    dot={ChristmasGlow(CAT_COLOR[c])}
-                                    activeDot={{ r: 5 }}
-                                />
-                            ))}
+                            <Line type="monotone" dataKey="demand" name={cat} stroke={color} strokeWidth={2} dot={ChristmasGlow(color)} activeDot={{ r: 5 }} />
+                            <Brush dataKey="ds" startIndex={demandRange.startIndex} endIndex={demandRange.endIndex} onChange={(range) => range && setDemandRange(range)} height={22} travellerWidth={8} stroke={CHART.inkMuted} fill={CHART.accentSoft} tickFormatter={fmtDate} />
                         </ComposedChart>
                     </ResponsiveContainer>
                 </ChartShell>
             )}
 
-            <div className="mt-2 grid gap-0 lg:grid-cols-2">
-                <ChartShell
+            <ChartShell
+                testId="actual-forecast-chart"
+                title="True demand vs model error range"
+                caption={`${cat} · lowest error: ${avf.bestModel} (${avf.bestWape.toFixed(2)}% WAPE) · highest error: ${avf.worstModel} (${avf.worstWape.toFixed(2)}% WAPE). Full 365-day untouched test period using a 28-day rolling average.`}
+            >
+                <div className="flex justify-end px-3 pt-3 sm:px-4">
+                    <button type="button" onClick={() => setForecastRange({ startIndex: 0, endIndex: avfRows.length - 1 })} className="font-mono text-xs uppercase tracking-wider text-teal hover:text-navy">Reset zoom</button>
+                </div>
+                <ResponsiveContainer width="100%" height={320}>
+                    <ComposedChart data={avfRows} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
+                        <CartesianGrid {...gridProps} />
+                        <XAxis dataKey="label" tick={axisStyle} interval="preserveStartEnd" minTickGap={28} axisLine={false} tickLine={false} />
+                        <YAxis domain={forecastDomain} tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={44} />
+                        <Tooltip
+                            content={({ active, payload, label }) =>
+                                active && payload?.length ? (
+                                    <DarkTooltip
+                                        active
+                                        label={label}
+                                        payload={payload.map((p) => ({
+                                            name: p.name,
+                                            value: p.value?.toLocaleString(),
+                                            color: p.color,
+                                        }))}
+                                    />
+                                ) : null
+                            }
+                        />
+                        <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
+                        <Line type="monotone" dataKey="actual" name="True demand" stroke={CHART.inkSecondary} strokeWidth={2.4} dot={false} activeDot={{ r: 4 }} />
+                        <Line type="monotone" dataKey="best" name="Lowest error" stroke={color} strokeWidth={2} dot={false} activeDot={{ r: 4 }} />
+                        <Line type="monotone" dataKey="worst" name="Highest error" stroke={CHART.accent} strokeWidth={2} strokeDasharray="6 4" dot={false} activeDot={{ r: 4 }} />
+                        <Brush dataKey="ds" startIndex={forecastRange.startIndex} endIndex={forecastRange.endIndex} onChange={(range) => range && setForecastRange(range)} height={22} travellerWidth={8} stroke={CHART.inkMuted} fill={CHART.accentSoft} tickFormatter={fmtDate} />
+                    </ComposedChart>
+                </ResponsiveContainer>
+            </ChartShell>
+
+            <ChartShell
+                    testId="model-accuracy-chart"
                     title="Model accuracy"
                     caption={`Test WAPE by model · ${cat}. Lower is better — best observed model highlighted.`}
                 >
-                    <ResponsiveContainer width="100%" height={380}>
+                    <ResponsiveContainer width="100%" height={320}>
                         <BarChart data={wapeRows} layout="vertical" margin={{ top: 4, right: 48, left: 4, bottom: 4 }}>
                             <CartesianGrid {...gridProps} />
                             <XAxis type="number" domain={[0, "dataMax + 2"]} tick={axisStyle} tickFormatter={(v) => `${v}%`} axisLine={false} tickLine={false} />
@@ -261,84 +321,12 @@ export default function RetailForecastCharts() {
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
-                </ChartShell>
-
-                <ChartShell
-                    title="Complexity vs value"
-                    caption="Naive → ETS → best observed model. Additional complexity helped selectively, not everywhere."
-                >
-                    <ResponsiveContainer width="100%" height={380}>
-                        <ComposedChart data={complexityRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
-                            <CartesianGrid {...gridProps} />
-                            <XAxis dataKey="step" tick={axisStyle} axisLine={false} tickLine={false} />
-                            <YAxis tick={axisStyle} tickFormatter={(v) => `${v}%`} axisLine={false} tickLine={false} domain={[0, "auto"]} />
-                            <Tooltip
-                                content={({ active, payload, label }) =>
-                                    active && payload?.length ? (
-                                        <DarkTooltip
-                                            active
-                                            label={label}
-                                            payload={payload.map((p) => ({ name: p.name, value: `${p.value}%`, color: p.color }))}
-                                        />
-                                    ) : null
-                                }
-                            />
-                            <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
-                            {CATS.map((c) => (
-                                <Line key={c} type="monotone" dataKey={c} stroke={CAT_COLOR[c]} strokeWidth={2} dot={{ r: 4, strokeWidth: 0, fill: CAT_COLOR[c] }} activeDot={{ r: 6 }} />
-                            ))}
-                        </ComposedChart>
-                    </ResponsiveContainer>
-                </ChartShell>
-            </div>
-
-            <ChartShell
-                title="Actual vs forecast"
-                caption={`${cat} · ${avf.model} — the validation-selected model, shown on the first 120 days of the untouched test year (test WAPE ${avfWape}). Solid area = true demand; dashed line = forecast.`}
-            >
-                <ResponsiveContainer width="100%" height={440}>
-                    <ComposedChart data={avfRows} margin={{ top: 8, right: 12, left: 0, bottom: 4 }}>
-                        <defs>
-                            <linearGradient id={`demandGrad-${cat}`} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={color} stopOpacity={0.35} />
-                                <stop offset="100%" stopColor={color} stopOpacity={0.02} />
-                            </linearGradient>
-                        </defs>
-                        <CartesianGrid {...gridProps} />
-                        <XAxis dataKey="label" tick={axisStyle} interval="preserveStartEnd" minTickGap={28} axisLine={false} tickLine={false} />
-                        <YAxis tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={44} />
-                        <Tooltip
-                            content={({ active, payload, label }) =>
-                                active && payload?.length ? (
-                                    <DarkTooltip
-                                        active
-                                        label={label}
-                                        payload={payload.map((p) => ({
-                                            name: p.dataKey === "actual" ? "True demand" : "Forecast",
-                                            value: p.value?.toLocaleString(),
-                                            color: p.color,
-                                        }))}
-                                    />
-                                ) : null
-                            }
-                        />
-                        <Legend
-                            wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }}
-                            formatter={(v) => (v === "actual" ? "True demand" : "Forecast")}
-                        />
-                        <Area type="monotone" dataKey="actual" stroke={color} strokeWidth={2} fill={`url(#demandGrad-${cat})`} dot={false} />
-                        <Line type="monotone" dataKey="forecast" stroke={CHART.inkSecondary} strokeWidth={2} strokeDasharray="6 4" dot={false} />
-                    </ComposedChart>
-                </ResponsiveContainer>
             </ChartShell>
 
-            <ChartShell
-                title="Weekly seasonality"
-                caption="Average daily units by weekday (2011–2016). Demand rises into the weekend across all three categories."
-                className="lg:max-w-none"
-            >
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={weeklyRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }} barGap={2} barCategoryGap="18%">
+            <div className="mt-2 grid gap-0 lg:grid-cols-2" data-testid="supporting-chart-row">
+              <ChartShell testId="weekly-seasonality-chart" title="Weekly seasonality" caption="Average daily units by weekday (2011–2016) across all three categories.">
+                <ResponsiveContainer width="100%" height={320}>
+                    <BarChart data={weeklyRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
                         <CartesianGrid {...gridProps} />
                         <XAxis dataKey="day" tick={axisStyle} axisLine={false} tickLine={false} />
                         <YAxis tick={axisStyle} tickFormatter={fmtUnits} axisLine={false} tickLine={false} width={44} />
@@ -355,16 +343,27 @@ export default function RetailForecastCharts() {
                             }
                         />
                         <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
-                        {CATS.map((c) => (
-                            <Bar key={c} dataKey={c} fill={CAT_COLOR[c]} radius={[3, 3, 0, 0]} maxBarSize={28} />
-                        ))}
+                        {CATS.map((category) => <Bar key={category} dataKey={category} fill={CAT_COLOR[category]} radius={[3, 3, 0, 0]} maxBarSize={28} />)}
                     </BarChart>
                 </ResponsiveContainer>
-            </ChartShell>
+              </ChartShell>
+              <ChartShell testId="complexity-value-chart" title="Complexity vs value" caption="Naive → ETS → best observed model across all three categories. Lower WAPE is better.">
+                <ResponsiveContainer width="100%" height={320}>
+                    <ComposedChart data={complexityRows} margin={{ top: 8, right: 8, left: 0, bottom: 4 }}>
+                        <CartesianGrid {...gridProps} />
+                        <XAxis dataKey="step" tick={axisStyle} axisLine={false} tickLine={false} />
+                        <YAxis tick={axisStyle} tickFormatter={(v) => `${v}%`} axisLine={false} tickLine={false} domain={[0, "auto"]} />
+                        <Tooltip content={({ active, payload, label }) => active && payload?.length ? <DarkTooltip active label={label} payload={payload.map((p) => ({ name: `${p.name} WAPE`, value: `${p.value}%`, color: p.color }))} /> : null} />
+                        <Legend wrapperStyle={{ fontFamily: "JetBrains Mono, monospace", fontSize: 12, color: CHART.inkSecondary }} />
+                        {CATS.map((category) => <Line key={category} type="monotone" dataKey={category} stroke={CAT_COLOR[category]} strokeWidth={2} dot={{ r: 4, strokeWidth: 0, fill: CAT_COLOR[category] }} activeDot={{ r: 6 }} />)}
+                    </ComposedChart>
+                </ResponsiveContainer>
+              </ChartShell>
+            </div>
 
             <p className="mt-4 flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-navy/60">
                 <TrendingUp size={12} className="text-teal/60" />
-                Hover charts for values · category tabs filter accuracy and forecast views
+                Hover charts for values · category tabs update demand, accuracy, and forecast views
             </p>
         </div>
     );

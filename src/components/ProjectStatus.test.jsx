@@ -120,7 +120,17 @@ test("uses the fluid site shell on project pages", () => {
 
     const page = container.querySelector("[data-testid='project-detail-page']");
     expect(page.firstElementChild.classList.contains("site-shell")).toBe(true);
+    expect(page.firstElementChild.classList.contains("max-w-7xl")).toBe(true);
+    expect(page.firstElementChild.classList.contains("mx-auto")).toBe(true);
+    expect(page.classList.contains("project-detail-compact")).toBe(true);
     expect(page.querySelector("h1").classList.contains("fluid-page-title")).toBe(true);
+});
+
+test("replaces the forecasting static gallery with interactive findings charts", () => {
+    renderDetail("retail-demand-forecasting");
+
+    expect(container.querySelectorAll("[data-testid='project-gallery-frame']")).toHaveLength(0);
+    expect(container.querySelector("[data-testid='retail-forecast-charts']")).not.toBeNull();
 });
 
 test("opens the forecasting case study with a project-data banner", () => {

@@ -110,7 +110,7 @@ export default function TimeSeriesCharts() {
                     </div>
                 </figcaption>
 
-                <div className="relative aspect-[16/10] min-h-[20rem] overflow-hidden bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.12),transparent_58%)] p-3 sm:p-5">
+                <div className="relative aspect-[16/9] min-h-[18rem] overflow-hidden bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.12),transparent_58%)] p-3 sm:p-4">
                     <svg viewBox={`0 0 ${WIDTH} ${HEIGHT}`} className="h-full w-full" role="img" aria-label={`Brownian bridge shown through step ${step} of 500`}>
                         <defs>
                             <filter id="bridge-glow">
@@ -191,7 +191,7 @@ export default function TimeSeriesCharts() {
                         <p className="font-display text-xl font-bold text-white">{forecast.title}</p>
                         <p className="font-mono text-xs uppercase tracking-wider text-white/70">{forecast.xLabel}</p>
                     </div>
-                    <div className="h-[26rem] w-full">
+                    <div className="h-[20rem] w-full" data-testid="forecast-chart-frame">
                         <ResponsiveContainer width="100%" height="100%">
                             <ComposedChart data={forecastRows} margin={{ top: 12, right: 12, left: 4, bottom: 20 }}>
                                 <CartesianGrid stroke={CHART.grid} vertical={false} />
