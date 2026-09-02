@@ -11,7 +11,7 @@ export default function Home() {
     return (
         <div data-testid="home-page">
             {/* HERO */}
-            <section className="relative flex min-h-screen items-center overflow-hidden px-6 pb-16 pt-24 lg:px-12">
+            <section className="relative flex min-h-[88svh] items-center overflow-hidden px-6 pb-12 pt-20 lg:px-12">
                 <SkillSphere className="pointer-events-none absolute inset-0 h-full w-full opacity-20 md:opacity-70 lg:opacity-100" />
                 <div className="site-shell relative z-10 w-full">
                     <motion.p
@@ -25,7 +25,7 @@ export default function Home() {
                     </motion.p>
 
                     <h1
-                        className="font-display text-4xl font-extrabold leading-[1.02] tracking-[-0.035em] text-navy sm:text-5xl md:text-6xl md:leading-[0.95] lg:text-7xl"
+                        className="font-display text-4xl font-extrabold leading-[1.02] tracking-[-0.035em] text-navy sm:text-5xl md:text-6xl md:leading-[0.95]"
                         data-testid="hero-headline"
                     >
                         <MaskedLines lines={["In a world full of answers,"]} />
@@ -42,7 +42,7 @@ export default function Home() {
                         </span>
                     </h1>
 
-                    <div className="mt-12 grid gap-10 md:grid-cols-[1.2fr_1fr] md:items-end">
+                    <div className="mt-10 grid gap-8 md:grid-cols-[1.2fr_1fr] md:items-end">
                         <Reveal delay={0.5}>
                             <p className="max-w-xl text-base leading-relaxed text-navy/70 md:text-lg">
                                 {profile.heroIntro}
@@ -96,14 +96,14 @@ export default function Home() {
             <Marquee />
 
             {/* SELECTED WORK */}
-            <section className="px-6 py-24 lg:px-12 lg:py-32" data-testid="home-projects">
+            <section className="px-6 py-16 lg:px-12 lg:py-20" data-testid="home-projects">
                 <div className="site-shell">
-                    <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
+                    <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-6">
                         <div>
                             <p className="font-mono text-sm uppercase tracking-wider text-teal">
                                 Portfolio
                             </p>
-                            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-navy md:text-5xl">
+                            <h2 className="mt-3 font-display text-3xl font-extrabold tracking-tight text-navy md:text-4xl">
                                 Selected case studies
                             </h2>
                         </div>
@@ -116,7 +116,7 @@ export default function Home() {
                         </Link>
                     </Reveal>
 
-                    <div className="grid gap-6 md:grid-cols-2">
+                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                         {publishedProjects.map((p, i) => (
                             <Reveal key={p.slug} delay={i * 0.08}>
                                 <ProjectCard project={p} index={i} />
@@ -127,14 +127,14 @@ export default function Home() {
             </section>
 
             {/* CTA STRIP */}
-            <section className="px-6 pb-24 lg:px-12" data-testid="home-cta">
+            <section className="px-6 pb-20 lg:px-12" data-testid="home-cta">
                 <Reveal className="site-shell border border-navy/10 bg-surface px-8 py-16 text-navy md:px-16">
                     <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
                         <h2 className="max-w-2xl font-display text-3xl font-extrabold tracking-tight md:text-4xl">
                             Interested in analytics, forecasting, or modeling? Let’s connect.
                         </h2>
                         <Link
-                            to="/contact"
+                            to="/resume"
                             data-testid="home-cta-contact"
                             className="flex shrink-0 items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal-hover hover:border-teal-hover"
                         >

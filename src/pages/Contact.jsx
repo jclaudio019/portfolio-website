@@ -7,7 +7,7 @@ import { Reveal } from "../components/Reveal";
 
 const initial = { name: "", email: "", subject: "", message: "" };
 
-export default function Contact() {
+export default function ContactSection() {
     const [form, setForm] = useState(initial);
     const [submitting, setSubmitting] = useState(false);
 
@@ -46,13 +46,12 @@ export default function Contact() {
         "w-full border border-navy/15 bg-surface px-4 py-3 text-navy placeholder-navy/60 outline-none transition-colors focus:border-teal";
 
     return (
-        <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="contact-page">
-            <div className="site-shell">
+        <section className="mt-24 border-t border-navy/10 pt-16" data-testid="contact-section">
                 <Reveal>
                     <p className="font-mono text-sm uppercase tracking-wider text-teal">Contact</p>
-                    <h1 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
+                    <h2 className="fluid-page-title mt-4 max-w-5xl font-display font-extrabold leading-[0.95] tracking-[-0.035em] text-navy">
                         Let’s discuss analytics, forecasting, or modeling.
-                    </h1>
+                    </h2>
                 </Reveal>
 
                 <div className="mt-16 grid gap-12 md:grid-cols-[1fr_1.3fr] md:gap-16">
@@ -156,7 +155,6 @@ export default function Contact() {
                         </form>
                     </Reveal>
                 </div>
-            </div>
-        </div>
+        </section>
     );
 }

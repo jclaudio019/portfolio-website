@@ -54,7 +54,7 @@ export default function Footer() {
                     <span>© {new Date().getFullYear()} {profile.name}</span>
                     <div className="flex flex-wrap gap-6">
                         <Link to="/projects" className="hover:text-navy">Portfolio</Link>
-                        <Link to="/contact" className="hover:text-navy">Contact</Link>
+                        <Link to="/resume" className="hover:text-navy">Contact</Link>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import { Reveal } from "../components/Reveal";
 
 export default function About() {
     return (
-        <div className="px-6 pb-24 pt-36 lg:px-12 lg:pt-44" data-testid="about-page">
+        <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-36" data-testid="about-page">
             <div className="site-shell">
                 <Reveal>
                     <p className="font-mono text-sm uppercase tracking-wider text-teal">About Me</p>

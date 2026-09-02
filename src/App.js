@@ -1,5 +1,5 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import { MotionConfig } from "framer-motion";
@@ -11,9 +11,7 @@ import About from "@/pages/About";
 import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import Experience from "@/pages/Experience";
-import Skills from "@/pages/Skills";
 import Resume from "@/pages/Resume";
-import Contact from "@/pages/Contact";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -39,9 +37,9 @@ function App() {
                                 <Route path="/projects" element={<Projects />} />
                                 <Route path="/projects/:slug" element={<ProjectDetail />} />
                                 <Route path="/experience" element={<Experience />} />
-                                <Route path="/skills" element={<Skills />} />
+                                <Route path="/skills" element={<Navigate to="/projects" replace />} />
                                 <Route path="/resume" element={<Resume />} />
-                                <Route path="/contact" element={<Contact />} />
+                                <Route path="/contact" element={<Navigate to="/resume" replace />} />
                             </Routes>
                         </main>
                         <Footer />

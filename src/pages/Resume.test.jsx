@@ -30,4 +30,7 @@ test("downloads the published resume with the requested filename", () => {
     expect(downloadLink.getAttribute("href")).toBe("/Jose_Claudio_Analytics_Resume.pdf");
     expect(downloadLink.getAttribute("download")).toBe("Jose_Claudio_Analytics_Resume.pdf");
     expect(downloadLink.textContent).toContain("Download Resume");
+    expect(container.querySelector("[data-testid='contact-form']")).not.toBeNull();
+    expect(container.querySelector("[data-testid='contact-email']").textContent)
+        .toContain("joseo.claudio19@gmail.com");
 });

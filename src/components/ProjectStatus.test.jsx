@@ -47,10 +47,9 @@ const detailRoute = (slug) => (
 
 const renderDetail = (slug) => render(detailRoute(slug));
 
-test("publishes Backtesting before the in-progress warehouse project", () => {
-    expect(publishedProjects).toHaveLength(7);
-    expect(publishedProjects.at(-2).slug).toBe("backtesting-system");
-    expect(publishedProjects.at(-2).status).toBeUndefined();
+test("keeps Backtesting out of the published portfolio", () => {
+    expect(publishedProjects).toHaveLength(6);
+    expect(publishedProjects.some(({ slug }) => slug === "backtesting-system")).toBe(false);
     expect(publishedProjects.at(-1).slug).toBe("warehouse-club-market-expansion");
     expect(publishedProjects.at(-1).status).toBe("In progress");
 });
@@ -103,23 +102,17 @@ test("links project 04 to completed Black-Scholes project 05", async () => {
     expect(next.getAttribute("href")).toBe("/projects/black-scholes-options-modeling");
 });
 
-test("links completed Black-Scholes project 05 to Backtesting System project 06", async () => {
+test("links completed Black-Scholes project 05 to Warehouse project 06", async () => {
     await act(async () => root.render(detailRoute("black-scholes-options-modeling")));
 
     const next = container.querySelector("[data-testid='next-project']");
-    expect(next.textContent).toContain("Backtesting System");
-    expect(next.getAttribute("href")).toBe("/projects/backtesting-system");
-});
-
-test("shows the Backtesting architecture and links project 06 to Warehouse project 07", async () => {
-    await act(async () => root.render(detailRoute("backtesting-system")));
-    const page = container.querySelector("[data-testid='project-detail-page']");
-    expect(page.textContent).toContain("Backtesting System");
-    expect(page.textContent).toContain("System architecture");
-    expect(page.textContent).not.toContain("FM 5151");
-    const next = container.querySelector("[data-testid='next-project']");
     expect(next.textContent).toContain("Warehouse Club Market Expansion");
     expect(next.getAttribute("href")).toBe("/projects/warehouse-club-market-expansion");
+});
+
+test("does not expose the Backtesting detail route", async () => {
+    await act(async () => root.render(detailRoute("backtesting-system")));
+    expect(container.querySelector("[data-testid='project-not-found']")).not.toBeNull();
 });
 
 test("uses the fluid site shell on project pages", () => {
@@ -128,6 +121,13 @@ test("uses the fluid site shell on project pages", () => {
     const page = container.querySelector("[data-testid='project-detail-page']");
     expect(page.firstElementChild.classList.contains("site-shell")).toBe(true);
     expect(page.querySelector("h1").classList.contains("fluid-page-title")).toBe(true);
+});
+
+test("opens the forecasting case study with a project-data banner", () => {
+    renderDetail("retail-demand-forecasting");
+
+    expect(container.querySelector("[data-testid='project-data-cover-retail-demand-forecasting']")).not.toBeNull();
+    expect(container.querySelector("[data-testid='project-hero-image']")).toBeNull();
 });
 
 test("keeps the project hero image fully visible at a natural reading size", () => {

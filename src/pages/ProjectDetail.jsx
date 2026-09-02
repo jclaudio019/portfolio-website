@@ -3,6 +3,7 @@ import { useEffect, lazy, Suspense } from "react";
 import { ArrowLeft, Github, ArrowUpRight, ChevronDown } from "lucide-react";
 import { publishedProjects } from "../data/content";
 import { Reveal } from "../components/Reveal";
+import ProjectCover from "../components/ProjectCover";
 
 const RetailForecastCharts = lazy(() => import("../components/RetailForecastCharts"));
 const CreditRiskScoreExplorer = lazy(() => import("../components/CreditRiskScoreExplorer"));
@@ -65,7 +66,7 @@ export default function ProjectDetail() {
     const isInProgress = project.status === "In progress";
 
     return (
-        <div className="px-6 pb-24 pt-32 lg:px-12 lg:pt-40" data-testid="project-detail-page">
+        <div className="px-6 pb-24 pt-28 lg:px-12 lg:pt-36" data-testid="project-detail-page">
             <div className="site-shell">
                 <Link
                     to="/projects"
@@ -112,12 +113,7 @@ export default function ProjectDetail() {
                         data-testid="project-hero-frame"
                         className="mx-auto flex max-w-5xl justify-center overflow-hidden border border-navy/10 bg-surface"
                     >
-                        <img
-                            src={project.image}
-                            alt={`${project.title} project overview`}
-                            data-testid="project-hero-image"
-                            className="max-h-[68vh] w-auto max-w-full object-contain object-center"
-                        />
+                        <ProjectCover project={project} detail />
                     </div>
                     {project.imageCaption && (
                         <p className="mx-auto mt-2 max-w-5xl font-mono text-xs uppercase tracking-widest text-navy/60">

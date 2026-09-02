@@ -10,7 +10,7 @@ import {
     skillGroups,
 } from "./content";
 
-test("publishes six completed case studies and one in-progress case study", () => {
+test("keeps Backtesting documented but removes it from the published portfolio", () => {
     expect(projects.map(({ slug }) => slug)).toEqual([
         "retail-demand-forecasting",
         "credit-risk-pd-model",
@@ -27,7 +27,6 @@ test("publishes six completed case studies and one in-progress case study", () =
         "retail-allocation-simulator",
         "time-series-analysis-r",
         "black-scholes-options-modeling",
-        "backtesting-system",
         "warehouse-club-market-expansion",
     ]);
     expect(publishedProjects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);

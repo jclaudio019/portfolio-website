@@ -6,9 +6,6 @@ const links = [
     { to: "/about", label: "About Me" },
     { to: "/projects", label: "Portfolio" },
     { to: "/experience", label: "Experience" },
-    { to: "/skills", label: "Skills" },
-    { to: "/resume", label: "Resume" },
-    { to: "/contact", label: "Contact" },
 ];
 
 export default function Navbar() {
