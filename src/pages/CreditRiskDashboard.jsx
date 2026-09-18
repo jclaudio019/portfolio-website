@@ -1,0 +1,248 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { AlertTriangle, ArrowLeft, ExternalLink, Github } from "lucide-react";
+import {
+    Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ComposedChart, Legend,
+    Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis,
+} from "recharts";
+import { CHART } from "../components/chartTheme";
+import { loadCreditRiskDashboardData } from "../lib/creditRiskDashboardData";
+import { creditRiskApiUrl, requestExpectedLoss } from "../lib/creditRiskApi";
+
+const REPO = "https://github.com/jclaudio019/credit_risk";
+const LINKS = {
+    methodology: `${REPO}/blob/main/docs/METHODOLOGY.md`,
+    runbook: `${REPO}/blob/main/docs/RUNBOOK.md`,
+    limitations: `${REPO}/blob/main/docs/ASSUMPTIONS_AND_LIMITATIONS.md`,
+    performance: `${REPO}/blob/main/notebooks/06_pd_oot_validation_and_calibration.ipynb`,
+    loss: `${REPO}/blob/main/notebooks/09_expected_loss.ipynb`,
+    simulation: `${REPO}/blob/main/notebooks/12_portfolio_loss_simulation.ipynb`,
+    monitoring: `${REPO}/blob/main/notebooks/14_model_monitoring.ipynb`,
+};
+const COLORS = [CHART.accent, "#38bdf8", "#f59e0b", "#34d399", "#f472b6", "#fb7185", "#a3e635"];
+const pct = (value, digits = 1) => `${(Number(value) * 100).toFixed(digits)}%`;
+const pctTick = (value) => pct(value);
+const usd = (value) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 1 }).format(value);
+const num = (value) => new Intl.NumberFormat("en-US").format(Math.round(value));
+
+const TooltipBox = ({ active, payload, label }) => active && payload?.length ? (
+    <div className="border border-navy/20 bg-surface p-3 text-xs shadow-xl">
+        <p className="mb-2 font-mono text-navy/60">{label}</p>
+        {payload.map((item) => <p key={item.dataKey} style={{ color: item.color }}>{item.name}: {typeof item.value === "number" ? item.value.toLocaleString(undefined, { maximumFractionDigits: 3 }) : item.value}</p>)}
+    </div>
+) : null;
+
+const ChartFrame = ({ children, label }) => (
+    <div className="mt-5 h-72 w-full" role="img" aria-label={label}>{children}</div>
+);
+
+const Section = ({ id, eyebrow, title, intro, notebook, children }) => (
+    <section id={id} className="scroll-mt-24 border-t border-navy/10 py-12">
+        <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
+            <div>
+                <p className="font-mono text-xs uppercase tracking-[0.18em] text-teal">{eyebrow}</p>
+                <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-navy">{title}</h2>
+                {notebook && <a href={notebook} target="_blank" rel="noreferrer" className="mt-4 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-navy/60 hover:text-teal">View notebook <ExternalLink size={12} /></a>}
+            </div>
+            <div className="min-w-0">
+                <p className="max-w-3xl leading-relaxed text-navy/70">{intro}</p>
+                {children}
+            </div>
+        </div>
+    </section>
+);
+
+const LearnMore = ({ children }) => (
+    <details className="mt-5 border border-navy/10 bg-surface/50 px-4 py-3">
+        <summary className="cursor-pointer font-mono text-xs uppercase tracking-wider text-teal">How to read this</summary>
+        <div className="mt-3 max-w-3xl text-sm leading-relaxed text-navy/65">{children}</div>
+    </details>
+);
+
+const Metric = ({ label, value, note }) => (
+    <div className="border border-navy/10 bg-surface p-5">
+        <p className="font-display text-3xl font-extrabold tracking-tight text-teal">{value}</p>
+        <p className="mt-2 font-mono text-xs uppercase tracking-wider text-navy/60">{label}</p>
+        {note && <p className="mt-2 text-xs leading-relaxed text-navy/50">{note}</p>}
+    </div>
+);
+
+const Callout = ({ children, warning = false, testId }) => (
+    <div data-testid={testId} className={`mt-5 flex gap-3 border px-4 py-3 text-sm leading-relaxed ${warning ? "border-amber-400/40 bg-amber-400/10 text-amber-100" : "border-teal/30 bg-teal/5 text-navy/75"}`}>
+        {warning && <AlertTriangle className="mt-0.5 shrink-0" size={16} />}{children}
+    </div>
+);
+
+const defaultBorrower = {
+    grade: "B", home_ownership: "RENT", verification_status: "Verified", purpose: "debt_consolidation",
+    initial_list_status: "f", term: " 36 months", emp_length: "10+ years", addr_state: "CA", int_rate: "11.5",
+    installment: "330", loan_amnt: "10000", funded_amnt: "10000", annual_inc: "65000", dti: "16",
+    revol_bal: "8500", revol_util: "42", delinq_2yrs: "0", inq_last_6mths: "1", open_acc: "9", pub_rec: "0",
+    total_acc: "22", acc_now_delinq: "0", mths_earliest_cr_line: "180", mths_since_last_delinq: "",
+    mths_since_last_record: "",
+};
+const categoryFields = [
+    ["grade", "Grade", ["A", "B", "C", "D", "E", "F", "G"]],
+    ["home_ownership", "Home ownership", ["RENT", "MORTGAGE", "OWN", "OTHER"]],
+    ["verification_status", "Verification", ["Verified", "Source Verified", "Not Verified"]],
+    ["purpose", "Purpose", ["debt_consolidation", "credit_card", "home_improvement", "major_purchase", "small_business", "other"]],
+    ["initial_list_status", "List status", ["f", "w"]],
+    ["term", "Term", [" 36 months", " 60 months"]],
+    ["emp_length", "Employment length", ["< 1 year", "1 year", "2 years", "3 years", "4 years", "5 years", "6 years", "7 years", "8 years", "9 years", "10+ years", "n/a"]],
+    ["addr_state", "State", ["CA", "NY", "TX", "FL", "IL", "NJ", "PA", "OH", "GA", "VA"]],
+];
+const numericFields = [
+    ["annual_inc", "Annual income", 0], ["loan_amnt", "Loan amount", 1], ["funded_amnt", "Funded amount", 1],
+    ["int_rate", "Interest rate (%)", 0], ["installment", "Monthly installment", 0], ["dti", "Debt-to-income (%)", 0],
+    ["revol_bal", "Revolving balance", 0], ["revol_util", "Revolving utilization (%)", 0], ["open_acc", "Open accounts", 0],
+    ["total_acc", "Total accounts", 0], ["inq_last_6mths", "Inquiries (6 months)", 0], ["delinq_2yrs", "Delinquencies (2 years)", 0],
+    ["pub_rec", "Public records", 0], ["acc_now_delinq", "Accounts now delinquent", 0], ["mths_earliest_cr_line", "Credit history (months)", 0],
+    ["mths_since_last_delinq", "Months since delinquency (optional)", 0], ["mths_since_last_record", "Months since public record (optional)", 0],
+];
+
+export function BorrowerScorer() {
+    const [values, setValues] = useState(defaultBorrower);
+    const [lgd, setLgd] = useState("0.90");
+    const [ead, setEad] = useState(defaultBorrower.funded_amnt);
+    const [result, setResult] = useState(null);
+    const [error, setError] = useState("");
+    const [busy, setBusy] = useState(false);
+    const update = (name, value) => setValues((current) => ({ ...current, [name]: value }));
+    const submit = async (event) => {
+        event.preventDefault(); setError(""); setResult(null);
+        const required = [...categoryFields.map(([name]) => name), ...numericFields.filter(([name]) => !name.startsWith("mths_since")).map(([name]) => name)];
+        if (required.some((name) => values[name] === "") || numericFields.some(([name]) => values[name] !== "" && Number(values[name]) < 0)) {
+            setError("Complete all required fields with non-negative values."); return;
+        }
+        const features = Object.fromEntries(Object.entries(values).map(([key, value]) => [key, numericFields.some(([name]) => name === key) ? (value === "" ? null : Number(value)) : value]));
+        try {
+            setBusy(true);
+            setResult(await requestExpectedLoss(features, Number(lgd), Number(ead)));
+        } catch (err) { setError(err.message === "API_NOT_CONFIGURED" ? "The scoring API is not configured for this build. The static case study remains fully available." : "The scoring service could not be reached. Please try again later."); }
+        finally { setBusy(false); }
+    };
+    return (
+        <form onSubmit={submit} className="mt-6" noValidate>
+            {!creditRiskApiUrl && <Callout warning testId="api-unavailable">The live scoring API is not configured. You can review the inputs, but scoring is unavailable; every analytical section above still works.</Callout>}
+            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {categoryFields.slice(0, 6).map(([name, label, options]) => <label key={name} className="text-sm text-navy/70">{label}<select value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy">{options.map((option) => <option key={option}>{option}</option>)}</select></label>)}
+                {numericFields.slice(0, 8).map(([name, label, min]) => <label key={name} className="text-sm text-navy/70">{label}<input aria-label={label} type="number" min={min} step="any" required value={values[name]} onChange={(e) => { update(name, e.target.value); if (name === "funded_amnt") setEad(e.target.value); }} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>)}
+            </div>
+            <details className="mt-4 border border-navy/10 p-4">
+                <summary className="cursor-pointer font-mono text-xs uppercase tracking-wider text-teal">Credit profile details required by the model</summary>
+                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {categoryFields.slice(6).map(([name, label, options]) => <label key={name} className="text-sm text-navy/70">{label}<select value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy">{options.map((option) => <option key={option}>{option}</option>)}</select></label>)}
+                    {numericFields.slice(8).map(([name, label, min]) => <label key={name} className="text-sm text-navy/70">{label}<input aria-label={label} type="number" min={min} step="any" required={!name.startsWith("mths_since")} value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>)}
+                </div>
+            </details>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                <label className="text-sm text-navy/70">LGD assumption <input aria-label="LGD assumption" type="number" min="0" max="1" step="0.01" value={lgd} onChange={(e) => setLgd(e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>
+                <label className="text-sm text-navy/70">EAD assumption <input aria-label="EAD assumption" type="number" min="0" step="any" value={ead} onChange={(e) => setEad(e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>
+            </div>
+            <p className="mt-2 text-xs text-navy/50">The prefilled borrower is an illustrative input example. LGD is an editable educational assumption; EAD initially equals funded amount.</p>
+            <button disabled={busy || !creditRiskApiUrl} className="mt-5 border border-teal bg-teal px-5 py-3 font-mono text-xs uppercase tracking-wider text-cream disabled:cursor-not-allowed disabled:opacity-40">{busy ? "Scoring…" : "Score borrower"}</button>
+            {error && <p role="alert" className="mt-4 text-sm text-rose-300">{error}</p>}
+            {result && <div data-testid="borrower-result" className="mt-5 grid gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3"><Metric label="Calibrated PD" value={pct(result.pd)} /><Metric label="Risk band" value={result.risk_band} /><Metric label="Expected loss" value={usd(result.expected_loss)} note={`${pct(result.pd)} × ${pct(result.lgd)} × ${usd(result.ead)}`} /></div>}
+        </form>
+    );
+}
+
+export default function CreditRiskDashboard() {
+    const [data, setData] = useState(null);
+    const [loadError, setLoadError] = useState("");
+    const [thresholdIndex, setThresholdIndex] = useState(5);
+    useEffect(() => { let active = true; loadCreditRiskDashboardData().then((result) => active && setData(result)).catch((error) => active && setLoadError(error.message)); return () => { active = false; }; }, []);
+    const nav = ["Overview", "Model Performance", "Expected Loss", "Portfolio Risk", "Simulation", "Stress Testing", "Approval Strategy", "Model Monitoring", "Score a Borrower"];
+    const selectedThreshold = data?.thresholds.thresholds[thresholdIndex];
+    const roc = useMemo(() => data?.model_performance.roc.filter((_, index, rows) => index % Math.max(1, Math.floor(rows.length / 80)) === 0) || [], [data]);
+    if (loadError) return <main className="px-6 pb-20 pt-28"><div className="mx-auto max-w-4xl"><Callout warning>Dashboard data could not be loaded: {loadError}. The project page and repository remain available.</Callout></div></main>;
+    if (!data) return <main className="flex min-h-[70vh] items-center justify-center font-mono text-sm uppercase tracking-wider text-navy/60">Loading credit-risk case study…</main>;
+    const { summary, model_performance: model, portfolio_risk: risk, simulation, stress, thresholds, monitoring, metadata } = data;
+    const simRows = simulation.simulations.filter((row) => row.simulation !== "independent_sample");
+    const simulationChartData = simRows[0].quantiles.map((point, index) => ({
+        quantile: point.quantile,
+        independent_loss: point.loss,
+        correlated_loss: simRows[1]?.quantiles[index]?.loss,
+    }));
+    return (
+        <main className="px-6 pb-20 pt-24 lg:px-12 lg:pt-28" data-testid="credit-risk-dashboard">
+            <div className="mx-auto max-w-7xl">
+                <Link to="/projects/credit-risk-pd-model" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-navy/60 hover:text-navy"><ArrowLeft size={14} /> Project case study</Link>
+                <header className="mt-9 border-b border-navy/10 pb-10">
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Interview-ready case study</p>
+                    <h1 className="mt-3 max-w-5xl font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-navy md:text-7xl">Credit Risk & Portfolio Expected Loss</h1>
+                    <p className="mt-6 max-w-3xl text-lg leading-relaxed text-navy/70">A notebook-first walkthrough connecting calibrated borrower probability of default to expected loss, portfolio concentration, simulation, stress sensitivity, decision thresholds, and monitoring.</p>
+                    <div className="mt-6 flex flex-wrap gap-3">
+                        <a href={REPO} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy hover:bg-navy hover:text-cream"><Github size={15} /> GitHub repository</a>
+                        <a href={LINKS.methodology} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/70 hover:border-teal hover:text-teal">Methodology <ExternalLink size={13} /></a>
+                        <a href={LINKS.runbook} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/70 hover:border-teal hover:text-teal">Reproduce analysis <ExternalLink size={13} /></a>
+                        <span className="border border-navy/10 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/50">Historical Lending Club · Educational</span>
+                    </div>
+                </header>
+                <nav aria-label="Dashboard sections" className="sticky top-0 z-20 -mx-6 overflow-x-auto border-b border-navy/10 bg-cream/95 px-6 py-3 backdrop-blur"><div className="flex min-w-max gap-5">{nav.map((label) => <a key={label} href={`#${label.toLowerCase().replaceAll(" ", "-")}`} className="font-mono text-xs uppercase tracking-wider text-navy/55 hover:text-teal">{label}</a>)}</div></nav>
+
+                <Section id="overview" eyebrow="01" title="Overview" intro="Start with the portfolio and model outcomes that matter. These figures come directly from the frozen website export, not from calculations recreated in the browser.">
+                    <div className="mt-6 grid gap-px bg-navy/10 sm:grid-cols-2 xl:grid-cols-4"><Metric label="Accounts" value={num(summary.total_accounts)} /><Metric label="Portfolio exposure" value={usd(summary.portfolio_exposure)} /><Metric label="Out-of-time AUC" value={summary.oot_roc_auc.toFixed(3)} /><Metric label="Expected loss" value={usd(summary.portfolio_expected_loss)} note={`${pct(summary.portfolio_expected_loss_rate, 2)} of exposure`} /></div>
+                    <Callout>{metadata.methodology_disclaimer}</Callout>
+                </Section>
+
+                <Section id="model-performance" eyebrow="02" title="Model Performance" notebook={LINKS.performance} intro="A calibrated logistic model was selected for interpretability and end-to-end decision use. Discrimination measures ranking; calibration asks whether predicted probabilities match observed outcomes.">
+                    <div className="mt-6 grid gap-px bg-navy/10 sm:grid-cols-3"><Metric label="ROC-AUC" value={model.selected_metrics.roc_auc.toFixed(3)} /><Metric label="KS" value={model.selected_metrics.ks.toFixed(3)} /><Metric label="Brier score" value={model.selected_metrics.brier.toFixed(3)} /></div>
+                    <div className="grid gap-6 xl:grid-cols-2">
+                        <ChartFrame label="Receiver operating characteristic curve"><ResponsiveContainer><LineChart data={roc}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="fpr" tickFormatter={pctTick} stroke={CHART.inkMuted} /><YAxis tickFormatter={pctTick} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><ReferenceLine segment={[{ x: 0, y: 0 }, { x: 1, y: 1 }]} stroke={CHART.inkMuted} strokeDasharray="4 4" /><Line dataKey="tpr" name="True-positive rate" stroke={CHART.accent} dot={false} strokeWidth={2} /></LineChart></ResponsiveContainer></ChartFrame>
+                        <ChartFrame label="Predicted versus observed default calibration"><ResponsiveContainer><LineChart data={model.calibration.filter((row) => row.version === "calibrated")}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="mean_predicted_pd" tickFormatter={pctTick} stroke={CHART.inkMuted} /><YAxis tickFormatter={pctTick} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><ReferenceLine segment={[{ x: 0, y: 0 }, { x: 0.3, y: 0.3 }]} stroke={CHART.inkMuted} strokeDasharray="4 4" /><Line dataKey="observed_default_rate" name="Observed default" stroke="#38bdf8" dot /></LineChart></ResponsiveContainer></ChartFrame>
+                    </div>
+                    <LearnMore>ROC-AUC of 0.669 means the model ranks a randomly selected default above a randomly selected non-default about 67% of the time. It does not mean 67% accuracy. The bootstrap interval ({model.bootstrap_auc.auc_ci_low.toFixed(3)}–{model.bootstrap_auc.auc_ci_high.toFixed(3)}) describes sampling uncertainty, while the calibration plot compares probability levels with observed outcomes.</LearnMore>
+                </Section>
+
+                <Section id="expected-loss" eyebrow="03" title="Expected Loss" notebook={LINKS.loss} intro="Expected loss combines how likely default is, how much is lost if it occurs, and how much is exposed: EL = PD × LGD × EAD.">
+                    <div className="mt-6 grid gap-px bg-navy/10 sm:grid-cols-3"><Metric label="Exposure-weighted PD" value={pct(summary.exposure_weighted_average_pd, 2)} /><Metric label="Expected loss rate" value={pct(summary.portfolio_expected_loss_rate, 2)} /><Metric label="Expected loss" value={usd(summary.portfolio_expected_loss)} /></div>
+                    <LearnMore>PD is the calibrated probability of default. LGD is the share of exposure lost after recoveries. EAD is the amount exposed at default. The portfolio estimate uses documented simplifying assumptions, so it is an educational risk estimate—not CECL, IFRS 9, regulatory capital, pricing, or a reserve recommendation.</LearnMore>
+                </Section>
+
+                <Section id="portfolio-risk" eyebrow="04" title="Portfolio Risk" intro="Risk is not evenly distributed. The views below separate account mix, exposure, and expected loss so concentration is visible rather than hidden behind one portfolio average.">
+                    <div className="grid gap-6 xl:grid-cols-2">
+                        <ChartFrame label="Exposure and expected loss by loan grade"><ResponsiveContainer><BarChart data={risk.by_grade}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="grade" stroke={CHART.inkMuted} /><YAxis tickFormatter={usd} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><Legend /><Bar dataKey="exposure" name="Exposure" fill="#38bdf8" /><Bar dataKey="expected_loss" name="Expected loss" fill={CHART.accent} /></BarChart></ResponsiveContainer></ChartFrame>
+                        <ChartFrame label="Expected loss by risk band"><ResponsiveContainer><BarChart data={risk.by_risk_band}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="risk_band" stroke={CHART.inkMuted} /><YAxis tickFormatter={usd} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><Bar dataKey="expected_loss" name="Expected loss">{risk.by_risk_band.map((row, index) => <Cell key={row.risk_band} fill={COLORS[index]} />)}</Bar></BarChart></ResponsiveContainer></ChartFrame>
+                    </div>
+                    <LearnMore>A segment can matter because it is risky, large, or both. Expected-loss share should therefore be read beside exposure share and observed default rates, not as a standalone ranking of borrower quality.</LearnMore>
+                </Section>
+
+                <Section id="simulation" eyebrow="05" title="Simulation" notebook={LINKS.simulation} intro="Monte Carlo simulation turns account-level default uncertainty into a distribution of portfolio loss. The correlated scenario adds a shared systematic factor so defaults can rise together.">
+                    <ChartFrame label="Independent and correlated simulated loss distributions"><ResponsiveContainer><AreaChart data={simulationChartData}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="quantile" type="number" domain={[0, 1]} tickFormatter={pctTick} stroke={CHART.inkMuted} /><YAxis tickFormatter={usd} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><Legend /><Area dataKey="independent_loss" name="Independent defaults" stroke={COLORS[0]} fill={COLORS[0]} fillOpacity={0.12} /><Area dataKey="correlated_loss" name="Correlated defaults" stroke={COLORS[1]} fill={COLORS[1]} fillOpacity={0.12} /></AreaChart></ResponsiveContainer></ChartFrame>
+                    <div className="mt-4 grid gap-px bg-navy/10 sm:grid-cols-2">{simRows.map((row) => <Metric key={row.simulation} label={`${row.kind === "independent" ? "Independent" : "Correlated"} VaR 95`} value={usd(row.var_95)} note={`Expected shortfall: ${usd(row.expected_shortfall_95)}`} />)}</div>
+                    <Callout warning>{simulation.correlation_note} Correlation is an assumption, not an empirically calibrated parameter.</Callout>
+                </Section>
+
+                <Section id="stress-testing" eyebrow="06" title="Stress Testing" intro="These scenarios apply transparent shifts to PD, LGD, and EAD. They show sensitivity under worsening conditions; they are not regulatory macroeconomic stress tests.">
+                    <ChartFrame label="Expected loss under baseline, mild, and severe sensitivity scenarios"><ResponsiveContainer><BarChart data={stress.scenarios}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="label" stroke={CHART.inkMuted} /><YAxis tickFormatter={usd} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><Bar dataKey="expected_loss" name="Expected loss">{stress.scenarios.map((row, index) => <Cell key={row.scenario} fill={COLORS[index]} />)}</Bar></BarChart></ResponsiveContainer></ChartFrame>
+                    <Callout>{stress.terminology}</Callout>
+                </Section>
+
+                <Section id="approval-strategy" eyebrow="07" title="Approval Strategy" intro="A threshold converts ranked probabilities into a policy rule. Moving it changes approval volume, approved exposure, expected defaults, and loss at the same time.">
+                    <label className="mt-6 block font-mono text-xs uppercase tracking-wider text-navy/60">PD threshold: {pct(selectedThreshold.pd_threshold, 0)}<input data-testid="threshold-slider" className="mt-3 w-full accent-purple-500" type="range" min="0" max={thresholds.thresholds.length - 1} value={thresholdIndex} onChange={(e) => setThresholdIndex(Number(e.target.value))} /></label>
+                    <div data-testid="threshold-results" className="mt-5 grid gap-px bg-navy/10 sm:grid-cols-2 xl:grid-cols-4"><Metric label="Approval rate" value={pct(selectedThreshold.approval_rate)} /><Metric label="Approved accounts" value={num(selectedThreshold.approved_accounts)} /><Metric label="Approved exposure" value={usd(selectedThreshold.approved_exposure)} /><Metric label="Expected loss" value={usd(selectedThreshold.expected_loss)} note={`${pct(selectedThreshold.expected_loss_rate, 2)} of approved exposure`} /></div>
+                    <LearnMore>{thresholds.decision_rule} {thresholds.limitation} This tool demonstrates the trade-off; it does not recommend an approval policy.</LearnMore>
+                </Section>
+
+                <Section id="model-monitoring" eyebrow="08" title="Model Monitoring" notebook={LINKS.monitoring} intro="Monitoring asks whether the scoring population and model behavior remain stable after development. PSI measures population shift; vintage views compare predicted and observed outcomes through time.">
+                    <div className="mt-6 grid gap-px bg-navy/10 sm:grid-cols-2"><Metric label="2014 population PSI" value={monitoring.psi_2014.toFixed(3)} note={`${monitoring.baseline_population} baseline`} /><Metric label="2014 observed / expected" value={monitoring.vintage_performance.at(-1).observed_to_expected.toFixed(2)} /></div>
+                    <ChartFrame label="Predicted and observed default by issue vintage"><ResponsiveContainer><ComposedChart data={monitoring.vintage_performance}><CartesianGrid stroke={CHART.grid} /><XAxis dataKey="issue_year" stroke={CHART.inkMuted} /><YAxis tickFormatter={pctTick} stroke={CHART.inkMuted} /><Tooltip content={<TooltipBox />} /><Legend /><Line dataKey="mean_pd" name="Mean predicted PD" stroke={CHART.accent} strokeWidth={2} /><Line dataKey="observed_default_rate" name="Observed default" stroke="#38bdf8" strokeWidth={2} /></ComposedChart></ResponsiveContainer></ChartFrame>
+                    <Callout warning testId="seasoning-warning">{monitoring.seasoning_warning}</Callout>
+                    <LearnMore>PSI summarizes distribution shift but does not diagnose its cause or prove model failure. Vintage comparisons also need mature outcomes: a recent book can look artificially safer because some defaults have not had time to emerge.</LearnMore>
+                </Section>
+
+                <Section id="score-a-borrower" eyebrow="09" title="Score a Borrower" intro="This optional live layer sends the actual model features to the FastAPI service and returns calibrated PD, risk band, and expected loss. No client-side approximation is used.">
+                    <BorrowerScorer />
+                </Section>
+
+                <section className="border-t border-navy/10 py-12">
+                    <p className="font-mono text-xs uppercase tracking-wider text-teal">Limitations & responsible use</p>
+                    <ul className="mt-5 grid gap-3 md:grid-cols-2">{metadata.limitations.map((item) => <li key={item} className="border border-navy/10 bg-surface p-4 text-sm leading-relaxed text-navy/65">{item}</li>)}</ul>
+                    <p className="mt-5 text-xs leading-relaxed text-navy/45">Export provenance: analytical repository commit {metadata.repository_commit.slice(0, 10)}. {metadata.repository_version_scope}</p>
+                    <a href={LINKS.limitations} target="_blank" rel="noreferrer" className="mt-5 inline-flex items-center gap-1 font-mono text-xs uppercase tracking-wider text-teal hover:text-teal-hover">Read the complete assumptions and limitations <ExternalLink size={12} /></a>
+                </section>
+            </div>
+        </main>
+    );
+}
