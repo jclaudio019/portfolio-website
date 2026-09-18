@@ -1,4 +1,3 @@
-import retailData from "../data/retailForecastCharts.json";
 import timeSeriesData from "../data/timeSeriesCharts.json";
 import { scoreCreditRisk } from "../lib/creditRiskScoring";
 import { blackScholes, positionHedge } from "../lib/blackScholes";
@@ -37,15 +36,16 @@ const CoverLabel = ({ eyebrow, title }) => (
 );
 
 function ForecastCover() {
-    const rows = Object.entries(retailData.testWape).map(([category, models]) => ({
-        category,
-        ...models.reduce((best, row) => row.wape < best.wape ? row : best),
-    }));
+    const rows = [
+        { category: "FOODS", model: "XGBoost Faster", wape: 10.22 },
+        { category: "HOBBIES", model: "Linear Regression", wape: 8.78 },
+        { category: "HOUSEHOLD", model: "Prophet Flexible", wape: 8.31 },
+    ];
 
     return (
-        <div className="h-full bg-[#0a0a0f] px-4 pb-16 pt-12 text-white" role="img" aria-label="Best test WAPE by retail category; lower values indicate more accurate forecasts">
+        <div className="h-full bg-[#0a0a0f] px-4 pb-16 pt-12 text-white" role="img" aria-label="Validation-selected model test WAPE by retail category; lower values indicate more accurate forecasts">
             <div className="flex items-center justify-between font-mono text-[9px] uppercase tracking-widest text-white/55">
-                <span>Best model accuracy</span><span>Lower is better</span>
+                <span>Validation-selected test WAPE</span><span>Lower is better</span>
             </div>
             <div className="mt-4 space-y-3">
                 {rows.map((row) => (
@@ -58,7 +58,7 @@ function ForecastCover() {
                     </div>
                 ))}
             </div>
-            <CoverLabel eyebrow="Forecast validation" title="Which model best predicts demand?" />
+            <CoverLabel eyebrow="Forecast risk & inventory sensitivity" title="From demand forecast to decision tradeoff" />
         </div>
     );
 }

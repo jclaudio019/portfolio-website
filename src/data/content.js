@@ -94,10 +94,10 @@ export const projects = [
         title: "Retail Demand Forecasting",
         category: "Forecasting",
         summary:
-            "Compared forecasting methods for daily retail demand and translated under- and over-forecast errors into retail-value exposure.",
+            "Built a leakage-aware demand forecasting workflow, then tested how forecast uncertainty changes service and inventory exposure under controlled policy scenarios.",
         image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero-v2.png`,
         imageCaption:
-            "Portfolio overview from the project data: headline metrics, category demand over time, and Friday–Sunday seasonality.",
+            "Validation-selected forecast accuracy for FOODS, HOBBIES, and HOUSEHOLD, kept separate from post-test model comparisons.",
         gallery: [
             {
                 src: `${process.env.PUBLIC_URL}/images/retail-demand-sales-seasonality.png`,
@@ -111,24 +111,24 @@ export const projects = [
         tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
-            { label: "Best test WAPE", value: "7.05%" },
-            { label: "Naive over-forecast retail value*", value: "$3.01M" },
-            { label: "Untouched test period", value: "365 days" },
+            { label: "FOODS test WAPE*", value: "10.22%" },
+            { label: "FOODS fill rate**", value: "94.30 → 99.07%" },
+            { label: "Monte Carlo paths", value: "2,000" },
         ],
         metricsNote:
-            "*Retail-value exposure for FOODS under a Naive inventory-constrained scenario (sales-weighted sell_price). Not realized P&L, cash, or profit.",
+            "*Validation-selected XGBoost model on the untouched test year. **Controlled 14-day simulation comparing no buffer with a validation-calibrated p95 buffer; not a production recommendation.",
         problem:
-            "Retail teams need a reliable view of daily demand to plan staffing and inventory. Recent sales alone can miss weekly patterns, changes in demand, and calendar events such as Christmas closures. Forecast accuracy also needs to be understood through the operational effects of under- and over-forecasting.",
+            "Retail teams need reliable daily demand forecasts, but point accuracy alone does not show what happens when demand exceeds the forecast or when a buffer is too conservative. The project asks both which models generalize and how forecast uncertainty changes service and inventory exposure under controlled assumptions.",
         solutionParagraphs: [
             "I forecast daily unit sales for FOODS, HOBBIES, and HOUSEHOLD at the category level. This keeps weekly and holiday patterns visible without adding store-item allocation complexity.",
             "I compared simple baselines, linear regression, Prophet, and XGBoost. Models were selected through expanding-window validation and evaluated once on a separate 365-day test period.",
-            "I then valued under- and over-forecasts using the sales-weighted selling price. These values represent potential retail exposure, not realized revenue, cash, or profit because unit cost, margin, and carrying cost were not available.",
-            "Allocation, replenishment, safety stock, and purchasing recommendations were outside the project scope.",
+            "I analyzed out-of-sample residuals, calibrated historical buffers from validation only, and evaluated simple order-up-to policies once on the untouched test period.",
+            "A block-bootstrap Monte Carlo extension then compared service, average inventory, and tail lost-unit risk across p90, p95, and p98 buffers. These are controlled sensitivity scenarios, not a reconstruction of Walmart's replenishment system.",
         ],
         dataset:
-            "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect. Unit residuals on the test period were valued using sales-weighted sell_price to support the exposure analysis.",
+            "The M5 Forecasting dataset (Walmart daily unit sales) was aggregated to one daily observation per category (ds | cat_id | y). Chronological split: train 2011-01-29 to 2014-06-20, validation 2014-06-21 to 2015-06-20, and test 2015-06-21 to 2016-06-19. Validation used 13 calendar-aligned expanding windows. Christmas Day demand falls to zero or near zero and was retained as a known calendar effect. Inventory buffers were calibrated from validation residuals; final policy comparisons used the untouched test period.",
         methodologySummary:
-            "I compared simple baselines with statistical and machine-learning models across 13 expanding validation windows. The selected models were evaluated once on a separate 365-day test period, and forecast errors were valued at the sales-weighted selling price.",
+            "I compared baselines, statistical models, and machine-learning models across 13 expanding validation windows; evaluated the selected model once on a 365-day test period; then connected residual risk to controlled inventory-policy and Monte Carlo sensitivity analyses.",
         methodology: [
             "Prepared and validated the analytical data, then explored weekly seasonality, category behavior, and calendar effects — including the Friday–Sunday lift and Christmas closures.",
             "Established Naive, Seasonal Naive, 7-day SMA, and ETS baselines before comparing more complex models.",
@@ -136,11 +136,13 @@ export const projects = [
             "Tested Prophet with weekly/yearly seasonality and Christmas as a holiday, plus XGBoost on the shared feature set with small, pre-specified configurations — not an exhaustive hyperparameter search.",
             "Compared models across 13 expanding monthly validation windows with identical dates, horizons, and metrics (WAPE primary; MAE and RMSE also tracked).",
             "Froze validation-selected models per category, then evaluated every pre-specified model once on the untouched 365-day test year — with no post-test tuning.",
-            "Translated test residuals into under-forecast and over-forecast unit counts and retail-value exposure, then ranked categories by volume, average selling price, and where deeper analysis would create the most decision value.",
+            "Measured the direction and timing of forecast errors, then calibrated p90, p95, and p98 buffers from out-of-sample validation residuals only.",
+            "Evaluated no-buffer and buffered 14-day order-up-to scenarios on the untouched test year using fill rate, average inventory, lost units, and excess units.",
+            "Ran 2,000 block-bootstrap Monte Carlo paths per category and policy to quantify service, inventory, and tail lost-unit tradeoffs under serially dependent forecast error.",
         ],
         findings:
-            "Every evaluated alternative improved on the Naive benchmark. The best observed test WAPE was 10.22% for FOODS with XGBoost, 8.00% for HOBBIES with XGBoost, and 7.05% for HOUSEHOLD with linear regression. No model won every category, and simpler models were often close to the best result. Validation winners also changed on the test period for HOBBIES and HOUSEHOLD, showing why test data must remain separate.",
-        financialInterpretation: {
+            "Validation selected XGBoost Faster for FOODS, Linear Regression for HOBBIES, and Prophet Flexible for HOUSEHOLD; their untouched-test WAPE was 10.22%, 8.78%, and 8.31%. The policy extension shows the operational tradeoff clearly: for FOODS, a validation-calibrated p95 buffer raised test fill rate from 94.30% to 99.07% while average inventory increased from 12,256 to 38,622 units. Monte Carlo results preserve the same pattern across uncertainty paths: higher buffers improve service and reduce tail lost units, but require more inventory.",
+        _legacyFinancialInterpretation: {
             intro:
                 "Forecast accuracy matters because it changes two operational exposures. For each category-day, a positive residual (actual − forecast) is an under-forecast: demand that could not be filled if inventory were limited to the forecast. A negative residual is an over-forecast: inventory that would remain after demand was met. The table below applies that inventory-constrained scenario to fixed test forecasts and values units at sales-weighted sell_price.",
             caveat:
@@ -184,27 +186,36 @@ export const projects = [
                 },
             ],
         },
+        riskInterpretation: {
+            intro: "The extension connects forecast quality to a decision without pretending the available data supports a production replenishment recommendation.",
+            points: [
+                "Model choice remains validation-driven: the lowest observed test score is reported separately and never used to choose the winner.",
+                "Buffers are calibrated from validation residuals, then evaluated once on final test data.",
+                "The Monte Carlo layer preserves forecast-error blocks so uncertainty paths retain short-run dependence instead of treating every day as independent.",
+                "Service gains are shown beside the inventory required to obtain them; no single buffer is presented as universally optimal.",
+            ],
+        },
         implications:
-            "Forecast accuracy is only part of the decision. Under-forecasts can mean missed demand, while over-forecasts can leave excess product on the shelf. A production decision should compare those costs by category and use different buffers when running short is more expensive than carrying extra inventory.",
+            "The project demonstrates a complete analytical chain: validate the demand model, diagnose residual risk, test a transparent policy under fixed assumptions, and quantify uncertainty. The result is decision support rather than a false claim of optimization: stakeholders can see what service improvement costs in additional inventory and where tail risk remains.",
         conclusionParagraphs: [
             "Historical sales can forecast category demand more accurately than simply using recent sales, but the best method depends on the category.",
-            "The project compares baseline, statistical, and machine-learning models, evaluates them on separate test data, and translates errors into potential retail exposure so operations and finance can discuss the same result.",
-            "The practical next step is to keep simpler models when results are close, review HOUSEHOLD in more detail, and set category buffers based on the cost of stockouts versus excess inventory.",
+            "The project compares baseline, statistical, and machine-learning models, evaluates validation-selected models on separate test data, and carries their residual uncertainty into controlled inventory scenarios.",
+            "The strongest portfolio lesson is not that one buffer wins. It is that model governance, error diagnosis, policy assumptions, and uncertainty must remain visible from forecast to decision.",
         ],
         nextSteps: [
-            "Measure forecast error by weekday and business-critical demand periods, then set category-specific safety buffers from stockout cost versus carrying cost.",
-            "Where the data supports it, add prediction intervals or forecast quantiles so buffers are probabilistic rather than ad hoc point-forecast padding.",
+            "Compare historical residual buffers with conformal intervals or forecast quantiles using the same validation-only calibration rule.",
+            "Stress-test alternative lead times and review periods instead of treating the illustrative 14-day setting as fixed.",
             "Drill into high-value item groups within HOUSEHOLD (and price-sensitive pockets of HOBBIES) where average selling price makes residual error more expensive.",
             "If unit cost, margin, and holding-cost inputs become available, replace retail-value exposure with a true expected economic-cost objective for model selection.",
-            "Extend beyond category-level demand into allocation / replenishment only after the demand signal and its uncertainty are stable enough to trust.",
+            "Extend to SKU-store allocation only when inventory positions, unit economics, substitutions, and operational constraints are available.",
         ],
         limitations: [
             "Forecasts are at the daily category level, not SKU-store level.",
             "Price, promotions, substitutions, stockouts, and inventory availability were not modeled as predictive inputs.",
-            "Dollar exposure uses sell_price retail value — not unit cost, margin, carrying cost, or realized P&L.",
+            "Lead times, safety buffers, lost-sales behavior, and order-up-to logic are hypothetical analytical assumptions.",
             "Recursive multi-day forecasts can accumulate error through lag and rolling features.",
             "The test period is one historical year; demand changes should be monitored on future data.",
-            "Allocation, replenishment, safety stock, and order recommendations were intentionally out of scope.",
+            "The project does not reproduce Walmart's replenishment system or make production purchasing, allocation, or inventory recommendations.",
         ],
     },
     {

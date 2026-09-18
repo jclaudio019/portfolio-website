@@ -284,6 +284,19 @@ export default function ProjectDetail() {
                             </Suspense>
                         ) : null}
                     </Section>
+                    {project.riskInterpretation && (
+                        <Section label="Forecast Risk & Inventory Sensitivity">
+                            <p className="leading-relaxed">{project.riskInterpretation.intro}</p>
+                            <ul className="mt-5 space-y-3">
+                                {project.riskInterpretation.points.map((point) => (
+                                    <li key={point} className="flex gap-3">
+                                        <span className="mt-2 h-1.5 w-1.5 shrink-0 bg-teal" />
+                                        <span className="leading-relaxed">{point}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </Section>
+                    )}
                     {project.financialInterpretation && (
                         <Section label="Operations & Finance" wide>
                             <div className="space-y-4">

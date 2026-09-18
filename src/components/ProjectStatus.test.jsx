@@ -66,14 +66,14 @@ test("resolves the allocation detail route without an in-progress label", () => 
     );
 });
 
-test("labels forecasting values as exposure rather than realized outcomes", () => {
+test("presents forecasting as a governed risk and inventory sensitivity study", () => {
     renderDetail("retail-demand-forecasting");
 
     const text = container.querySelector("[data-testid='project-detail-page']").textContent;
-    expect(text).toContain("Under-forecast retail-value exposure");
-    expect(text).toContain("Over-forecast retail-value exposure");
-    expect(text).not.toContain("Missed-sales retail value");
-    expect(text).not.toContain("Excess-inventory retail value");
+    expect(text).toContain("Forecast Risk & Inventory Sensitivity");
+    expect(text).toContain("Buffers are calibrated from validation residuals");
+    expect(text).toContain("controlled sensitivity scenarios");
+    expect(text).not.toContain("Operations & Finance");
 });
 
 test("limits the warehouse detail route to its business problem and in-progress message", () => {
