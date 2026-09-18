@@ -210,6 +210,8 @@ export const projects = [
     {
         slug: "credit-risk-pd-model",
         title: "Credit Risk Probability of Default",
+        cardTitle: "Credit Risk Decision & Portfolio Analytics",
+        dashboardPath: "/projects/credit-risk-pd-model/dashboard",
         category: "Credit Risk Modeling",
         summary:
             "Built an end-to-end educational credit-risk case study connecting calibrated probability of default to expected loss, portfolio risk, stress, simulation, approval strategy, and monitoring.",

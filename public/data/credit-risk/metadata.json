@@ -18,7 +18,7 @@
   "out_of_time_period": "issue_d >= 2014-01-01",
   "project_description": "Notebook-first Lending Club case study connecting calibrated probability of default to loss severity, exposure, portfolio risk, stress, simulation, and decisions.",
   "project_title": "Credit Risk and Portfolio Expected Loss Analytics",
-  "repository_commit": "effd61a4672863dd002cb05ebdfe297c1f2ef21e",
+  "repository_commit": "55282c8d8cacba69c80df6bc9c68691080b3d098",
   "repository_version_scope": "The commit identifies the last committed revision; the export may also include uncommitted local work.",
   "training_period": "issue_d <= 2012-12-31",
   "validation_period": "2013"

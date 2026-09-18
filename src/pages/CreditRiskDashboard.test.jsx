@@ -20,7 +20,7 @@ jest.mock("../lib/creditRiskApi", () => ({
     requestExpectedLoss: jest.fn(),
 }));
 
-import CreditRiskDashboard, { BorrowerScorer } from "./CreditRiskDashboard";
+import CreditRiskDashboard, { BorrowerScorer, getComparableSimulationRows } from "./CreditRiskDashboard";
 import { loadCreditRiskDashboardData } from "../lib/creditRiskDashboardData";
 import { requestExpectedLoss } from "../lib/creditRiskApi";
 
@@ -38,6 +38,7 @@ test("renders the overview and explicit monitoring warning", async () => {
     expect(container.querySelector("a[href$='/docs/METHODOLOGY.md']")).not.toBeNull();
     expect(container.querySelector("a[href$='/docs/RUNBOOK.md']")).not.toBeNull();
     expect(container.querySelector("[data-testid='seasoning-warning']").textContent).toContain("under-seasoned");
+    expect(container.textContent).not.toContain("NaN");
 });
 
 test("threshold control updates approval outcomes", async () => {
@@ -46,6 +47,23 @@ test("threshold control updates approval outcomes", async () => {
     const before = container.querySelector("[data-testid='threshold-results']").textContent;
     await act(async () => { Simulate.change(slider, { target: { value: "0" } }); });
     expect(container.querySelector("[data-testid='threshold-results']").textContent).not.toBe(before);
+});
+
+test("compares independent and correlated losses on the same portfolio sample", async () => {
+    const rows = getComparableSimulationRows(exportData.simulation.simulations);
+    expect(rows.map((row) => row.simulation)).toEqual(["independent_sample", "correlated_sample"]);
+    expect(rows[0].sample_size).toBe(rows[1].sample_size);
+    await act(async () => { root.render(<MemoryRouter><CreditRiskDashboard /></MemoryRouter>); });
+    const comparison = container.querySelector("[data-testid='simulation-comparison']");
+    expect(comparison.dataset.sampleSize).toBe("25000");
+    expect(comparison.textContent).toContain("$42.7M");
+    expect(comparison.textContent).toContain("$85.4M");
+    expect(comparison.textContent).not.toContain("$777.3M");
+});
+
+test("rejects simulation comparisons with mismatched portfolio samples", () => {
+    const mismatched = exportData.simulation.simulations.map((row) => row.simulation === "correlated_sample" ? { ...row, sample_size: 10000 } : row);
+    expect(() => getComparableSimulationRows(mismatched)).toThrow("same portfolio sample");
 });
 
 test("API failure leaves the scorer mounted with a friendly error", async () => {
