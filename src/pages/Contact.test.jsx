@@ -30,3 +30,13 @@ test("shows the correct email address and contact link", () => {
     expect(emailLink.textContent).toContain("joseo.claudio19@gmail.com");
     expect(emailLink.getAttribute("href")).toBe("mailto:joseo.claudio19@gmail.com");
 });
+
+test("associates every visible form label with its control", () => {
+    act(() => root.render(<Contact />));
+
+    ["Name", "Email", "Subject", "Message"].forEach((label) => {
+        const labelElement = [...container.querySelectorAll("label")].find((item) => item.textContent === label);
+        expect(labelElement.getAttribute("for")).toBeTruthy();
+        expect(container.querySelector(`#${labelElement.getAttribute("for")}`)).not.toBeNull();
+    });
+});

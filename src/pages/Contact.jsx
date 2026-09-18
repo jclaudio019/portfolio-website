@@ -98,8 +98,9 @@ export default function ContactSection() {
                         <form onSubmit={onSubmit} data-testid="contact-form" className="border border-navy/10 bg-surface p-8">
                             <div className="grid gap-5 sm:grid-cols-2">
                                 <div>
-                                    <label className="font-mono text-xs uppercase tracking-widest text-navy/60">Name</label>
+                                    <label htmlFor="contact-name" className="font-mono text-xs uppercase tracking-widest text-navy/60">Name</label>
                                     <input
+                                        id="contact-name"
                                         name="name"
                                         value={form.name}
                                         onChange={update}
@@ -109,8 +110,9 @@ export default function ContactSection() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="font-mono text-xs uppercase tracking-widest text-navy/60">Email</label>
+                                    <label htmlFor="contact-email-input" className="font-mono text-xs uppercase tracking-widest text-navy/60">Email</label>
                                     <input
+                                        id="contact-email-input"
                                         name="email"
                                         type="email"
                                         value={form.email}
@@ -122,8 +124,9 @@ export default function ContactSection() {
                                 </div>
                             </div>
                             <div className="mt-5">
-                                <label className="font-mono text-xs uppercase tracking-widest text-navy/60">Subject</label>
+                                <label htmlFor="contact-subject" className="font-mono text-xs uppercase tracking-widest text-navy/60">Subject</label>
                                 <input
+                                    id="contact-subject"
                                     name="subject"
                                     value={form.subject}
                                     onChange={update}
@@ -133,8 +136,9 @@ export default function ContactSection() {
                                 />
                             </div>
                             <div className="mt-5">
-                                <label className="font-mono text-xs uppercase tracking-widest text-navy/60">Message</label>
+                                <label htmlFor="contact-message" className="font-mono text-xs uppercase tracking-widest text-navy/60">Message</label>
                                 <textarea
+                                    id="contact-message"
                                     name="message"
                                     value={form.message}
                                     onChange={update}

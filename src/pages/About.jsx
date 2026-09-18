@@ -83,9 +83,9 @@ export default function About() {
                                     <div className="grid gap-4 border-b border-navy/10 py-8 md:grid-cols-[auto_1fr] md:gap-10">
                                         <span className="font-mono text-sm text-teal">{c.n}</span>
                                         <div>
-                                            <h3 className="font-display text-xl font-bold text-navy md:text-2xl">
+                                            <h2 className="font-display text-xl font-bold text-navy md:text-2xl">
                                                 {c.title}
-                                            </h3>
+                                            </h2>
                                             {c.paragraphs.map((paragraph, j) => (
                                                 <p
                                                     key={j}

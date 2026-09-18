@@ -61,7 +61,7 @@ test("reveals project choices for a multi-project skill", () => {
     const links = [...container.querySelectorAll("[data-testid='skill-project-choice']")];
     expect(links.map(({ textContent }) => textContent.replace("↗", ""))).toEqual([
         "Retail Demand Forecasting",
-        "Credit Risk Probability of Default",
+        "Credit Risk Decision & Portfolio Analytics",
         "Retail Allocation Simulator",
         "Time-Series Analysis & Forecasting in R",
     ]);

@@ -6,12 +6,14 @@ import { MotionConfig } from "framer-motion";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageMeta from "@/components/PageMeta";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Projects from "@/pages/Projects";
 import ProjectDetail from "@/pages/ProjectDetail";
 import Experience from "@/pages/Experience";
 import Resume from "@/pages/Resume";
+import NotFound from "@/pages/NotFound";
 
 const CreditRiskDashboard = lazy(() => import("@/pages/CreditRiskDashboard"));
 
@@ -31,6 +33,7 @@ function App() {
                     <a href="#main-content" className="skip-link">Skip to main content</a>
                     <SmoothScroll>
                         <ScrollToTop />
+                        <PageMeta />
                         <Navbar />
                         <main id="main-content" tabIndex={-1} className="relative z-[2] min-h-screen">
                             <Routes>
@@ -43,6 +46,7 @@ function App() {
                                 <Route path="/skills" element={<Navigate to="/projects" replace />} />
                                 <Route path="/resume" element={<Resume />} />
                                 <Route path="/contact" element={<Navigate to="/resume" replace />} />
+                                <Route path="*" element={<NotFound />} />
                             </Routes>
                         </main>
                         <Footer />
