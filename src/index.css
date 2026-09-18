@@ -5,6 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 1279px) {
+  .dashboard-section-nav {
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.5rem), transparent 100%);
+  }
+}
+
 :root {
     --bg: #0a0a0f;
     --fg: #ececf1;

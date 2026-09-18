@@ -39,24 +39,23 @@ export default function Projects() {
                 <div className="mt-4 grid gap-3 md:grid-cols-3">
                     {flagshipProjects.map((project, index) => (
                         <Reveal key={project.slug} delay={index * 0.06}>
-                            <Link
-                                to={`/projects/${project.slug}`}
-                                data-testid="highlight-project"
-                                className="group flex h-full items-start justify-between gap-4 border border-navy/15 bg-surface p-5 transition-colors hover:border-teal"
-                            >
+                            <div className="group flex h-full flex-col justify-between gap-4 border border-navy/15 bg-surface p-5 transition-colors hover:border-teal">
                                 <div>
-                                    <span className="font-mono text-xs uppercase tracking-widest text-teal">
-                                        {String(index + 1).padStart(2, "0")}
-                                    </span>
+                                    <div className="flex items-start justify-between gap-3">
+                                        <span className="font-mono text-xs uppercase tracking-widest text-teal">
+                                            {String(index + 1).padStart(2, "0")}
+                                        </span>
+                                        {project.dashboardPath && <span className="font-mono text-xs uppercase tracking-widest text-teal">Interactive</span>}
+                                    </div>
                                     <h2 className="mt-2 font-display text-xl font-bold leading-tight text-navy">
-                                        {project.title}
+                                        {project.cardTitle || project.title}
                                     </h2>
                                 </div>
-                                <ArrowUpRight
-                                    size={20}
-                                    className="mt-1 shrink-0 text-navy/50 transition-[color,transform] group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-teal"
-                                />
-                            </Link>
+                                <div className="flex flex-wrap gap-3 font-mono text-xs uppercase tracking-wider">
+                                    <Link to={`/projects/${project.slug}`} data-testid="highlight-project" className="inline-flex items-center gap-1 text-navy/70 hover:text-teal">View Project <ArrowUpRight size={14} /></Link>
+                                    {project.dashboardPath && <Link to={project.dashboardPath} data-testid="highlight-dashboard" className="inline-flex items-center gap-1 text-teal hover:text-teal-hover">Dashboard <ArrowUpRight size={14} /></Link>}
+                                </div>
+                            </div>
                         </Reveal>
                     ))}
                 </div>

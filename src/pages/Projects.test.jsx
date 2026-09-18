@@ -62,6 +62,25 @@ test("shows three numbered project highlights in the portfolio summary", () => {
     expect(container.textContent).not.toContain("Selected case studies");
 });
 
+test("exposes both Credit Risk routes without changing other project cards", () => {
+    act(() => root.render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <Projects />
+        </MemoryRouter>
+    ));
+
+    const creditCard = container.querySelector("[data-testid='project-card-credit-risk-pd-model']");
+    expect(creditCard.querySelector("[data-testid='credit-risk-project-link']").getAttribute("href")).toBe("/projects/credit-risk-pd-model");
+    expect(creditCard.querySelector("[data-testid='credit-risk-dashboard-link']").getAttribute("href")).toBe("/projects/credit-risk-pd-model/dashboard");
+    expect(creditCard.querySelector("[data-testid='project-interactive']").textContent).toBe("Interactive");
+    expect(container.querySelector("[data-testid='highlight-dashboard']").getAttribute("href")).toBe("/projects/credit-risk-pd-model/dashboard");
+
+    const retailCard = container.querySelector("[data-testid='project-card-retail-demand-forecasting']");
+    expect(retailCard.tagName).toBe("A");
+    expect(retailCard.getAttribute("href")).toBe("/projects/retail-demand-forecasting");
+    expect(retailCard.querySelector("[data-testid='credit-risk-dashboard-link']")).toBeNull();
+});
+
 test("uses project evidence as the cover for completed analytical case studies", () => {
     act(() => root.render(
         <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
