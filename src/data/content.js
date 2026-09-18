@@ -98,16 +98,6 @@ export const projects = [
         image: `${process.env.PUBLIC_URL}/images/retail-demand-forecasting-hero-v2.png`,
         imageCaption:
             "Validation-selected forecast accuracy for FOODS, HOBBIES, and HOUSEHOLD, kept separate from post-test model comparisons.",
-        gallery: [
-            {
-                src: `${process.env.PUBLIC_URL}/images/retail-demand-sales-seasonality.png`,
-                caption: "Category daily sales (7-day rolling) — purple glow marks Dec 25 demand dropping to near zero.",
-            },
-            {
-                src: `${process.env.PUBLIC_URL}/images/retail-demand-actual-vs-forecast.png`,
-                caption: "True demand vs best observed model on the untouched test year — shaded gaps show under- and over-forecast.",
-            },
-        ],
         tech: ["Python", "pandas", "statsmodels", "Prophet", "XGBoost", "scikit-learn"],
         github: "https://github.com/jclaudio019/retail-operations",
         metrics: [
@@ -142,50 +132,6 @@ export const projects = [
         ],
         findings:
             "Validation selected XGBoost Faster for FOODS, Linear Regression for HOBBIES, and Prophet Flexible for HOUSEHOLD; their untouched-test WAPE was 10.22%, 8.78%, and 8.31%. The policy extension shows the operational tradeoff clearly: for FOODS, a validation-calibrated p95 buffer raised test fill rate from 94.30% to 99.07% while average inventory increased from 12,256 to 38,622 units. Monte Carlo results preserve the same pattern across uncertainty paths: higher buffers improve service and reduce tail lost units, but require more inventory.",
-        _legacyFinancialInterpretation: {
-            intro:
-                "Forecast accuracy matters because it changes two operational exposures. For each category-day, a positive residual (actual − forecast) is an under-forecast: demand that could not be filled if inventory were limited to the forecast. A negative residual is an over-forecast: inventory that would remain after demand was met. The table below applies that inventory-constrained scenario to fixed test forecasts and values units at sales-weighted sell_price.",
-            caveat:
-                "These figures show retail-value exposure, not realized lost sales, cash, or profit. Margin, unit cost, carrying cost, and service-level policy were not available.",
-            exposureRows: [
-                { category: "FOODS", model: "Naive", underUnits: "415,148", missedValue: "$1.09M", overUnits: "1,150,579", excessValue: "$3.01M" },
-                { category: "FOODS", model: "ETS", underUnits: "830,705", missedValue: "$2.18M", overUnits: "209,461", excessValue: "$0.54M" },
-                { category: "FOODS", model: "XGBoost Faster", underUnits: "696,729", missedValue: "$1.82M", overUnits: "296,956", excessValue: "$0.78M" },
-                { category: "HOBBIES", model: "Naive", underUnits: "25,534", missedValue: "$0.11M", overUnits: "225,804", excessValue: "$0.96M" },
-                { category: "HOBBIES", model: "ETS", underUnits: "96,856", missedValue: "$0.41M", overUnits: "20,009", excessValue: "$0.07M" },
-                { category: "HOBBIES", model: "XGBoost Shallow", underUnits: "90,863", missedValue: "$0.38M", overUnits: "24,192", excessValue: "$0.10M" },
-                { category: "HOUSEHOLD", model: "Naive", underUnits: "114,353", missedValue: "$0.46M", overUnits: "595,585", excessValue: "$2.30M" },
-                { category: "HOUSEHOLD", model: "ETS", underUnits: "241,795", missedValue: "$0.95M", overUnits: "59,615", excessValue: "$0.22M" },
-                { category: "HOUSEHOLD", model: "Linear Regression (Full)", underUnits: "132,093", missedValue: "$0.52M", overUnits: "119,754", excessValue: "$0.46M" },
-            ],
-            takeaway:
-                "Naive forecasts create much more over-forecast retail-value exposure in every category. Better models reduce that amount but can increase under-forecast retail-value exposure, so model comparisons should consider both sides instead of WAPE alone. For HOBBIES, ETS and XGBoost are close. For HOUSEHOLD, linear regression produces a better balance than ETS.",
-            priorityIntro:
-                "Average selling price helps put error into business context (it is not a margin measure). Categories differ in volume, retail value, and where deeper work is worth the effort:",
-            priorityRows: [
-                {
-                    category: "FOODS",
-                    units: "9.73M",
-                    retailValue: "$25.49M",
-                    avgPrice: "$2.62",
-                    focus: "Highest volume and retail-value exposure. ETS is a strong simple baseline; review weekday buffers before adding complexity.",
-                },
-                {
-                    category: "HOBBIES",
-                    units: "1.44M",
-                    retailValue: "$6.15M",
-                    avgPrice: "$4.27",
-                    focus: "Highest average selling price, but ETS≈XGBoost. Dig deeper only if margin, stockout cost, or promotions make the small accuracy gain meaningful.",
-                },
-                {
-                    category: "HOUSEHOLD",
-                    units: "3.57M",
-                    retailValue: "$14.05M",
-                    avgPrice: "$3.94",
-                    focus: "Strongest candidate for deeper analysis — better observed balance than ETS, worth weekday/event/high-value item review.",
-                },
-            ],
-        },
         riskInterpretation: {
             intro: "The extension connects forecast quality to a decision without pretending the available data supports a production replenishment recommendation.",
             points: [
@@ -220,8 +166,7 @@ export const projects = [
     },
     {
         slug: "credit-risk-pd-model",
-        title: "Credit Risk Probability of Default",
-        cardTitle: "Credit Risk Decision & Portfolio Analytics",
+        title: "Credit Risk Decision & Portfolio Analytics",
         dashboardPath: "/projects/credit-risk-pd-model/dashboard",
         category: "Credit Risk Modeling",
         summary:

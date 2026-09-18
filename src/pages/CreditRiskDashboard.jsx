@@ -190,7 +190,7 @@ export default function CreditRiskDashboard() {
             <div className="mx-auto max-w-7xl">
                 <Link to="/projects/credit-risk-pd-model" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-navy/60 hover:text-navy"><ArrowLeft size={14} /> Project case study</Link>
                 <header className="mt-9 border-b border-navy/10 pb-10">
-                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Interview-ready case study</p>
+                    <p className="font-mono text-sm uppercase tracking-wider text-teal">Applied credit risk analytics</p>
                     <h1 className="mt-3 max-w-5xl font-display text-5xl font-extrabold leading-[0.95] tracking-[-0.04em] text-navy md:text-7xl">Credit Risk & Portfolio Expected Loss</h1>
                     <p className="mt-6 max-w-3xl text-lg leading-relaxed text-navy/70">A notebook-first walkthrough connecting calibrated borrower probability of default to expected loss, portfolio concentration, simulation, stress sensitivity, decision thresholds, and monitoring.</p>
                     <div className="mt-6 flex flex-wrap gap-3">

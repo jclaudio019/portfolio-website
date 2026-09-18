@@ -38,6 +38,8 @@ test("renders the overview and explicit monitoring warning", async () => {
     expect(container.querySelector("a[href$='/docs/METHODOLOGY.md']")).not.toBeNull();
     expect(container.querySelector("a[href$='/docs/RUNBOOK.md']")).not.toBeNull();
     expect(container.querySelector("[data-testid='seasoning-warning']").textContent).toContain("under-seasoned");
+    expect(container.textContent).toContain("Applied credit risk analytics");
+    expect(container.textContent).not.toContain("Interview-ready case study");
     expect(container.textContent).not.toContain("NaN");
 });
 

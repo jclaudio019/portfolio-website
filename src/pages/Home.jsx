@@ -7,7 +7,17 @@ import Marquee from "../components/Marquee";
 import ProjectCard from "../components/ProjectCard";
 import SkillSphere from "../components/SkillSphere";
 
+const featuredSlugs = [
+    "retail-demand-forecasting",
+    "credit-risk-pd-model",
+    "retail-allocation-simulator",
+];
+
 export default function Home() {
+    const featuredProjects = featuredSlugs
+        .map((slug) => publishedProjects.find((project) => project.slug === slug))
+        .filter(Boolean);
+
     return (
         <div data-testid="home-page">
             {/* HERO */}
@@ -117,7 +127,7 @@ export default function Home() {
                     </Reveal>
 
                     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                        {publishedProjects.map((p, i) => (
+                        {featuredProjects.map((p, i) => (
                             <Reveal key={p.slug} delay={i * 0.08}>
                                 <ProjectCard project={p} index={i} />
                             </Reveal>
