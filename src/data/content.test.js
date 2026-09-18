@@ -168,9 +168,15 @@ test("keeps forecasting exposure and credit probability language precise", () =>
     const retail = projects.find(({ slug }) => slug === "retail-demand-forecasting");
     const credit = projects.find(({ slug }) => slug === "credit-risk-pd-model");
 
-    expect(retail.summary).toContain("under- and over-forecast errors into retail-value exposure");
-    expect(retail.metrics[1]).toEqual({ label: "Naive over-forecast retail value*", value: "$3.01M" });
-    expect(retail.problem).toContain("operational effects of under- and over-forecasting");
+    expect(retail.summary).toContain("forecast uncertainty changes service and inventory exposure");
+    expect(retail.metrics).toEqual([
+        { label: "FOODS test WAPE*", value: "10.22%" },
+        { label: "FOODS fill rate**", value: "94.30 → 99.07%" },
+        { label: "Monte Carlo paths", value: "2,000" },
+    ]);
+    expect(retail.problem).toContain("point accuracy alone");
+    expect(retail.findings).toContain("validation-calibrated p95 buffer");
+    expect(retail.limitations.join(" ")).toContain("hypothetical analytical assumptions");
     expect(credit.summary).toContain("end-to-end educational credit-risk case study");
     expect(credit.solutionParagraphs[2]).toContain("FastAPI service scores one borrower");
     expect(credit.findings).toContain("0.669 ROC-AUC");
