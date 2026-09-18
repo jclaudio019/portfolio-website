@@ -105,6 +105,15 @@ export default function ProjectDetail() {
                     >
                         <Github size={16} /> View on GitHub
                     </a>
+                    {project.slug === "credit-risk-pd-model" && (
+                        <Link
+                            to="/projects/credit-risk-pd-model/dashboard"
+                            data-testid="credit-risk-dashboard-link"
+                            className="ml-0 mt-3 inline-flex items-center gap-2 border border-teal bg-teal px-5 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal-hover sm:ml-3 sm:mt-6"
+                        >
+                            Launch Dashboard <ArrowUpRight size={16} />
+                        </Link>
+                    )}
                 </Reveal>
 
                 {/* Hero image */}

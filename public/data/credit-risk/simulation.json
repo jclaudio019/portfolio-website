@@ -1,0 +1,186 @@
+{
+  "correlation_note": "The correlated result uses a one-factor Gaussian model with an assumed correlation on a seeded 25,000-account sample.",
+  "distribution_representation": "deciles",
+  "simulations": [
+    {
+      "analytical_expected_loss": 771559474.5227774,
+      "expected_shortfall_95": 778680147.0782868,
+      "kind": "independent",
+      "mean_vs_analytical_relative_difference": 2.3600039487169527e-05,
+      "n_simulations": 2000,
+      "quantiles": [
+        {
+          "loss": 760018514.2406269,
+          "quantile": 0.0
+        },
+        {
+          "loss": 767154329.8834383,
+          "quantile": 0.1
+        },
+        {
+          "loss": 768637469.1962547,
+          "quantile": 0.2
+        },
+        {
+          "loss": 769736739.3627977,
+          "quantile": 0.3
+        },
+        {
+          "loss": 770663105.4889683,
+          "quantile": 0.4
+        },
+        {
+          "loss": 771633866.8990538,
+          "quantile": 0.5
+        },
+        {
+          "loss": 772502210.8509507,
+          "quantile": 0.6
+        },
+        {
+          "loss": 773480224.3121725,
+          "quantile": 0.7
+        },
+        {
+          "loss": 774560680.2753444,
+          "quantile": 0.8
+        },
+        {
+          "loss": 775994681.425968,
+          "quantile": 0.9
+        },
+        {
+          "loss": 782601371.9278055,
+          "quantile": 1.0
+        }
+      ],
+      "rho": null,
+      "sample_size": null,
+      "simulated_mean_loss": 771577683.3568429,
+      "simulated_median_loss": 771633866.8990538,
+      "simulated_standard_deviation": 3486477.4898303575,
+      "simulation": "independent_full",
+      "var_95": 777318500.5849435
+    },
+    {
+      "analytical_expected_loss": 41370752.08789183,
+      "expected_shortfall_95": 43046379.65169894,
+      "kind": "independent",
+      "mean_vs_analytical_relative_difference": 0.00045742648532071144,
+      "n_simulations": 2000,
+      "quantiles": [
+        {
+          "loss": 38950023.9819355,
+          "quantile": 0.0
+        },
+        {
+          "loss": 40294401.856977925,
+          "quantile": 0.1
+        },
+        {
+          "loss": 40696449.33861641,
+          "quantile": 0.2
+        },
+        {
+          "loss": 40928554.724127494,
+          "quantile": 0.3
+        },
+        {
+          "loss": 41150890.67342829,
+          "quantile": 0.4
+        },
+        {
+          "loss": 41344263.58871405,
+          "quantile": 0.5
+        },
+        {
+          "loss": 41546438.338490255,
+          "quantile": 0.6
+        },
+        {
+          "loss": 41780021.037081614,
+          "quantile": 0.7
+        },
+        {
+          "loss": 42023569.54789997,
+          "quantile": 0.8
+        },
+        {
+          "loss": 42402276.27832406,
+          "quantile": 0.9
+        },
+        {
+          "loss": 44349737.873602584,
+          "quantile": 1.0
+        }
+      ],
+      "rho": null,
+      "sample_size": 25000,
+      "simulated_mean_loss": 41351828.01016919,
+      "simulated_median_loss": 41344263.58871405,
+      "simulated_standard_deviation": 808871.7547608723,
+      "simulation": "independent_sample",
+      "var_95": 42697987.75074517
+    },
+    {
+      "analytical_expected_loss": 41370752.08789183,
+      "expected_shortfall_95": 103335993.94231762,
+      "kind": "one_factor_gaussian",
+      "mean_vs_analytical_relative_difference": 0.009215298217736803,
+      "n_simulations": 2000,
+      "quantiles": [
+        {
+          "loss": 2387327.543510382,
+          "quantile": 0.0
+        },
+        {
+          "loss": 15842503.434476012,
+          "quantile": 0.1
+        },
+        {
+          "loss": 21175344.09789215,
+          "quantile": 0.2
+        },
+        {
+          "loss": 26547797.916646097,
+          "quantile": 0.3
+        },
+        {
+          "loss": 31271554.209923245,
+          "quantile": 0.4
+        },
+        {
+          "loss": 36383017.14990823,
+          "quantile": 0.5
+        },
+        {
+          "loss": 42354964.59747831,
+          "quantile": 0.6
+        },
+        {
+          "loss": 49123356.547886044,
+          "quantile": 0.7
+        },
+        {
+          "loss": 57505858.3043424,
+          "quantile": 0.8
+        },
+        {
+          "loss": 72067484.32220115,
+          "quantile": 0.9
+        },
+        {
+          "loss": 159462721.79032832,
+          "quantile": 1.0
+        }
+      ],
+      "rho": 0.12,
+      "sample_size": 25000,
+      "simulated_mean_loss": 40989508.26990985,
+      "simulated_median_loss": 36383017.14990823,
+      "simulated_standard_deviation": 23325631.77118138,
+      "simulation": "correlated_sample",
+      "var_95": 85355728.02726616
+    }
+  ]
+}

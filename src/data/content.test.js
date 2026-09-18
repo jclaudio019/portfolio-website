@@ -171,9 +171,9 @@ test("keeps forecasting exposure and credit probability language precise", () =>
     expect(retail.summary).toContain("under- and over-forecast errors into retail-value exposure");
     expect(retail.metrics[1]).toEqual({ label: "Naive over-forecast retail value*", value: "$3.01M" });
     expect(retail.problem).toContain("operational effects of under- and over-forecasting");
-    expect(credit.summary).toContain("historical risk-ranking model and illustrative scorecard");
-    expect(credit.solutionParagraphs[2]).toContain("derives probability of default as 1 − P(good)");
-    expect(credit.findings).toContain("At the displayed 0.5 P(good) threshold");
+    expect(credit.summary).toContain("end-to-end educational credit-risk case study");
+    expect(credit.solutionParagraphs[2]).toContain("FastAPI service scores one borrower");
+    expect(credit.findings).toContain("0.669 ROC-AUC");
 });
 
 test("organizes experience around impact areas with compact employer context", () => {

@@ -1,0 +1,47 @@
+{
+  "scenarios": [
+    {
+      "ead_multiplier": 1.0,
+      "expected_loss": 771559474.5227776,
+      "expected_loss_rate": 0.11577932201340606,
+      "incremental_expected_loss": 0.0,
+      "label": "Baseline",
+      "lgd_multiplier": 1.0,
+      "pd_logit_shift": 0.0,
+      "percent_change_expected_loss": 0.0,
+      "scenario": "baseline",
+      "total_exposure": 6664052450.0,
+      "weighted_average_lgd": 0.9383364846255119,
+      "weighted_average_pd": 0.12352456598868926
+    },
+    {
+      "ead_multiplier": 1.0,
+      "expected_loss": 1075063419.4336581,
+      "expected_loss_rate": 0.16132277281726048,
+      "incremental_expected_loss": 303503944.91088057,
+      "label": "Mild Downturn",
+      "lgd_multiplier": 1.05,
+      "pd_logit_shift": 0.35,
+      "percent_change_expected_loss": 0.3933642900291035,
+      "scenario": "mild",
+      "total_exposure": 6664052450.0,
+      "weighted_average_lgd": 0.9821420590786409,
+      "weighted_average_pd": 0.16455866882552206
+    },
+    {
+      "ead_multiplier": 1.02,
+      "expected_loss": 1568691487.420897,
+      "expected_loss_rate": 0.23078042112420663,
+      "incremental_expected_loss": 797132012.8981194,
+      "label": "Severe Downturn",
+      "lgd_multiplier": 1.12,
+      "pd_logit_shift": 0.8,
+      "percent_change_expected_loss": 1.0331439626104766,
+      "scenario": "severe",
+      "total_exposure": 6797333499.0,
+      "weighted_average_lgd": 0.9975185631138722,
+      "weighted_average_pd": 0.2315043688206316
+    }
+  ],
+  "terminology": "Portfolio sensitivity scenarios; not regulatory macro stress tests."
+}

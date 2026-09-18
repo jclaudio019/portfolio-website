@@ -1,0 +1,23 @@
+{
+  "data_splits": {
+    "test": 235628,
+    "train": 95902,
+    "valid": 134755
+  },
+  "exposure_weighted_average_pd": 0.12352456598868926,
+  "monitoring_psi_2014": 0.00834119048261104,
+  "oot_brier_score": 0.07546241464380475,
+  "oot_ks": 0.24486625316894006,
+  "oot_roc_auc": 0.6688707223521553,
+  "portfolio_expected_loss": 771559474.5227776,
+  "portfolio_expected_loss_rate": 0.11577932201340606,
+  "portfolio_exposure": 6664052450.0,
+  "selected_model": "logistic",
+  "total_accounts": 466285,
+  "units": {
+    "portfolio_expected_loss": "USD",
+    "portfolio_exposure": "USD",
+    "rates": "decimal"
+  },
+  "uses_calibration": true
+}

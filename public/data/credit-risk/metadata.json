@@ -1,0 +1,25 @@
+{
+  "dataset": "Historical Lending Club loans issued from 2007 through 2014",
+  "feature_version": null,
+  "generated_timestamp": null,
+  "generated_timestamp_note": "Intentionally omitted so repeated exports from unchanged canonical inputs are byte-stable.",
+  "limitations": [
+    "Historical Lending Club data with a status-based default proxy.",
+    "Educational portfolio project, not a production underwriting system.",
+    "LGD and EAD use documented simplifying assumptions.",
+    "Stress results are sensitivity scenarios rather than macroeconomic stress tests.",
+    "Portfolio default correlation is assumed, not empirically calibrated.",
+    "Under-seasoned vintages affect some observed outcomes."
+  ],
+  "methodology_disclaimer": "Educational portfolio project; not a production underwriting, regulatory capital, IFRS 9, CECL, or lending-decision system.",
+  "model_artifact": "model/pd_pipeline.joblib",
+  "model_name": "logistic",
+  "model_version": null,
+  "out_of_time_period": "issue_d >= 2014-01-01",
+  "project_description": "Notebook-first Lending Club case study connecting calibrated probability of default to loss severity, exposure, portfolio risk, stress, simulation, and decisions.",
+  "project_title": "Credit Risk and Portfolio Expected Loss Analytics",
+  "repository_commit": "effd61a4672863dd002cb05ebdfe297c1f2ef21e",
+  "repository_version_scope": "The commit identifies the last committed revision; the export may also include uncommitted local work.",
+  "training_period": "issue_d <= 2012-12-31",
+  "validation_period": "2013"
+}
