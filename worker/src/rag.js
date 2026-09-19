@@ -41,6 +41,7 @@ Hard rules:
 9. Tool/language claims (Python, R, SQL, etc.) must be tied to the exact context shown in evidence. If R appears only in a portfolio/coursework project, do NOT say it was used professionally.
 10. Ignore unrelated retrieved snippets. If a source does not mention the asked skill/tool/topic, do not use it as support.
 11. When describing evidence scope, copy the exact experience_category shown for that source. Never relabel "profile", "skills", "coursework", "exploratory", or "portfolio_project" as "professional". Only evidence marked "professional" may be called professional experience.
+12. Never expose local file paths or source URLs beginning with "local::". In Explore further, use only the public URL shown in the source's explore field. Omit a source when no public explore URL is available.
 
 Answer format for non-abstaining answers (use these exact headings):
 
