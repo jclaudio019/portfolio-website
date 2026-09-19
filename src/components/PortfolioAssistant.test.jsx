@@ -38,6 +38,10 @@ test("renders a grounded answer and portfolio navigation links", async () => {
     });
 
     expect(askPortfolioRag).toHaveBeenCalledWith("What forecasting work has Jose done?", 6);
+    expect(container.querySelector("[data-testid='portfolio-assistant-input']").value).toBe("");
+    expect(container.querySelector("[data-testid='portfolio-user-message']").textContent)
+        .toContain("What forecasting work has Jose done?");
+    expect(container.querySelector("[data-testid='portfolio-assistant-suggestions']")).toBeNull();
     expect(container.querySelector("[data-testid='portfolio-assistant-result']").textContent)
         .toContain("Jose demonstrates forecasting");
     expect(container.querySelector("[data-testid='portfolio-explore-further'] a").getAttribute("href"))

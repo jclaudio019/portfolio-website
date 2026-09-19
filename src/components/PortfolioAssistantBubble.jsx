@@ -48,7 +48,7 @@ export default function PortfolioAssistantBubble() {
                             <X size={20} />
                         </button>
                     </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1" data-testid="portfolio-assistant-scroll-region">
+                    <div className="min-h-0 flex-1 overflow-hidden" data-testid="portfolio-assistant-scroll-region">
                         <PortfolioAssistant compact />
                     </div>
                 </div>
