@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Github, Linkedin, FileText } from "lucide-react";
-import { profile, publishedProjects } from "../data/content";
+import { profile, publishedProjects, workflowPillars } from "../data/content";
 import { MaskedLines, Reveal } from "../components/Reveal";
 import Marquee from "../components/Marquee";
 import ProjectCard from "../components/ProjectCard";
@@ -104,6 +104,28 @@ export default function Home() {
             </section>
 
             <Marquee />
+
+            <section className="px-6 py-14 lg:px-12" data-testid="home-workflow">
+                <div className="site-shell">
+                    <Reveal>
+                        <p className="font-mono text-sm uppercase tracking-wider text-teal">How I work</p>
+                        <h2 className="mt-3 max-w-3xl font-display text-3xl font-extrabold tracking-tight text-navy md:text-4xl">
+                            Analysis first. AI used to extend what the work can become.
+                        </h2>
+                    </Reveal>
+                    <div className="mt-8 grid gap-px bg-navy/10 sm:grid-cols-2 lg:grid-cols-4">
+                        {workflowPillars.map((pillar, index) => (
+                            <Reveal key={pillar.title} delay={index * 0.06}>
+                                <article className="h-full bg-surface p-6">
+                                    <span className="font-mono text-xs text-teal">{String(index + 1).padStart(2, "0")}</span>
+                                    <h3 className="mt-3 font-display text-xl font-bold text-navy">{pillar.title}</h3>
+                                    <p className="mt-3 text-sm leading-relaxed text-navy/65">{pillar.description}</p>
+                                </article>
+                            </Reveal>
+                        ))}
+                    </div>
+                </div>
+            </section>
 
             {/* SELECTED WORK */}
             <section className="px-6 py-16 lg:px-12 lg:py-20" data-testid="home-projects">
