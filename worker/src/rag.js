@@ -60,6 +60,8 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 8;
 const EMBED_MODEL = "@cf/baai/bge-base-en-v1.5";
 const GENERATE_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
+const GEMINI_MODEL = "gemini-2.5-flash-lite";
+const GEMINI_TIMEOUT_MS = 12_000;
 
 const rateBuckets = new Map();
 let cachedVectors = null;
@@ -264,6 +266,58 @@ function enforceRateLimit(ip) {
     rateBuckets.set(ip, fresh);
 }
 
+async function generateWithGemini(apiKey, userPrompt, fetchFn = fetch) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+    try {
+        const response = await fetchFn(
+            `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "x-goog-api-key": apiKey,
+                },
+                body: JSON.stringify({
+                    systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+                    contents: [{ role: "user", parts: [{ text: userPrompt }] }],
+                    generationConfig: { maxOutputTokens: 1024, temperature: 0.2 },
+                }),
+                signal: controller.signal,
+            }
+        );
+        if (!response.ok) {
+            throw new Error(`Gemini request failed with status ${response.status}`);
+        }
+        const payload = await response.json();
+        const answer = payload?.candidates?.[0]?.content?.parts
+            ?.map((part) => part?.text || "")
+            .join("")
+            .trim();
+        if (!answer) throw new Error("Gemini returned an empty generation");
+        return answer;
+    } finally {
+        clearTimeout(timeout);
+    }
+}
+
+async function generateWithCloudflare(env, userPrompt) {
+    const gen = await env.AI.run(GENERATE_MODEL, {
+        messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userPrompt },
+        ],
+        max_tokens: 1024,
+    });
+    const answer = (
+        gen?.choices?.[0]?.message?.content ||
+        gen?.response ||
+        ""
+    ).trim();
+    if (!answer) throw new Error("Empty generation");
+    return answer;
+}
+
 export async function handleRagAsk(request, env) {
     if (!env.AI) {
         const err = new Error("Workers AI binding missing");
@@ -310,23 +364,20 @@ export async function handleRagAsk(request, env) {
     }
 
     const userPrompt = `Question:\n${question}\n\nEvidence:\n${ctx.evidence_block}\n\nWrite a grounded portfolio navigation answer. Synthesize across sources when helpful. If the evidence does not support an answer, abstain.`;
-    const gen = await env.AI.run(GENERATE_MODEL, {
-        messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userPrompt },
-        ],
-        max_tokens: 1024,
-    });
-    const answer = (
-        gen?.choices?.[0]?.message?.content ||
-        gen?.response ||
-        ""
-    ).trim();
-    if (!answer) {
-        const err = new Error("Empty generation");
-        err.status = 502;
-        throw err;
+    let answer;
+    let generatorModel = GENERATE_MODEL;
+    if (env.GEMINI_API_KEY) {
+        try {
+            answer = await generateWithGemini(env.GEMINI_API_KEY, userPrompt);
+            generatorModel = GEMINI_MODEL;
+        } catch (error) {
+            console.warn("Gemini generation unavailable; using Workers AI fallback", {
+                name: error?.name || "Error",
+                message: error?.message || "Unknown Gemini error",
+            });
+        }
     }
+    if (!answer) answer = await generateWithCloudflare(env, userPrompt);
 
     const abstained = looksLikeAbstention(answer);
     const citations = abstained ? [] : ctx.citations;
@@ -343,7 +394,7 @@ export async function handleRagAsk(request, env) {
             experience_category: c.experience_category,
             section: c.section,
         })),
-        generator_model: GENERATE_MODEL,
+        generator_model: generatorModel,
         flow: {
             retrieved_chunks: hits.length,
             context_chunks: ctx.used.length,
@@ -372,7 +423,10 @@ export function ragHealth() {
         index_ready: Boolean(index?.chunk_count),
         chunk_count: index?.chunk_count || 0,
         embedding_model: index?.embedding_model || EMBED_MODEL,
-        generator_model: GENERATE_MODEL,
+        generator_model: {
+            primary: GEMINI_MODEL,
+            fallback: GENERATE_MODEL,
+        },
         rate_limit_per_minute: RATE_LIMIT_MAX,
     };
 }
