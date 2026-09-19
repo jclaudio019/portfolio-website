@@ -47,7 +47,7 @@ test("reports the embedded RAG index and live model configuration", async () => 
     assert.equal(body.index_ready, true);
     assert.equal(body.chunk_count, 154);
     assert.match(body.embedding_model, /bge-base/);
-    assert.equal(body.generator_model.primary, "gemini-2.5-flash-lite");
+    assert.equal(body.generator_model.primary, "gemini-3.5-flash-lite");
     assert.match(body.generator_model.fallback, /llama/);
 });
 
@@ -88,7 +88,7 @@ test("returns a concise abstention without exposing local source identifiers", a
 test("uses Gemini for generation when its secret is configured", async () => {
     const originalFetch = globalThis.fetch;
     globalThis.fetch = async (url, options) => {
-        assert.match(String(url), /gemini-2\.5-flash-lite:generateContent/);
+        assert.match(String(url), /gemini-3\.5-flash-lite:generateContent/);
         assert.equal(options.headers["x-goog-api-key"], "test-secret");
         return Response.json({ candidates: [{ content: { parts: [{ text: "**Answer**\nGemini response" }] } }] });
     };
@@ -110,7 +110,7 @@ test("uses Gemini for generation when its secret is configured", async () => {
         const body = await response.json();
 
         assert.equal(response.status, 200);
-        assert.equal(body.generator_model, "gemini-2.5-flash-lite");
+        assert.equal(body.generator_model, "gemini-3.5-flash-lite");
         assert.match(body.answer, /Gemini response/);
     } finally {
         globalThis.fetch = originalFetch;
