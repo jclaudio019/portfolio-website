@@ -20,13 +20,13 @@ export const profile = {
     heroIntro:
         "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine forecasting, statistical modeling, automation, and business context to turn practical questions into validated decision support.",
     heroSupport:
-        "I use AI as an analytical accelerator—for implementation, auditing, visualization, and storytelling—while retaining ownership of the methodology, assumptions, validation, interpretation, and final review.",
+        "I decide what problem to solve, where a process can improve, and what judgment must remain human. I use AI and software for repetitive and computational heavy lifting, creating more time for root-cause analysis, business context, and the people affected by the decision.",
 };
 
 export const workflowPillars = [
     {
         title: "Analyze",
-        description: "Translate business questions into measurable analytical problems, data requirements, and appropriate methods.",
+        description: "Understand the business question, the people involved, and where a process or decision can genuinely improve.",
     },
     {
         title: "Validate",
@@ -34,7 +34,7 @@ export const workflowPillars = [
     },
     {
         title: "Automate",
-        description: "Turn repeatable analysis, reporting, and quality checks into reproducible workflows that preserve analytical controls.",
+        description: "After the logic and controls are understood, let computers handle repeatable analysis, reporting, and quality checks.",
     },
     {
         title: "Communicate",
@@ -86,7 +86,7 @@ export const aboutChapters = [
         title: "What I Build Now",
         paragraphs: [
             "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, and allocation logic.",
-            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. I use AI to extend what I can implement, audit, automate, visualize, and explain, while keeping the analytical decisions and final review under my ownership.",
+            "Each project begins with understanding the business question, the process, and the people affected by the decision. I identify where analysis or automation can help, then use AI and software to accelerate implementation, auditing, visualization, and communication—while keeping root-cause analysis, context, judgment, and final review human-led.",
         ],
     },
 ];
@@ -108,6 +108,32 @@ export const educationEntries = [
 ];
 
 export const projects = [
+    {
+        slug: "interactive-rag",
+        title: "Interactive RAG — Retrieval & Grounding Showcase",
+        category: "Systems",
+        summary:
+            "A grounded portfolio discovery assistant backed by a public RAG pipeline — useful for navigation, with a separate technical case study of retrieval, grounding, and citations.",
+        image: `${process.env.PUBLIC_URL}/images/interactive-rag-hero.svg`,
+        imageCaption:
+            "Portfolio navigation layer plus a live demonstration of retrieval, grounding, citations, and abstention.",
+        tech: ["Python", "Cloudflare Workers AI", "FastAPI", "Numpy", "RAG eval"],
+        github: "https://github.com/jclaudio019/RAG-Assistant",
+        problem:
+            "Visitors should be able to ask natural-language questions about skills, experience, and projects and land on the right pages — without inventing claims or collapsing professional work into portfolio work.",
+        solutionParagraphs: [
+            "I reused an existing ingestion and structure-aware chunking pipeline, then added embeddings, retrieval evaluation, grounded generation, experience-category labels, and Explore-further links into the portfolio UX.",
+            "The assistant lives at /ask as a discovery layer. This case study page documents the RAG system behind it.",
+        ],
+        findings:
+            "For this small corpus, careful chunk provenance and a focused eval set mattered more than stacking additional RAG stages. Abstention on out-of-corpus questions was treated as a first-class success mode.",
+        limitations: [
+            "Allowlisted public documents only.",
+            "Vanilla vector retrieval without hybrid search.",
+            "Public demo is rate-limited and not built for high traffic.",
+        ],
+        customRoute: "/projects/interactive-rag",
+    },
     {
         slug: "retail-demand-forecasting",
         title: "Retail Demand Forecasting",
@@ -572,9 +598,9 @@ export const skillGroups = [
             {
                 label: "AI-Augmented Analytics & Automation",
                 description:
-                    "Use AI to accelerate analytical implementation, validation, code review, repeatable workflows, visualization, and storytelling while retaining ownership of methods, assumptions, interpretation, and final review.",
+                    "Identify worthwhile process improvements, then use AI and software to accelerate implementation, validation, repeatable workflows, visualization, and storytelling while keeping context, judgment, and final review human-led.",
                 tools: ["Codex", "Claude Code", "Antigravity IDE", "CLI workflows"],
-                projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"],
+                projectSlugs: ["interactive-rag", "retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"],
             },
             { label: "Jupyter", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "pytest", projectSlugs: ["retail-allocation-simulator"] },
@@ -592,7 +618,7 @@ export const skillGroups = [
             { label: "Probability", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "Feature Engineering", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
             { label: "Model Evaluation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
-            { label: "Analytical Validation & Audit", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "Analytical Validation & Audit", projectSlugs: ["interactive-rag", "retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
             { label: "Model Calibration & Monitoring", projectSlugs: ["credit-risk-pd-model"] },
             { label: "Uncertainty & Scenario Analysis", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "black-scholes-options-modeling"] },
             { label: "ROC-AUC", projectSlugs: ["credit-risk-pd-model"] },

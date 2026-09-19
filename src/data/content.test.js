@@ -13,6 +13,7 @@ import {
 
 test("keeps Backtesting documented but removes it from the published portfolio", () => {
     expect(projects.map(({ slug }) => slug)).toEqual([
+        "interactive-rag",
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
@@ -21,8 +22,9 @@ test("keeps Backtesting documented but removes it from the published portfolio",
         "backtesting-system",
         "warehouse-club-market-expansion",
     ]);
-    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 7);
+    expect(new Set(projects.map(({ slug }) => slug))).toHaveProperty("size", 8);
     expect(publishedProjects.map(({ slug }) => slug)).toEqual([
+        "interactive-rag",
         "retail-demand-forecasting",
         "credit-risk-pd-model",
         "retail-allocation-simulator",
@@ -30,7 +32,11 @@ test("keeps Backtesting documented but removes it from the published portfolio",
         "black-scholes-options-modeling",
         "warehouse-club-market-expansion",
     ]);
-    expect(publishedProjects.every(({ image }) => image.includes("/images/") && image.endsWith(".png"))).toBe(true);
+    expect(
+        publishedProjects.every(
+            ({ image }) => image.includes("/images/") && (image.endsWith(".png") || image.endsWith(".svg"))
+        )
+    ).toBe(true);
     expect(publishedProjects.every(({ github }) => github.startsWith("https://github.com/jclaudio019/"))).toBe(true);
 });
 
@@ -138,7 +144,7 @@ test("positions Jose as an experienced applied analytics professional", () => {
             "Willing to relocate for the right opportunity",
         ],
         heroIntro: "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine forecasting, statistical modeling, automation, and business context to turn practical questions into validated decision support.",
-        heroSupport: "I use AI as an analytical accelerator—for implementation, auditing, visualization, and storytelling—while retaining ownership of the methodology, assumptions, validation, interpretation, and final review.",
+        heroSupport: "I decide what problem to solve, where a process can improve, and what judgment must remain human. I use AI and software for repetitive and computational heavy lifting, creating more time for root-cause analysis, business context, and the people affected by the decision.",
         education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     }));
 });
@@ -155,8 +161,9 @@ test("keeps the About story concise and education accurate", () => {
         "As my work became more analytical, I wanted to better understand why different methods work, when to use them, and how to evaluate their results."
     );
     expect(aboutChapters[3].paragraphs[1]).toContain(
-        "I use AI to extend what I can implement, audit, automate, visualize, and explain"
+        "I identify where analysis or automation can help"
     );
+    expect(aboutChapters[3].paragraphs[1]).toContain("final review human-led");
     expect(aboutChapters.flatMap(({ paragraphs }) => paragraphs).join(" ")).not.toContain("market-expansion");
     expect(educationEntries[0].coursework).toEqual([
         "Linear Regression", "Probability", "Statistical Inference", "Time-Series Analysis",
@@ -226,7 +233,9 @@ test("explains the AI-enabled analytical workflow without transferring analytica
     ]);
     const story = workflowPillars.map(({ description }) => description).join(" ");
     expect(story).toContain("AI-assisted visuals");
-    expect(profile.heroSupport).toContain("retaining ownership");
+    expect(profile.heroSupport).toContain("I decide what problem to solve");
+    expect(profile.heroSupport).toContain("what judgment must remain human");
+    expect(story).toContain("After the logic and controls are understood");
 });
 
 test("publishes the warehouse project as an in-progress case study without unsupported results", () => {

@@ -97,6 +97,7 @@ test("uses project evidence as the cover for completed analytical case studies",
         expect(container.querySelector(`[data-testid='project-data-cover-${slug}']`)).not.toBeNull();
     });
 
+    expect(container.querySelector("[data-testid='project-image-cover-interactive-rag']")).not.toBeNull();
     expect(container.querySelector("[data-testid='project-image-cover-retail-allocation-simulator']")).not.toBeNull();
     expect(container.querySelector("[data-testid='project-image-cover-warehouse-club-market-expansion']")).not.toBeNull();
 });
