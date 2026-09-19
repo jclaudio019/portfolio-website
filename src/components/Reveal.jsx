@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 
-export const Reveal = ({ children, delay = 0, y = 22, className = "", as }) => {
+export const Reveal = ({ children, delay = 0, y = 22, className = "", as, ...props }) => {
     const MotionTag = as ? motion[as] : motion.div;
     return (
         <MotionTag
+            {...props}
             className={className}
             initial={{ opacity: 0, y }}
             whileInView={{ opacity: 1, y: 0 }}

@@ -46,3 +46,20 @@ test("renders a grounded answer and portfolio navigation links", async () => {
     act(() => root.unmount());
     container.remove();
 });
+
+test("links directly to the architecture explanation", async () => {
+    const container = document.createElement("div");
+    document.body.appendChild(container);
+    const root = createRoot(container);
+
+    await act(async () => root.render(
+        <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+            <PortfolioAssistant />
+        </MemoryRouter>
+    ));
+
+    expect(container.querySelector("a[href='/projects/interactive-rag#how-it-works']")).not.toBeNull();
+
+    act(() => root.unmount());
+    container.remove();
+});

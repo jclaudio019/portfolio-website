@@ -127,12 +127,12 @@ export default function PortfolioAssistant({
                     >
                         {loading ? "Searching portfolio…" : "Ask the portfolio"}
                     </button>
-                    <Link
-                        to="/projects/interactive-rag"
+                    <a
+                        href="/projects/interactive-rag#how-it-works"
                         className="font-mono text-[11px] uppercase tracking-widest text-navy/45 hover:text-teal"
                     >
                         How this works →
-                    </Link>
+                    </a>
                 </div>
             </form>
 
