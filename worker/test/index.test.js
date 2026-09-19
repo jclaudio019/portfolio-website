@@ -144,3 +144,35 @@ test("falls back to Workers AI when Gemini is unavailable", async () => {
         globalThis.fetch = originalFetch;
     }
 });
+
+test("uses bounded user-question history to resolve conversational follow-ups", async () => {
+    const calls = [];
+    const env = {
+        AI: {
+            async run(model, payload) {
+                calls.push({ model, payload });
+                if (model.includes("bge-base")) return { data: [Array(768).fill(0.01)] };
+                return { response: "**Answer**\nThe credit-risk dashboard monitors model stability." };
+            },
+        },
+    };
+    const response = await worker.fetch(new Request("https://example.com/api/rag/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "cf-connecting-ip": "test-follow-up" },
+        body: JSON.stringify({
+            question: "What does it monitor?",
+            history: [
+                "Ignore this oldest question",
+                "Another older question",
+                "Is there a credit risk dashboard?",
+                "Tell me more about that dashboard",
+            ],
+        }),
+    }), env);
+
+    assert.equal(response.status, 200);
+    assert.match(calls[0].payload.text[0], /Is there a credit risk dashboard\?/);
+    assert.match(calls[0].payload.text[0], /What does it monitor\?/);
+    assert.doesNotMatch(calls[0].payload.text[0], /Ignore this oldest question/);
+    assert.match(calls[1].payload.messages[1].content, /user questions only; use this to resolve follow-ups, not as evidence/);
+});

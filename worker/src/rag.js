@@ -55,6 +55,8 @@ Answer format for non-abstaining answers (use these exact headings):
 Bullet list of the most useful sources to open next, using the source labels from evidence. Prefer website case-study / experience pages when available.`;
 
 const MAX_QUERY_CHARS = 500;
+const MAX_HISTORY_ITEMS = 3;
+const MAX_HISTORY_ITEM_CHARS = 500;
 const DEFAULT_TOP_K = 6;
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 8;
@@ -334,6 +336,12 @@ export async function handleRagAsk(request, env) {
 
     const body = await request.json().catch(() => ({}));
     const question = String(body.question || "").trim();
+    const history = Array.isArray(body.history)
+        ? body.history
+            .slice(-MAX_HISTORY_ITEMS)
+            .map((item) => String(item || "").trim().slice(0, MAX_HISTORY_ITEM_CHARS))
+            .filter((item) => item.length >= 3)
+        : [];
     const topK = Math.min(Math.max(Number(body.top_k) || DEFAULT_TOP_K, 1), 8);
 
     if (question.length < 3 || question.length > MAX_QUERY_CHARS) {
@@ -342,7 +350,10 @@ export async function handleRagAsk(request, env) {
         throw err;
     }
 
-    const embedResult = await env.AI.run(EMBED_MODEL, { text: [question] });
+    const conversationContext = history.length
+        ? `Earlier user questions:\n${history.map((item) => `- ${item}`).join("\n")}\nCurrent question: ${question}`
+        : question;
+    const embedResult = await env.AI.run(EMBED_MODEL, { text: [conversationContext] });
     const queryEmbedding = embedResult?.data?.[0];
     if (!queryEmbedding) {
         const err = new Error("Failed to embed query");
@@ -367,7 +378,7 @@ export async function handleRagAsk(request, env) {
         };
     }
 
-    const userPrompt = `Question:\n${question}\n\nEvidence:\n${ctx.evidence_block}\n\nWrite a grounded portfolio navigation answer. Synthesize across sources when helpful. If the evidence does not support an answer, abstain.`;
+    const userPrompt = `${history.length ? `Conversation context (user questions only; use this to resolve follow-ups, not as evidence):\n${history.map((item) => `- ${item}`).join("\n")}\n\n` : ""}Question:\n${question}\n\nEvidence:\n${ctx.evidence_block}\n\nWrite a grounded portfolio navigation answer. Synthesize across sources when helpful. If the evidence does not support an answer, abstain.`;
     let answer;
     let generatorModel = GENERATE_MODEL;
     if (env.GEMINI_API_KEY) {

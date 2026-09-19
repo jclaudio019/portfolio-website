@@ -5,11 +5,11 @@ export const RAG_API_BASE =
     process.env.REACT_APP_RAG_API_URL ||
     (process.env.NODE_ENV === "development" ? "" : PRODUCTION_API);
 
-export async function askPortfolioRag(question, topK = 5) {
+export async function askPortfolioRag(question, topK = 5, history = []) {
     const response = await fetch(`${RAG_API_BASE}/api/rag/ask`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, top_k: topK }),
+        body: JSON.stringify({ question, top_k: topK, history }),
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {

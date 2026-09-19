@@ -23,7 +23,10 @@ export default function PortfolioAssistantBubble() {
     if (ASSISTANT_ROUTES.has(pathname)) return null;
 
     return (
-        <aside className="fixed inset-x-4 bottom-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col items-end sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)]" data-testid="portfolio-assistant-bubble">
+        <aside
+            className={`fixed inset-x-4 bottom-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col items-end sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)] ${open ? "h-[calc(100dvh-2rem)] sm:h-[calc(100dvh-3rem)]" : ""}`}
+            data-testid="portfolio-assistant-bubble"
+        >
             {open && (
                 <div
                     id="portfolio-assistant-panel"

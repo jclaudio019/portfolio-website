@@ -65,7 +65,20 @@ export default function PortfolioAssistant({
     const [question, setQuestion] = useState(initialQuestion);
     const [loading, setLoading] = useState(false);
     const [messages, setMessages] = useState([]);
+    const transcriptRef = useRef(null);
     const transcriptEndRef = useRef(null);
+
+    useEffect(() => {
+        const transcript = transcriptRef.current;
+        if (!transcript) return undefined;
+        const keepWheelInsideTranscript = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            transcript.scrollTop += event.deltaY;
+        };
+        transcript.addEventListener("wheel", keepWheelInsideTranscript, { passive: false });
+        return () => transcript.removeEventListener("wheel", keepWheelInsideTranscript);
+    }, []);
 
     useEffect(() => {
         transcriptEndRef.current?.scrollIntoView?.({ behavior: "smooth", block: "nearest" });
@@ -75,12 +88,16 @@ export default function PortfolioAssistant({
         event.preventDefault();
         const q = question.trim();
         if (q.length < 3) return;
+        const history = messages
+            .filter((message) => message.role === "user")
+            .slice(-3)
+            .map((message) => message.text);
         const turnId = `${Date.now()}-${messages.length}`;
         setMessages((current) => [...current, { id: `${turnId}-user`, role: "user", text: q }]);
         setQuestion("");
         setLoading(true);
         try {
-            const data = await askPortfolioRag(q, 6);
+            const data = await askPortfolioRag(q, 6, history);
             setMessages((current) => [...current, { id: `${turnId}-assistant`, role: "assistant", result: data }]);
         } catch (err) {
             setMessages((current) => [...current, {
@@ -99,11 +116,13 @@ export default function PortfolioAssistant({
             className={compact ? "flex h-full min-h-0 flex-col" : "space-y-5"}
         >
             <div
+                ref={transcriptRef}
                 className={compact
                     ? "min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain pr-1"
                     : "max-h-[65vh] space-y-5 overflow-y-auto overscroll-contain pr-2"}
                 data-testid="portfolio-assistant-transcript"
                 aria-live="polite"
+                tabIndex={0}
             >
                 {messages.length === 0 && (
                     <div className="flex flex-wrap gap-2" data-testid="portfolio-assistant-suggestions">

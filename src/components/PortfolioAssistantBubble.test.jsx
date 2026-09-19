@@ -25,6 +25,8 @@ test("opens a compact assistant with three decision-oriented suggestions", () =>
     act(() => trigger.dispatchEvent(new MouseEvent("click", { bubbles: true })));
 
     expect(container.querySelector("[role='dialog']")).not.toBeNull();
+    expect(container.querySelector("[data-testid='portfolio-assistant-bubble']").className)
+        .toContain("h-[calc(100dvh-2rem)]");
     expect(container.querySelector("[data-testid='portfolio-assistant-scroll-region']")).not.toBeNull();
     expect([...container.querySelectorAll("[data-testid='portfolio-assistant-suggestions'] button[type='button']")]
         .map(({ textContent }) => textContent)).toEqual([
