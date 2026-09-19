@@ -60,3 +60,26 @@ test("requires the Workers AI binding before accepting RAG questions", async () 
     assert.equal(response.status, 503);
     assert.deepEqual(await response.json(), { error: "Workers AI binding missing" });
 });
+
+test("returns a concise abstention without exposing local source identifiers", async () => {
+    const env = {
+        AI: {
+            async run(model) {
+                if (model.includes("bge-base")) return { data: [Array(768).fill(0.01)] };
+                return { response: "I don't have enough information in the portfolio to answer that confidently." };
+            },
+        },
+    };
+    const response = await worker.fetch(new Request("https://example.com/api/rag/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "cf-connecting-ip": "test-abstention" },
+        body: JSON.stringify({ question: "Has Jose used C++?" }),
+    }), env);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.abstained, true);
+    assert.equal(body.answer, "I don't have enough information in the portfolio to answer that confidently.");
+    assert.deepEqual(body.citations, []);
+    assert.equal(body.retrieved.every(({ source_url: url }) => url === null || url.startsWith("http")), true);
+});
