@@ -11,8 +11,8 @@ const EVAL_SUMMARY = {
     generator: "Gemini 3.5 Flash-Lite (Cloudflare Llama fallback)",
 };
 
-const Section = ({ label, children }) => (
-    <Reveal className="grid gap-3 border-t border-navy/10 py-10 md:grid-cols-[200px_1fr] md:gap-10">
+const Section = ({ id, label, children }) => (
+    <Reveal id={id} className="scroll-mt-24 grid gap-3 border-t border-navy/10 py-10 md:grid-cols-[200px_1fr] md:gap-10">
         <h2 className="font-mono text-sm uppercase tracking-wider text-teal">{label}</h2>
         <div className="min-w-0 max-w-[72ch] text-navy/80">{children}</div>
     </Reveal>
@@ -75,7 +75,7 @@ export default function RagShowcase() {
                     </ul>
                 </Section>
 
-                <Section label="How It Works">
+                <Section id="how-it-works" label="How It Works">
                     <pre className="overflow-x-auto border border-navy/10 bg-surface/50 p-4 font-mono text-[11px] leading-relaxed text-navy/70">
 {`Website + GitHub docs + Career KB
         ↓ ingest / normalize / hash
