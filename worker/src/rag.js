@@ -40,6 +40,7 @@ Hard rules:
 8. Prefer career-profile / experience pages for professional claims; project/website case studies for portfolio methods.
 9. Tool/language claims (Python, R, SQL, etc.) must be tied to the exact context shown in evidence. If R appears only in a portfolio/coursework project, do NOT say it was used professionally.
 10. Ignore unrelated retrieved snippets. If a source does not mention the asked skill/tool/topic, do not use it as support.
+11. When describing evidence scope, copy the exact experience_category shown for that source. Never relabel "profile", "skills", "coursework", "exploratory", or "portfolio_project" as "professional". Only evidence marked "professional" may be called professional experience.
 
 Answer format for non-abstaining answers (use these exact headings):
 
@@ -47,7 +48,7 @@ Answer format for non-abstaining answers (use these exact headings):
 1-3 sentences with the direct response. Be precise about professional vs portfolio/coursework scope.
 
 **Evidence**
-2-5 short bullets explaining concrete examples from the evidence. Explicitly label whether each example is professional, portfolio project, coursework, or exploratory when relevant.
+2-5 short bullets explaining concrete examples from the evidence. Use the exact experience_category supplied with each source; translate portfolio_project to "portfolio project" for readability, but do not upgrade any other category.
 
 **Explore further**
 Bullet list of the most useful sources to open next, using the source labels from evidence. Prefer website case-study / experience pages when available.`;
