@@ -7,6 +7,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageMeta from "@/components/PageMeta";
+import PortfolioAssistantBubble from "@/components/PortfolioAssistantBubble";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Projects from "@/pages/Projects";
@@ -55,6 +56,7 @@ function App() {
                         </main>
                         <Footer />
                     </SmoothScroll>
+                    <PortfolioAssistantBubble />
                 </BrowserRouter>
             </MotionConfig>
             <Toaster position="top-right" richColors />

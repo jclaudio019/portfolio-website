@@ -4,11 +4,9 @@ import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { askPortfolioRag } from "../lib/ragApi";
 
 const DEFAULT_SUGGESTIONS = [
-    "Has Jose used R?",
-    "What has Jose done with time series?",
-    "How does Jose approach analytics problems?",
-    "What Python and SQL work shows up in his experience?",
-    "Which projects involve forecasting or allocation?",
+    "Which projects best demonstrate Jose's analytical approach?",
+    "How does Jose validate models and analytical results?",
+    "Where has Jose automated a business process?",
 ];
 
 const categoryLabel = (value) => {
@@ -64,7 +62,7 @@ export default function PortfolioAssistant({
     compact = false,
     initialQuestion = "",
 }) {
-    const [question, setQuestion] = useState(initialQuestion || suggestions[0] || "");
+    const [question, setQuestion] = useState(initialQuestion);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [result, setResult] = useState(null);
@@ -111,6 +109,7 @@ export default function PortfolioAssistant({
                     ))}
                 </div>
                 <textarea
+                    aria-label="Ask a question about Jose's portfolio"
                     value={question}
                     onChange={(e) => setQuestion(e.target.value)}
                     rows={compact ? 2 : 3}

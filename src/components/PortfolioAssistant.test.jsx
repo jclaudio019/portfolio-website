@@ -26,7 +26,10 @@ test("renders a grounded answer and portfolio navigation links", async () => {
 
     await act(async () => root.render(
         <MemoryRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <PortfolioAssistant suggestions={["What forecasting work has Jose done?"]} />
+            <PortfolioAssistant
+                suggestions={["What forecasting work has Jose done?"]}
+                initialQuestion="What forecasting work has Jose done?"
+            />
         </MemoryRouter>
     ));
     await act(async () => {

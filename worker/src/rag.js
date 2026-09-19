@@ -332,7 +332,9 @@ export async function handleRagAsk(request, env) {
     const citations = abstained ? [] : ctx.citations;
     return {
         question,
-        answer,
+        answer: abstained
+            ? "I don't have enough information in the portfolio to answer that confidently."
+            : answer,
         abstained,
         citations,
         explore: citations.map((c) => ({
