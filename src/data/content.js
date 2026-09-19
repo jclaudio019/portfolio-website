@@ -4,8 +4,8 @@
 
 export const profile = {
     name: "Jose Claudio",
-    role: "Applied Analytics | Forecasting, Statistical Modeling & Decision Support",
-    roleShort: "Forecasting, Modeling, Automation & Business Decision Support",
+    role: "AI-Enabled Applied Analytics | Modeling, Automation & Decision Support",
+    roleShort: "AI-Enabled Analytics, Modeling, Automation & Decision Support",
     location: "Orange City, Florida",
     availability: [
         "Open to remote, hybrid, and on-site opportunities",
@@ -18,10 +18,29 @@ export const profile = {
     resumeUrl: "/Jose_Claudio_Analytics_Resume.pdf",
     education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     heroIntro:
-        "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
+        "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine forecasting, statistical modeling, automation, and business context to turn practical questions into validated decision support.",
     heroSupport:
-        "I am currently pursuing an M.S. in Applied Statistics at Purdue University to deepen my understanding of modeling, uncertainty, and the questions behind the data.",
+        "I use AI as an analytical accelerator—for implementation, auditing, visualization, and storytelling—while retaining ownership of the methodology, assumptions, validation, interpretation, and final review.",
 };
+
+export const workflowPillars = [
+    {
+        title: "Analyze",
+        description: "Translate business questions into measurable analytical problems, data requirements, and appropriate methods.",
+    },
+    {
+        title: "Validate",
+        description: "Challenge assumptions, prevent leakage, test generalization, quantify uncertainty, and audit whether results support the claim.",
+    },
+    {
+        title: "Automate",
+        description: "Turn repeatable analysis, reporting, and quality checks into reproducible workflows that preserve analytical controls.",
+    },
+    {
+        title: "Communicate",
+        description: "Use AI-assisted visuals, diagrams, dashboards, and storytelling to make model behavior and decision tradeoffs understandable.",
+    },
+];
 
 export const marqueeItems = [
     "Forecasting",
@@ -67,7 +86,7 @@ export const aboutChapters = [
         title: "What I Build Now",
         paragraphs: [
             "I am most interested in practical problems that sit between data and decisions. My portfolio includes demand forecasting, interpretable credit-risk modeling, time-series analysis, and allocation logic.",
-            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. My goal is to build solutions that are clear, explainable, and useful to the people making the decision.",
+            "Each project is built around a real business question and documents the methods, assumptions, validation, limitations, and decision implications—not only the final output. I use AI to extend what I can implement, audit, automate, visualize, and explain, while keeping the analytical decisions and final review under my ownership.",
         ],
     },
 ];
@@ -551,11 +570,11 @@ export const skillGroups = [
             "Power Query",
             "Git & GitHub",
             {
-                label: "AI-Assisted Product Development",
+                label: "AI-Augmented Analytics & Automation",
                 description:
-                    "Use generative AI to turn business requirements, decision rules, and validation criteria into functional analytical workflows, tests, and documentation.",
+                    "Use AI to accelerate analytical implementation, validation, code review, repeatable workflows, visualization, and storytelling while retaining ownership of methods, assumptions, interpretation, and final review.",
                 tools: ["Codex", "Claude Code", "Antigravity IDE", "CLI workflows"],
-                projectSlugs: ["retail-allocation-simulator"],
+                projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"],
             },
             { label: "Jupyter", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "pytest", projectSlugs: ["retail-allocation-simulator"] },
@@ -573,6 +592,9 @@ export const skillGroups = [
             { label: "Probability", projectSlugs: ["credit-risk-pd-model", "time-series-analysis-r"] },
             { label: "Feature Engineering", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
             { label: "Model Evaluation", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model"] },
+            { label: "Analytical Validation & Audit", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "retail-allocation-simulator"] },
+            { label: "Model Calibration & Monitoring", projectSlugs: ["credit-risk-pd-model"] },
+            { label: "Uncertainty & Scenario Analysis", projectSlugs: ["retail-demand-forecasting", "credit-risk-pd-model", "black-scholes-options-modeling"] },
             { label: "ROC-AUC", projectSlugs: ["credit-risk-pd-model"] },
             { label: "WoE & Information Value", projectSlugs: ["credit-risk-pd-model"] },
             { label: "Scorecard Development", projectSlugs: ["credit-risk-pd-model"] },
@@ -606,5 +628,5 @@ export const resumeHighlights = [
     { label: "Location", value: "Orange City, Florida · Open to relocation" },
     { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected 2027" },
     { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
-    { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
+    { label: "Focus", value: "AI-Enabled Analytics · Statistical Modeling · Automation · Decision Support" },
 ];

@@ -20,6 +20,11 @@ test("keeps the homepage focused on three representative case studies", () => {
         "project-card-credit-risk-pd-model",
         "project-card-retail-allocation-simulator",
     ]);
+    expect(container.querySelector("[data-testid='home-workflow']").textContent).toContain("Analyze");
+    expect(container.querySelector("[data-testid='home-workflow']").textContent).toContain("Validate");
+    expect(container.querySelector("[data-testid='home-workflow']").textContent).toContain("Automate");
+    expect(container.querySelector("[data-testid='home-workflow']").textContent).toContain("Communicate");
+    expect(container.textContent).toContain("AI used to extend what the work can become");
 
     act(() => root.unmount());
     container.remove();

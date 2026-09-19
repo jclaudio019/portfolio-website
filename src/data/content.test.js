@@ -8,6 +8,7 @@ import {
     publishedProjects,
     resumeHighlights,
     skillGroups,
+    workflowPillars,
 } from "./content";
 
 test("keeps Backtesting documented but removes it from the published portfolio", () => {
@@ -110,6 +111,8 @@ test("publishes five skill groups with verified project evidence", () => {
         "Forecast Validation", "Machine Learning", "Feature Engineering",
         "ROC-AUC", "WoE & Information Value", "Scorecard Development",
         "NumPy", "Jupyter", "pytest", "Git & GitHub",
+        "AI-Augmented Analytics & Automation", "Analytical Validation & Audit",
+        "Model Calibration & Monitoring", "Uncertainty & Scenario Analysis",
     ]));
     expect(skills.map(({ label }) => label)).not.toEqual(expect.arrayContaining([
         "Accounting", "Public Data",
@@ -127,15 +130,15 @@ test("positions Jose as an experienced applied analytics professional", () => {
         email: "joseo.claudio19@gmail.com",
         resumeAvailableOnRequest: false,
         resumeUrl: "/Jose_Claudio_Analytics_Resume.pdf",
-        role: "Applied Analytics | Forecasting, Statistical Modeling & Decision Support",
-        roleShort: "Forecasting, Modeling, Automation & Business Decision Support",
+        role: "AI-Enabled Applied Analytics | Modeling, Automation & Decision Support",
+        roleShort: "AI-Enabled Analytics, Modeling, Automation & Decision Support",
         location: "Orange City, Florida",
         availability: [
             "Open to remote, hybrid, and on-site opportunities",
             "Willing to relocate for the right opportunity",
         ],
-        heroIntro: "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine programming, forecasting, statistical methods, and business context to support practical, data-informed decisions.",
-        heroSupport: "I am currently pursuing an M.S. in Applied Statistics at Purdue University to deepen my understanding of modeling, uncertainty, and the questions behind the data.",
+        heroIntro: "I am an analytics professional with more than five years of experience across finance, supply chain, and inventory planning. I combine forecasting, statistical modeling, automation, and business context to turn practical questions into validated decision support.",
+        heroSupport: "I use AI as an analytical accelerator—for implementation, auditing, visualization, and storytelling—while retaining ownership of the methodology, assumptions, validation, interpretation, and final review.",
         education: "M.S. Applied Statistics — Purdue University (Expected 2027)",
     }));
 });
@@ -152,7 +155,7 @@ test("keeps the About story concise and education accurate", () => {
         "As my work became more analytical, I wanted to better understand why different methods work, when to use them, and how to evaluate their results."
     );
     expect(aboutChapters[3].paragraphs[1]).toContain(
-        "My goal is to build solutions that are clear, explainable, and useful to the people making the decision."
+        "I use AI to extend what I can implement, audit, automate, visualize, and explain"
     );
     expect(aboutChapters.flatMap(({ paragraphs }) => paragraphs).join(" ")).not.toContain("market-expansion");
     expect(educationEntries[0].coursework).toEqual([
@@ -213,8 +216,17 @@ test("publishes the requested resume highlights", () => {
         { label: "Location", value: "Orange City, Florida · Open to relocation" },
         { label: "Education", value: "M.S. Applied Statistics, Purdue University — Expected 2027" },
         { label: "Toolset", value: "Python · SQL · R · Excel · VBA · Power Query · Power BI · Tableau" },
-        { label: "Focus", value: "Forecasting · Statistical Modeling · Automation · Decision Support" },
+        { label: "Focus", value: "AI-Enabled Analytics · Statistical Modeling · Automation · Decision Support" },
     ]);
+});
+
+test("explains the AI-enabled analytical workflow without transferring analytical ownership", () => {
+    expect(workflowPillars.map(({ title }) => title)).toEqual([
+        "Analyze", "Validate", "Automate", "Communicate",
+    ]);
+    const story = workflowPillars.map(({ description }) => description).join(" ");
+    expect(story).toContain("AI-assisted visuals");
+    expect(profile.heroSupport).toContain("retaining ownership");
 });
 
 test("publishes the warehouse project as an in-progress case study without unsupported results", () => {
