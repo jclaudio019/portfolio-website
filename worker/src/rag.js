@@ -60,7 +60,7 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 8;
 const EMBED_MODEL = "@cf/baai/bge-base-en-v1.5";
 const GENERATE_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
-const GEMINI_MODEL = "gemini-2.5-flash-lite";
+const GEMINI_MODEL = "gemini-3.5-flash-lite";
 const GEMINI_TIMEOUT_MS = 12_000;
 
 const rateBuckets = new Map();
