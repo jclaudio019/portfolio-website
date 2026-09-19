@@ -23,16 +23,16 @@ export default function PortfolioAssistantBubble() {
     if (ASSISTANT_ROUTES.has(pathname)) return null;
 
     return (
-        <aside className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6" data-testid="portfolio-assistant-bubble">
+        <aside className="fixed inset-x-4 bottom-4 z-50 flex max-h-[calc(100dvh-2rem)] flex-col items-end sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-h-[calc(100dvh-3rem)]" data-testid="portfolio-assistant-bubble">
             {open && (
                 <div
                     id="portfolio-assistant-panel"
                     role="dialog"
                     aria-modal="false"
                     aria-labelledby="portfolio-assistant-title"
-                    className="mb-3 max-h-[min(72vh,680px)] w-[calc(100vw-2rem)] overflow-y-auto border border-navy/20 bg-cream p-4 shadow-2xl sm:w-[430px] sm:p-5"
+                    className="mb-3 flex min-h-0 w-full flex-1 flex-col overflow-hidden border border-navy/20 bg-cream p-4 shadow-2xl sm:w-[430px] sm:p-5"
                 >
-                    <div className="mb-4 flex items-start justify-between gap-4 border-b border-navy/10 pb-4">
+                    <div className="mb-4 flex shrink-0 items-start justify-between gap-4 border-b border-navy/10 pb-4">
                         <div>
                             <p className="font-mono text-[10px] uppercase tracking-widest text-teal">Portfolio guide</p>
                             <h2 id="portfolio-assistant-title" className="mt-1 font-display text-xl font-bold text-navy">
@@ -48,7 +48,9 @@ export default function PortfolioAssistantBubble() {
                             <X size={20} />
                         </button>
                     </div>
-                    <PortfolioAssistant compact />
+                    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-1" data-testid="portfolio-assistant-scroll-region">
+                        <PortfolioAssistant compact />
+                    </div>
                 </div>
             )}
             <button

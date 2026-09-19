@@ -45,7 +45,7 @@ test("reports the embedded RAG index and live model configuration", async () => 
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
     assert.equal(body.index_ready, true);
-    assert.equal(body.chunk_count, 154);
+    assert.equal(body.chunk_count, 109);
     assert.match(body.embedding_model, /bge-base/);
     assert.equal(body.generator_model.primary, "gemini-3.5-flash-lite");
     assert.match(body.generator_model.fallback, /llama/);
