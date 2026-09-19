@@ -48,7 +48,8 @@ const detailRoute = (slug) => (
 const renderDetail = (slug) => render(detailRoute(slug));
 
 test("keeps Backtesting out of the published portfolio", () => {
-    expect(publishedProjects).toHaveLength(6);
+    expect(publishedProjects).toHaveLength(7);
+    expect(publishedProjects.some(({ slug }) => slug === "interactive-rag")).toBe(true);
     expect(publishedProjects.some(({ slug }) => slug === "backtesting-system")).toBe(false);
     expect(publishedProjects.at(-1).slug).toBe("warehouse-club-market-expansion");
     expect(publishedProjects.at(-1).status).toBe("In progress");

@@ -49,6 +49,7 @@ test("connects AI-augmented analytics to the case studies that demonstrate it", 
     expect(skill.getAttribute("aria-expanded")).toBe("true");
     expect([...container.querySelectorAll("[data-testid='skill-project-choice']")]
         .map((link) => link.getAttribute("href"))).toEqual([
+        "/projects/interactive-rag",
         "/projects/retail-demand-forecasting",
         "/projects/credit-risk-pd-model",
         "/projects/retail-allocation-simulator",

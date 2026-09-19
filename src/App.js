@@ -16,6 +16,8 @@ import Resume from "@/pages/Resume";
 import NotFound from "@/pages/NotFound";
 
 const CreditRiskDashboard = lazy(() => import("@/pages/CreditRiskDashboard"));
+const RagShowcase = lazy(() => import("@/pages/RagShowcase"));
+const Ask = lazy(() => import("@/pages/Ask"));
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -40,7 +42,9 @@ function App() {
                                 <Route path="/" element={<Home />} />
                                 <Route path="/about" element={<About />} />
                                 <Route path="/projects" element={<Projects />} />
+                                <Route path="/ask" element={<Suspense fallback={<div className="flex min-h-[70vh] items-center justify-center font-mono text-sm uppercase tracking-wider text-navy/60">Loading assistant…</div>}><Ask /></Suspense>} />
                                 <Route path="/projects/credit-risk-pd-model/dashboard" element={<Suspense fallback={<div className="flex min-h-[70vh] items-center justify-center font-mono text-sm uppercase tracking-wider text-navy/60">Loading case study…</div>}><CreditRiskDashboard /></Suspense>} />
+                                <Route path="/projects/interactive-rag" element={<Suspense fallback={<div className="flex min-h-[70vh] items-center justify-center font-mono text-sm uppercase tracking-wider text-navy/60">Loading RAG showcase…</div>}><RagShowcase /></Suspense>} />
                                 <Route path="/projects/:slug" element={<ProjectDetail />} />
                                 <Route path="/experience" element={<Experience />} />
                                 <Route path="/skills" element={<Navigate to="/projects" replace />} />

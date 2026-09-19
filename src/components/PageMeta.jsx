@@ -9,6 +9,7 @@ const pageMeta = {
     "/": { title: "Applied Analytics, Forecasting & Statistical Modeling", description: DEFAULT_DESCRIPTION },
     "/about": { title: "About", description: "Learn how Jose Claudio combines finance, operations, supply chain, and applied statistics." },
     "/projects": { title: "Analytics Portfolio", description: "Explore forecasting, credit risk, retail operations, time-series, and financial-modeling case studies by Jose Claudio." },
+    "/ask": { title: "Ask the Portfolio", description: "Ask grounded questions about Jose Claudio's experience, analytical methods, skills, and portfolio projects." },
     "/experience": { title: "Experience", description: "Professional experience in forecasting, inventory analysis, financial reporting, automation, and decision support." },
     "/resume": { title: "Resume & Contact", description: "View Jose Claudio's analytics resume and contact information." },
     "/projects/credit-risk-pd-model/dashboard": { title: "Credit Risk & Portfolio Expected Loss", description: "Interactive credit-risk analysis connecting probability of default to expected loss, portfolio risk, stress, simulation, and monitoring." },

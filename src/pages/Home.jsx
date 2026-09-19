@@ -64,6 +64,14 @@ export default function Home() {
 
                         <Reveal delay={0.6} className="flex flex-wrap gap-3 md:justify-end">
                             <Link
+                                to="/ask"
+                                data-testid="hero-ask-portfolio"
+                                className="group flex items-center gap-2 border border-teal bg-teal/15 px-6 py-3 font-mono text-xs uppercase tracking-widest text-teal transition-colors hover:bg-teal hover:text-cream"
+                            >
+                                Ask the portfolio
+                                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                            </Link>
+                            <Link
                                 to="/projects"
                                 data-testid="hero-view-projects"
                                 className="group flex items-center gap-2 border border-navy bg-navy px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal hover:border-teal"
@@ -104,6 +112,39 @@ export default function Home() {
             </section>
 
             <Marquee />
+
+            <section className="px-6 py-14 lg:px-12" data-testid="home-ask">
+                <div className="site-shell">
+                    <Reveal className="grid gap-8 border border-navy/15 bg-surface/40 p-6 md:grid-cols-[1.1fr_0.9fr] md:items-center md:p-8">
+                        <div>
+                            <p className="font-mono text-sm uppercase tracking-wider text-teal">Discovery</p>
+                            <h2 className="mt-3 max-w-xl font-display text-3xl font-extrabold tracking-tight text-navy md:text-4xl">
+                                Ask questions. Get linked to the right work.
+                            </h2>
+                            <p className="mt-4 max-w-xl text-sm leading-relaxed text-navy/65 md:text-base">
+                                A grounded portfolio assistant that synthesizes public evidence across experience,
+                                projects, and methods — then points you to the pages worth opening next.
+                            </p>
+                        </div>
+                        <div className="flex flex-col gap-3 md:items-end">
+                            <Link
+                                to="/ask"
+                                data-testid="home-ask-cta"
+                                className="inline-flex items-center gap-2 border border-navy bg-navy px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:border-teal hover:bg-teal"
+                            >
+                                Open portfolio assistant
+                                <ArrowRight size={16} />
+                            </Link>
+                            <Link
+                                to="/projects/interactive-rag"
+                                className="font-mono text-[11px] uppercase tracking-widest text-navy/45 hover:text-teal"
+                            >
+                                Technical RAG case study →
+                            </Link>
+                        </div>
+                    </Reveal>
+                </div>
+            </section>
 
             <section className="px-6 py-14 lg:px-12" data-testid="home-workflow">
                 <div className="site-shell">
