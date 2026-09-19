@@ -8,7 +8,7 @@ const EVAL_SUMMARY = {
     factHitRate: "100%",
     reranking: "Not added — baseline ranking had no failures on the eval set.",
     embedding: "@cf/baai/bge-base-en-v1.5",
-    generator: "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+    generator: "Gemini 3.5 Flash-Lite (Cloudflare Llama fallback)",
 };
 
 const Section = ({ label, children }) => (
@@ -79,7 +79,7 @@ export default function RagShowcase() {
                     <pre className="overflow-x-auto border border-navy/10 bg-surface/50 p-4 font-mono text-[11px] leading-relaxed text-navy/70">
 {`Website + GitHub docs + Career KB
         ↓ ingest / normalize / hash
-StructureAwareChunker → chunks.jsonl (154)
+StructureAwareChunker → chunks.jsonl (109)
         ↓ embed (@cf/baai/bge-base-en-v1.5)
 Numpy / Worker cosine index
         ↓ query embed → top-k
