@@ -355,7 +355,9 @@ export async function handleRagAsk(request, env) {
             title: h.chunk.project_name || h.chunk.document_title,
             section: h.chunk.heading_path,
             source_type: h.chunk.source_type,
-            source_url: h.chunk.source_url,
+            source_url: /^https?:\/\//.test(String(h.chunk.source_url || ""))
+                ? h.chunk.source_url
+                : null,
             score: Number(h.score.toFixed(4)),
             excerpt: String(h.chunk.content || "").slice(0, 280),
             explore_url: exploreUrl(h.chunk),
