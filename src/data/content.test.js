@@ -178,7 +178,7 @@ test("keeps forecasting exposure and credit probability language precise", () =>
     expect(retail.findings).toContain("validation-calibrated p95 buffer");
     expect(retail.limitations.join(" ")).toContain("hypothetical analytical assumptions");
     expect(credit.summary).toContain("end-to-end educational credit-risk case study");
-    expect(credit.solutionParagraphs[2]).toContain("FastAPI service scores one borrower");
+    expect(credit.solutionParagraphs[2]).toContain("without introducing a separate backend service");
     expect(credit.findings).toContain("0.669 ROC-AUC");
 });
 

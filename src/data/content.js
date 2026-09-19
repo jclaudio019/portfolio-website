@@ -174,7 +174,7 @@ export const projects = [
         image: `${process.env.PUBLIC_URL}/images/credit-risk-pd-model-hero-v2.png`,
         imageCaption:
             "The balance between repayment strength and default risk determines the illustrative score.",
-        tech: ["Python", "DuckDB", "pandas", "scikit-learn", "FastAPI", "React", "Recharts", "Jupyter"],
+        tech: ["Python", "DuckDB", "pandas", "scikit-learn", "React", "Recharts", "Jupyter"],
         github: "https://github.com/jclaudio019/credit_risk",
         metrics: [
             { label: "Historical accounts", value: "466,285" },
@@ -188,7 +188,7 @@ export const projects = [
         solutionParagraphs: [
             "I organized a notebook-first workflow around time-based train, validation, and out-of-time test vintages. A logistic champion was calibrated on the 2013 validation vintage and evaluated on 2014 loans, keeping development and final evaluation separate.",
             "The calibrated PD feeds a transparent expected-loss calculation (PD × LGD × EAD), segment reporting, independent and correlated-default simulation, sensitivity stress scenarios, and a threshold explorer. Monitoring adds PSI and vintage performance with explicit seasoning warnings.",
-            "DuckDB provides the analytical data layer, static JSON exports power the public dashboard, and an optional FastAPI service scores one borrower with the actual model contract. The website remains useful when that API is offline.",
+            "DuckDB provides the analytical data layer, while deterministic static exports power the public dashboard without introducing a separate backend service. Model scoring remains visible in the analytical workflow and final notebook.",
         ],
         dataset:
             "The analysis covers 466,285 historical Lending Club loans issued from 2007 through 2014. Time-based splits use loans through 2012 for training (95,902), 2013 for validation/calibration (134,755), and 2014 as the out-of-time test book (235,628). The target is a simplified loan-status default proxy.",
