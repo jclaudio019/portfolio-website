@@ -61,7 +61,7 @@ const RATE_LIMIT_MAX = 8;
 const EMBED_MODEL = "@cf/baai/bge-base-en-v1.5";
 const GENERATE_MODEL = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 const GEMINI_MODEL = "gemini-3.5-flash-lite";
-const GEMINI_TIMEOUT_MS = 12_000;
+const GEMINI_TIMEOUT_MS = 20_000;
 
 const rateBuckets = new Map();
 let cachedVectors = null;
@@ -118,6 +118,10 @@ function exploreUrl(chunk) {
 
     if (documentId.startsWith("project::")) {
         const repo = documentId.split("::")[1] || "";
+        const sourceText = `${headingPath}\n${chunk.content || ""}`.toLowerCase();
+        if (repo === "credit_risk" && sourceText.includes("dashboard")) {
+            return `${SITE}/projects/credit-risk-pd-model/dashboard`;
+        }
         const page = PROJECT_PAGE[repo];
         if (page) return `${SITE}${page}`;
         if (repoUrl.startsWith("http")) return repoUrl;
