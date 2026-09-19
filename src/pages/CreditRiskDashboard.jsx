@@ -7,12 +7,11 @@ import {
 } from "recharts";
 import { CHART } from "../components/chartTheme";
 import { loadCreditRiskDashboardData } from "../lib/creditRiskDashboardData";
-import { creditRiskApiUrl, requestExpectedLoss } from "../lib/creditRiskApi";
 
 const REPO = "https://github.com/jclaudio019/credit_risk";
 const LINKS = {
     methodology: `${REPO}/blob/main/docs/METHODOLOGY.md`,
-    runbook: `${REPO}/blob/main/docs/RUNBOOK.md`,
+    reproduce: `${REPO}#reproduce-the-analysis`,
     limitations: `${REPO}/blob/main/docs/ASSUMPTIONS_AND_LIMITATIONS.md`,
     performance: `${REPO}/blob/main/notebooks/06_pd_oot_validation_and_calibration.ipynb`,
     loss: `${REPO}/blob/main/notebooks/09_expected_loss.ipynb`,
@@ -82,86 +81,12 @@ const Callout = ({ children, warning = false, testId }) => (
     </div>
 );
 
-const defaultBorrower = {
-    grade: "B", home_ownership: "RENT", verification_status: "Verified", purpose: "debt_consolidation",
-    initial_list_status: "f", term: " 36 months", emp_length: "10+ years", addr_state: "CA", int_rate: "11.5",
-    installment: "330", loan_amnt: "10000", funded_amnt: "10000", annual_inc: "65000", dti: "16",
-    revol_bal: "8500", revol_util: "42", delinq_2yrs: "0", inq_last_6mths: "1", open_acc: "9", pub_rec: "0",
-    total_acc: "22", acc_now_delinq: "0", mths_earliest_cr_line: "180", mths_since_last_delinq: "",
-    mths_since_last_record: "",
-};
-const categoryFields = [
-    ["grade", "Grade", ["A", "B", "C", "D", "E", "F", "G"]],
-    ["home_ownership", "Home ownership", ["RENT", "MORTGAGE", "OWN", "OTHER"]],
-    ["verification_status", "Verification", ["Verified", "Source Verified", "Not Verified"]],
-    ["purpose", "Purpose", ["debt_consolidation", "credit_card", "home_improvement", "major_purchase", "small_business", "other"]],
-    ["initial_list_status", "List status", ["f", "w"]],
-    ["term", "Term", [" 36 months", " 60 months"]],
-    ["emp_length", "Employment length", ["< 1 year", "1 year", "2 years", "3 years", "4 years", "5 years", "6 years", "7 years", "8 years", "9 years", "10+ years", "n/a"]],
-    ["addr_state", "State", ["CA", "NY", "TX", "FL", "IL", "NJ", "PA", "OH", "GA", "VA"]],
-];
-const numericFields = [
-    ["annual_inc", "Annual income", 0], ["loan_amnt", "Loan amount", 1], ["funded_amnt", "Funded amount", 1],
-    ["int_rate", "Interest rate (%)", 0], ["installment", "Monthly installment", 0], ["dti", "Debt-to-income (%)", 0],
-    ["revol_bal", "Revolving balance", 0], ["revol_util", "Revolving utilization (%)", 0], ["open_acc", "Open accounts", 0],
-    ["total_acc", "Total accounts", 0], ["inq_last_6mths", "Inquiries (6 months)", 0], ["delinq_2yrs", "Delinquencies (2 years)", 0],
-    ["pub_rec", "Public records", 0], ["acc_now_delinq", "Accounts now delinquent", 0], ["mths_earliest_cr_line", "Credit history (months)", 0],
-    ["mths_since_last_delinq", "Months since delinquency (optional)", 0], ["mths_since_last_record", "Months since public record (optional)", 0],
-];
-
-export function BorrowerScorer() {
-    const [values, setValues] = useState(defaultBorrower);
-    const [lgd, setLgd] = useState("0.90");
-    const [ead, setEad] = useState(defaultBorrower.funded_amnt);
-    const [result, setResult] = useState(null);
-    const [error, setError] = useState("");
-    const [busy, setBusy] = useState(false);
-    const update = (name, value) => setValues((current) => ({ ...current, [name]: value }));
-    const submit = async (event) => {
-        event.preventDefault(); setError(""); setResult(null);
-        const required = [...categoryFields.map(([name]) => name), ...numericFields.filter(([name]) => !name.startsWith("mths_since")).map(([name]) => name)];
-        if (required.some((name) => values[name] === "") || numericFields.some(([name]) => values[name] !== "" && Number(values[name]) < 0)) {
-            setError("Complete all required fields with non-negative values."); return;
-        }
-        const features = Object.fromEntries(Object.entries(values).map(([key, value]) => [key, numericFields.some(([name]) => name === key) ? (value === "" ? null : Number(value)) : value]));
-        try {
-            setBusy(true);
-            setResult(await requestExpectedLoss(features, Number(lgd), Number(ead)));
-        } catch (err) { setError(err.message === "API_NOT_CONFIGURED" ? "The scoring API is not configured for this build. The static case study remains fully available." : "The scoring service could not be reached. Please try again later."); }
-        finally { setBusy(false); }
-    };
-    return (
-        <form onSubmit={submit} className="mt-6" noValidate>
-            {!creditRiskApiUrl && <Callout warning testId="api-unavailable">The live scoring API is not configured. You can review the inputs, but scoring is unavailable; every analytical section above still works.</Callout>}
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {categoryFields.slice(0, 6).map(([name, label, options]) => <label key={name} className="text-sm text-navy/70">{label}<select value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy">{options.map((option) => <option key={option}>{option}</option>)}</select></label>)}
-                {numericFields.slice(0, 8).map(([name, label, min]) => <label key={name} className="text-sm text-navy/70">{label}<input aria-label={label} type="number" min={min} step="any" required value={values[name]} onChange={(e) => { update(name, e.target.value); if (name === "funded_amnt") setEad(e.target.value); }} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>)}
-            </div>
-            <details className="mt-4 border border-navy/10 p-4">
-                <summary className="cursor-pointer font-mono text-xs uppercase tracking-wider text-teal">Credit profile details required by the model</summary>
-                <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {categoryFields.slice(6).map(([name, label, options]) => <label key={name} className="text-sm text-navy/70">{label}<select value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy">{options.map((option) => <option key={option}>{option}</option>)}</select></label>)}
-                    {numericFields.slice(8).map(([name, label, min]) => <label key={name} className="text-sm text-navy/70">{label}<input aria-label={label} type="number" min={min} step="any" required={!name.startsWith("mths_since")} value={values[name]} onChange={(e) => update(name, e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>)}
-                </div>
-            </details>
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                <label className="text-sm text-navy/70">LGD assumption <input aria-label="LGD assumption" type="number" min="0" max="1" step="0.01" value={lgd} onChange={(e) => setLgd(e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>
-                <label className="text-sm text-navy/70">EAD assumption <input aria-label="EAD assumption" type="number" min="0" step="any" value={ead} onChange={(e) => setEad(e.target.value)} className="mt-1 w-full border border-navy/15 bg-cream px-3 py-2 text-navy" /></label>
-            </div>
-            <p className="mt-2 text-xs text-navy/50">The prefilled borrower is an illustrative input example. LGD is an editable educational assumption; EAD initially equals funded amount.</p>
-            <button disabled={busy || !creditRiskApiUrl} className="mt-5 border border-teal bg-teal px-5 py-3 font-mono text-xs uppercase tracking-wider text-cream disabled:cursor-not-allowed disabled:opacity-40">{busy ? "Scoring…" : "Score borrower"}</button>
-            {error && <p role="alert" className="mt-4 text-sm text-rose-300">{error}</p>}
-            {result && <div data-testid="borrower-result" className="mt-5 grid gap-px border border-navy/10 bg-navy/10 sm:grid-cols-3"><Metric label="Calibrated PD" value={pct(result.pd)} /><Metric label="Risk band" value={result.risk_band} /><Metric label="Expected loss" value={usd(result.expected_loss)} note={`${pct(result.pd)} × ${pct(result.lgd)} × ${usd(result.ead)}`} /></div>}
-        </form>
-    );
-}
-
 export default function CreditRiskDashboard() {
     const [data, setData] = useState(null);
     const [loadError, setLoadError] = useState("");
     const [thresholdIndex, setThresholdIndex] = useState(5);
     useEffect(() => { let active = true; loadCreditRiskDashboardData().then((result) => active && setData(result)).catch((error) => active && setLoadError(error.message)); return () => { active = false; }; }, []);
-    const nav = ["Overview", "Model Performance", "Expected Loss", "Portfolio Risk", "Simulation", "Stress Testing", "Approval Strategy", "Model Monitoring", "Score a Borrower"];
+    const nav = ["Overview", "Model Performance", "Expected Loss", "Portfolio Risk", "Simulation", "Stress Testing", "Approval Strategy", "Model Monitoring"];
     const selectedThreshold = data?.thresholds.thresholds[thresholdIndex];
     const roc = useMemo(() => data?.model_performance.roc.filter((_, index, rows) => index % Math.max(1, Math.floor(rows.length / 80)) === 0) || [], [data]);
     if (loadError) return <main className="px-6 pb-20 pt-28"><div className="mx-auto max-w-4xl"><Callout warning>Dashboard data could not be loaded: {loadError}. The project page and repository remain available.</Callout></div></main>;
@@ -196,7 +121,7 @@ export default function CreditRiskDashboard() {
                     <div className="mt-6 flex flex-wrap gap-3">
                         <a href={REPO} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy hover:bg-navy hover:text-cream"><Github size={15} /> GitHub repository</a>
                         <a href={LINKS.methodology} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/70 hover:border-teal hover:text-teal">Methodology <ExternalLink size={13} /></a>
-                        <a href={LINKS.runbook} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/70 hover:border-teal hover:text-teal">Reproduce analysis <ExternalLink size={13} /></a>
+                        <a href={LINKS.reproduce} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 border border-navy/20 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/70 hover:border-teal hover:text-teal">Reproduce analysis <ExternalLink size={13} /></a>
                         <span className="border border-navy/10 px-4 py-3 font-mono text-xs uppercase tracking-wider text-navy/50">Historical Lending Club · Educational</span>
                     </div>
                 </header>
@@ -268,10 +193,6 @@ export default function CreditRiskDashboard() {
                     </div>
                     <Callout warning testId="seasoning-warning">{monitoring.seasoning_warning}</Callout>
                     <LearnMore>PSI summarizes distribution shift but does not diagnose its cause or prove model failure. Vintage comparisons also need mature outcomes: a recent book can look artificially safer because some defaults have not had time to emerge.</LearnMore>
-                </Section>
-
-                <Section id="score-a-borrower" eyebrow="09" title="Score a Borrower" intro="This optional live layer sends the actual model features to the FastAPI service and returns calibrated PD, risk band, and expected loss. No client-side approximation is used.">
-                    <BorrowerScorer />
                 </Section>
 
                 <section className="border-t border-navy/10 py-12">

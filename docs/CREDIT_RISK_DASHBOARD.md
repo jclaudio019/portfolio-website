@@ -10,5 +10,5 @@ Refresh after intentionally regenerating the analytical export:
 
 An alternate export directory may be passed as the first argument. Review the website diff and rerun tests before publishing. Do not hand-edit the copied JSON.
 
-Only the **Score a Borrower** section needs a service. Set `REACT_APP_CREDIT_RISK_API_URL` at website build time to the deployed FastAPI base URL. Without it, all static sections remain available and the scorer shows a clear unavailable state.
-
+The dashboard is intentionally static. Model scoring remains part of the analytical
+repository and final notebook rather than a separately deployed backend service.
