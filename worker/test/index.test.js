@@ -47,7 +47,8 @@ test("reports the embedded RAG index and live model configuration", async () => 
     assert.equal(body.index_ready, true);
     assert.equal(body.chunk_count, 154);
     assert.match(body.embedding_model, /bge-base/);
-    assert.match(body.generator_model, /llama/);
+    assert.equal(body.generator_model.primary, "gemini-2.5-flash-lite");
+    assert.match(body.generator_model.fallback, /llama/);
 });
 
 test("requires the Workers AI binding before accepting RAG questions", async () => {
@@ -82,4 +83,64 @@ test("returns a concise abstention without exposing local source identifiers", a
     assert.equal(body.answer, "I don't have enough information in the portfolio to answer that confidently.");
     assert.deepEqual(body.citations, []);
     assert.equal(body.retrieved.every(({ source_url: url }) => url === null || url.startsWith("http")), true);
+});
+
+test("uses Gemini for generation when its secret is configured", async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async (url, options) => {
+        assert.match(String(url), /gemini-2\.5-flash-lite:generateContent/);
+        assert.equal(options.headers["x-goog-api-key"], "test-secret");
+        return Response.json({ candidates: [{ content: { parts: [{ text: "**Answer**\nGemini response" }] } }] });
+    };
+    try {
+        const env = {
+            GEMINI_API_KEY: "test-secret",
+            AI: {
+                async run(model) {
+                    assert.match(model, /bge-base/);
+                    return { data: [Array(768).fill(0.01)] };
+                },
+            },
+        };
+        const response = await worker.fetch(new Request("https://example.com/api/rag/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "cf-connecting-ip": "test-gemini" },
+            body: JSON.stringify({ question: "What forecasting work has Jose done?" }),
+        }), env);
+        const body = await response.json();
+
+        assert.equal(response.status, 200);
+        assert.equal(body.generator_model, "gemini-2.5-flash-lite");
+        assert.match(body.answer, /Gemini response/);
+    } finally {
+        globalThis.fetch = originalFetch;
+    }
+});
+
+test("falls back to Workers AI when Gemini is unavailable", async () => {
+    const originalFetch = globalThis.fetch;
+    globalThis.fetch = async () => new Response("rate limited", { status: 429 });
+    try {
+        const env = {
+            GEMINI_API_KEY: "test-secret",
+            AI: {
+                async run(model) {
+                    if (model.includes("bge-base")) return { data: [Array(768).fill(0.01)] };
+                    return { response: "**Answer**\nCloudflare fallback response" };
+                },
+            },
+        };
+        const response = await worker.fetch(new Request("https://example.com/api/rag/ask", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "cf-connecting-ip": "test-fallback" },
+            body: JSON.stringify({ question: "What forecasting work has Jose done?" }),
+        }), env);
+        const body = await response.json();
+
+        assert.equal(response.status, 200);
+        assert.match(body.generator_model, /llama/);
+        assert.match(body.answer, /Cloudflare fallback response/);
+    } finally {
+        globalThis.fetch = originalFetch;
+    }
 });
