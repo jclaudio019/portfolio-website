@@ -25,7 +25,10 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build"
+    "build": "craco build",
+    "test": "react-scripts test --watchAll=false",
+    "test:worker": "npm --prefix worker test",
+    "test:all": "npm test -- --runInBand && npm run test:worker"
   },
   "browserslist": {
     "production": [

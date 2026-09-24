@@ -3,3 +3,11 @@ build/
 graphify-out/
 .worktrees/
 worker/.wrangler/
+.DS_Store
+.env
+.env.*
+!.env.example
+coverage/
+.cache/
+website_replica-preview.html
+.focusforge/

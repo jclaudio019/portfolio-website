@@ -1,9 +1,6 @@
-const PRODUCTION_API =
-    "https://portfolio-options-api.joseo-claudio19.workers.dev";
+import { WORKER_API_BASE } from "./workerApi";
 
-export const RAG_API_BASE =
-    process.env.REACT_APP_RAG_API_URL ||
-    (process.env.NODE_ENV === "development" ? "" : PRODUCTION_API);
+export const RAG_API_BASE = WORKER_API_BASE;
 
 export async function askPortfolioRag(question, topK = 5, history = []) {
     const response = await fetch(`${RAG_API_BASE}/api/rag/ask`, {
