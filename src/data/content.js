@@ -113,17 +113,17 @@ export const projects = [
         title: "Interactive RAG — Retrieval & Grounding Showcase",
         category: "Systems",
         summary:
-            "A grounded portfolio discovery assistant backed by a public RAG pipeline — useful for navigation, with a separate technical case study of retrieval, grounding, and citations.",
+            "A learning project built to understand RAG from ingestion and chunking through retrieval, grounding, citations, abstention, and evaluation — applied as an interactive guide to my portfolio.",
         image: `${process.env.PUBLIC_URL}/images/interactive-rag-hero.svg`,
         imageCaption:
             "Portfolio navigation layer plus a live demonstration of retrieval, grounding, citations, and abstention.",
         tech: ["Python", "Cloudflare Workers AI", "FastAPI", "Numpy", "RAG eval"],
         github: "https://github.com/jclaudio019/RAG-Assistant",
         problem:
-            "Visitors should be able to ask natural-language questions about skills, experience, and projects and land on the right pages — without inventing claims or collapsing professional work into portfolio work.",
+            "A résumé and project page cannot include every detail that may matter to a recruiter or hiring manager. I wanted visitors to ask natural-language questions and retrieve the relevant context without inventing claims or collapsing professional work into portfolio work.",
         solutionParagraphs: [
-            "I reused an existing ingestion and structure-aware chunking pipeline, then added embeddings, retrieval evaluation, grounded generation, experience-category labels, and Explore-further links into the portfolio UX.",
-            "The assistant lives at /ask as a discovery layer. This case study page documents the RAG system behind it.",
+            "I considered fixed-size, recursive, and semantic or document-structure-aware chunking. Because the portfolio corpus already has meaningful Markdown headings, I chose structure-aware splitting with recursive subdivision for oversized sections.",
+            "I then added embeddings, vector retrieval, context assembly, grounded generation, citations, experience-category labels, abstention, and a 26-question retrieval evaluation. The assistant lives at /ask as an interactive guide to my experience, projects, methods, and technical skills.",
         ],
         findings:
             "For this small corpus, careful chunk provenance and a focused eval set mattered more than stacking additional RAG stages. Abstention on out-of-corpus questions was treated as a first-class success mode.",

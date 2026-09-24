@@ -49,11 +49,19 @@ export default function RagShowcase() {
                 </Reveal>
 
                 <Section label="Overview">
-                    <p>
-                        The live assistant on <Link to="/ask" className="text-teal hover:underline">/ask</Link> is a
-                        navigation layer over joseoclaudio.com. This page documents the RAG system behind it — not a
-                        separate chatbot product.
-                    </p>
+                    <div className="space-y-4">
+                        <p>
+                            I use AI most often to remove repetitive work, but I kept encountering Retrieval-Augmented
+                            Generation without fully understanding what happened between a source document and a
+                            grounded answer. I built this project to examine that pipeline one part at a time.
+                        </p>
+                        <p>
+                            The live assistant on <Link to="/ask" className="text-teal hover:underline">/ask</Link> is
+                            the practical result: a navigation layer over joseoclaudio.com that retrieves evidence,
+                            distinguishes professional experience from project work, cites its sources, and abstains
+                            when the portfolio does not support an answer.
+                        </p>
+                    </div>
                 </Section>
 
                 <Section label="What I Wanted to Learn">
@@ -75,11 +83,43 @@ export default function RagShowcase() {
                     </ul>
                 </Section>
 
+                <Section label="The Chunking Decision">
+                    <div className="space-y-4">
+                        <p>
+                            I started by comparing three common strategies: fixed-size chunks, recursive splitting,
+                            and semantic or document-structure-aware chunks. Fixed-size chunks are simple but can cut
+                            across an explanation. Recursive splitting respects natural separators, while semantic or
+                            structure-aware approaches try to keep related material together.
+                        </p>
+                        <p>
+                            Portfolio pages and project documentation already have meaningful headings, so I chose
+                            structure-aware Markdown splitting. Oversized sections fall back to recursive subdivision.
+                            Each chunk retains its document, heading path, source URL, and experience category so the
+                            retrieved text does not lose its origin.
+                        </p>
+                    </div>
+                </Section>
+
+                <Section label="Why Use It Here">
+                    <div className="space-y-4">
+                        <p>
+                            A résumé and project page cannot include every potentially relevant detail. What matters to
+                            one recruiter or hiring manager may be unnecessary for another. I wanted that context to
+                            remain available without forcing every visitor to search through every page and repository.
+                        </p>
+                        <p>
+                            The assistant provides an interactive way to explore my experience, projects, methods, and
+                            technical skills while keeping answers grounded in the public portfolio rather than model
+                            memory.
+                        </p>
+                    </div>
+                </Section>
+
                 <Section id="how-it-works" label="How It Works">
                     <pre className="overflow-x-auto border border-navy/10 bg-surface/50 p-4 font-mono text-[11px] leading-relaxed text-navy/70">
 {`Website + GitHub docs + Career KB
         ↓ ingest / normalize / hash
-StructureAwareChunker → chunks.jsonl (109)
+StructureAwareChunker → chunks.jsonl (153)
         ↓ embed (@cf/baai/bge-base-en-v1.5)
 Numpy / Worker cosine index
         ↓ query embed → top-k
@@ -145,11 +185,19 @@ Answer + Evidence + Explore-further links`}
                 </Section>
 
                 <Section label="Development Approach">
-                    <p>
-                        Built with an AI-assisted workflow (Cursor) to accelerate implementation and iteration.
-                        Architecture, evaluation, grounding rules, and failure analysis were reviewed against the
-                        corpus and benchmark results.
-                    </p>
+                    <div className="space-y-4">
+                        <p>
+                            I built the project with an AI-assisted workflow in Cursor. The agent accelerated
+                            implementation, but architecture, evaluation, grounding rules, and failure analysis still
+                            had to be checked against the corpus and benchmark results.
+                        </p>
+                        <p>
+                            The chat interface took hours of iteration. Much of that time was spent correcting the
+                            agent when the layout, scrolling, and conversation behavior did not match what I wanted.
+                            That process was a useful reminder that generating code is faster than defining and
+                            validating the right experience.
+                        </p>
+                    </div>
                 </Section>
 
                 <Section label="Next Experiments">
