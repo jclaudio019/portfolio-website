@@ -122,7 +122,7 @@ export const projects = [
         problem:
             "A résumé and project page cannot include every detail that may matter to a recruiter or hiring manager. I wanted visitors to ask natural-language questions and retrieve the relevant context without inventing claims or collapsing professional work into portfolio work.",
         solutionParagraphs: [
-            "I considered fixed-size, recursive, and semantic or document-structure-aware chunking. Because the portfolio corpus already has meaningful Markdown headings, I chose structure-aware splitting with recursive subdivision for oversized sections.",
+            "I considered fixed-size, recursive, and document-structure-aware chunking. Because the portfolio corpus already has meaningful Markdown headings, I chose structure-aware splitting with recursive subdivision for oversized sections.",
             "I then added embeddings, vector retrieval, context assembly, grounded generation, citations, experience-category labels, abstention, and a 26-question retrieval evaluation. The assistant lives at /ask as an interactive guide to my experience, projects, methods, and technical skills.",
         ],
         findings:

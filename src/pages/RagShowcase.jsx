@@ -86,10 +86,10 @@ export default function RagShowcase() {
                 <Section label="The Chunking Decision">
                     <div className="space-y-4">
                         <p>
-                            I started by comparing three common strategies: fixed-size chunks, recursive splitting,
-                            and semantic or document-structure-aware chunks. Fixed-size chunks are simple but can cut
-                            across an explanation. Recursive splitting respects natural separators, while semantic or
-                            structure-aware approaches try to keep related material together.
+                            I started by comparing three practical strategies for this corpus: fixed-size chunks,
+                            recursive splitting, and document-structure-aware chunks. Fixed-size chunks are simple but
+                            can cut across an explanation. Recursive splitting respects natural separators, while a
+                            structure-aware approach tries to keep related material together.
                         </p>
                         <p>
                             Portfolio pages and project documentation already have meaningful headings, so I chose
