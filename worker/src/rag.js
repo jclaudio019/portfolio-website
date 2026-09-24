@@ -12,7 +12,6 @@ const PROJECT_PAGE = {
     "retail-allocation-simulator": "/projects/retail-allocation-simulator",
     time_series_analysis: "/projects/time-series-analysis-r",
     "black-scholes-options-modeling": "/projects/black-scholes-options-modeling",
-    "backtesting-system": "/projects/backtesting-system",
     "warehouse-club-market-expansion-strategy": "/projects/warehouse-club-market-expansion",
 };
 
@@ -68,7 +67,7 @@ const GEMINI_TIMEOUT_MS = 20_000;
 const rateBuckets = new Map();
 let cachedVectors = null;
 
-function experienceCategory(sourceType, headingPath = "", documentId = "") {
+export function experienceCategory(sourceType, headingPath = "", documentId = "") {
     const path = String(headingPath || "").toLowerCase();
     if (sourceType === "website") {
         if (documentId.includes("experience")) return "professional";
@@ -78,6 +77,7 @@ function experienceCategory(sourceType, headingPath = "", documentId = "") {
         return "website";
     }
     if (sourceType === "project") {
+        if (documentId.startsWith("project::backtesting-system::")) return "coursework";
         if (path.includes("coursework") || path.includes("assignment") || path.includes("graduate")) return "coursework";
         return "portfolio_project";
     }
@@ -101,7 +101,7 @@ function experienceCategory(sourceType, headingPath = "", documentId = "") {
     return sourceType || "unknown";
 }
 
-function exploreUrl(chunk) {
+export function exploreUrl(chunk) {
     const documentId = chunk.document_id || "";
     const sourceType = chunk.source_type || "";
     const sourceUrl = chunk.source_url || "";

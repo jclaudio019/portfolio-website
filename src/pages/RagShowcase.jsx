@@ -119,7 +119,7 @@ export default function RagShowcase() {
                     <pre className="overflow-x-auto border border-navy/10 bg-surface/50 p-4 font-mono text-[11px] leading-relaxed text-navy/70">
 {`Website + GitHub docs + Career KB
         ↓ ingest / normalize / hash
-StructureAwareChunker → chunks.jsonl (268)
+StructureAwareChunker → chunks.jsonl (267)
         ↓ embed (@cf/baai/bge-base-en-v1.5)
 Numpy / Worker cosine index
         ↓ query embed → top-k
