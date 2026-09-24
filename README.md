@@ -9,8 +9,8 @@ This repository is public so other analysts can inspect the architecture, testin
 - React 18 frontend built with CRACO and Tailwind CSS
 - Cloudflare Worker for the RAG assistant and market-data endpoints
 - Precomputed, sanitized vector index at `worker/src/worker_index.json`
-- GitHub Actions build, test, and GitHub Pages deployment workflow
-- The same production build can also be deployed to Cloudflare Pages
+- GitHub Actions workflow that tests and builds every push to `main`
+- Production deployment through Cloudflare Pages
 
 ## Prerequisites
 
@@ -61,7 +61,7 @@ npm run test:all
 REACT_APP_WORKER_API_URL=https://your-worker.example.workers.dev npm run build
 ```
 
-The GitHub Pages workflow expects a repository variable named `WORKER_API_URL`.
+The GitHub Actions workflow expects a repository variable named `WORKER_API_URL`.
 
 ## RAG index
 
