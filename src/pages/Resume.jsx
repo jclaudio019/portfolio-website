@@ -1,4 +1,4 @@
-import { FileText, Mail } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { profile, resumeHighlights } from "../data/content";
 import { Reveal } from "../components/Reveal";
 import ContactSection from "./Contact";
@@ -13,7 +13,7 @@ export default function Resume() {
                         Resume and contact.
                     </h1>
                     <p className="mt-6 max-w-2xl leading-relaxed text-navy/70">
-                        My current resume is available on request. The highlights below summarize my
+                        Download my current resume or review the highlights below for a summary of my
                         experience, education, analytical projects, and technical skills.
                     </p>
                 </Reveal>
@@ -37,16 +37,17 @@ export default function Resume() {
                         <div>
                             <p className="font-display text-xl font-bold">{profile.name} — Resume</p>
                             <p className="font-mono text-xs uppercase tracking-widest text-navy/60">
-                                Available on request
+                                PDF download
                             </p>
                         </div>
                     </div>
                     <a
-                        href={`mailto:${profile.email}?subject=${encodeURIComponent("Resume request")}`}
-                        data-testid="resume-request-btn"
+                        href={profile.resumeUrl}
+                        download
+                        data-testid="resume-download-btn"
                         className="flex items-center gap-2 border border-teal bg-teal px-6 py-3 font-mono text-xs uppercase tracking-widest text-cream transition-colors hover:bg-teal-hover hover:border-teal-hover"
                     >
-                        <Mail size={16} /> Request Resume
+                        <Download size={16} /> Download Resume
                     </a>
                 </Reveal>
 

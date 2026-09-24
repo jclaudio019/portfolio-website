@@ -23,13 +23,14 @@ afterEach(() => {
     container.remove();
 });
 
-test("offers the current resume by request without publishing a personal PDF", () => {
+test("offers the current resume through the deployed website", () => {
     act(() => root.render(<Resume />));
 
-    const requestLink = container.querySelector("[data-testid='resume-request-btn']");
-    expect(requestLink.getAttribute("href")).toContain("mailto:joseo.claudio19@gmail.com");
-    expect(requestLink.textContent).toContain("Request Resume");
-    expect(container.textContent).toContain("available on request");
+    const downloadLink = container.querySelector("[data-testid='resume-download-btn']");
+    expect(downloadLink.getAttribute("href")).toBe("/Jose_Claudio_Analytics_Resume.pdf");
+    expect(downloadLink.hasAttribute("download")).toBe(true);
+    expect(downloadLink.textContent).toContain("Download Resume");
+    expect(container.textContent).toContain("PDF download");
     expect(container.querySelector("[data-testid='contact-form']")).not.toBeNull();
     expect(container.querySelector("[data-testid='contact-email']").textContent)
         .toContain("joseo.claudio19@gmail.com");
